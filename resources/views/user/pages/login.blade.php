@@ -15,12 +15,19 @@
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
                 <div class="login-wrap p-0">
-                    <form action="#" class="signin-form">
+                    <form action="" class="signin-form" method="POST">
+                        @csrf
+                        @error('phone')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Số điện thoại">
+                            <input type="text" class="form-control" name="phone" placeholder="Số điện thoại">
                         </div>
+                        @error('password')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
                         <div class="form-group">
-                            <input id="password-field" type="password" class="form-control" placeholder="Mật khẩu">
+                            <input id="password-field" type="password" name="password" class="form-control" placeholder="Mật khẩu">
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
@@ -29,12 +36,12 @@
                         <div class="form-group d-md-flex pb-5">
                             <div class="w-50">
                                 <label class="checkbox-wrap checkbox-primary">Lưu đăng nhập
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                             <div class="w-50 text-md-left">
-                                <a href="#" style="color: #fff">Bạn chưa có tài khoản?</a>
+                                <span href="#" style="color: #fff">Bạn chưa có tài khoản?</span>
                             </div>
                         </div>
                     </form>

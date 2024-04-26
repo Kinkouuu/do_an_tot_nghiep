@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\ResponseStatus;
+
 abstract class BaseService
 {
     protected $model;
@@ -53,12 +55,13 @@ abstract class BaseService
      * @param string|null $message
      * @return array
      */
-    public function successResponse(?string $title = null, ?string $message = null): array
+    public function successResponse(?string $title = null, ?string $message = null, ?string $nextUrl = null): array
     {
         return [
-            'status' => 'success',
+            'status' => ResponseStatus::Success,
             'title' => $title,
             'message' => $message,
+            'nextUrl' => $nextUrl
         ];
     }
 
@@ -67,10 +70,11 @@ abstract class BaseService
      * @param string|null $message
      * @return array
      */
-    public function errorResponse(?string $message): array
+    public function errorResponse(?string $title = null, ?string $message = null): array
     {
         return [
-            'status' => 'error',
+            'status' => ResponseStatus::Error,
+            'title' => $title,
             'message' => $message
         ];
     }
