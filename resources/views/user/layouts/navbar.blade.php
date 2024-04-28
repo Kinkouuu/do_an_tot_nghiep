@@ -65,7 +65,7 @@
                                         @auth()
                                             <ul class="dropdown arrow-top">
                                                 <li><a href="#">Thông tin cá nhân</a></li>
-                                                <li><a href="#">Đổi mật khẩu</a></li>
+                                                <li><a href="{{ route('change_password') }}">Đổi mật khẩu</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                             </ul>
                                         @endauth

@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -125,11 +126,14 @@ class AuthController extends Controller
                     session()->forget('user'); //delete user session
                     return $this->showAlertAndRedirect($response);
                 case VerifyCodeType::ForgotPassWord:
+                    Cache::put('forgotPassword', true, 300); // save cache on 5 min
                     return redirect()->route('change_password');
                 default:
+                    session()->forget('user'); //delete user session
                     return $this->showAlertAndRedirect([
                         'title' => 'Yêu cầu không chính xác',
                         'message' => 'Vui lòng thử lại',
+                        'nextUrl' => 'login'
                     ]);
             }
         } else {
@@ -147,11 +151,17 @@ class AuthController extends Controller
      */
     public function changePassword(ChangePasswordRequest $request)
     {
-        $user = session('user');
-        $response = $this->authService->changePassword($user, $request->get('new-password'));
-        Auth::login($user); // login user
-        session()->forget('user'); //delete user session
-        return $this->showAlertAndRedirect($response);
+        $user = Auth::user() ?? session('user');
+        if ($request->has('old-password')) { //validation with old-password
+            $validation = $this->authService->validationChangePassword($request->all());
+        }
+
+        if (isset($validation) && $validation) { // nếu validation fail
+            return $this->showAlertAndRedirect($validation);
+        } else {
+            $response = $this->authService->changePassword($user, $request->get('new-password'));
+            return $this->showAlertAndRedirect($response);
+        }
     }
 }
 

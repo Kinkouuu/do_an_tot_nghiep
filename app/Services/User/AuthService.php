@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\VerifyCode;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -174,6 +175,28 @@ class AuthService extends BaseService
     public function changePassword(User $user, string $newPassword): array
     {
         $this->update(['password' => Hash::make($newPassword)],$user->id);
+        Cache::forget('forgotPassword');
+        session()->forget('user');
         return $this->successResponse('Cập nhật mật khẩu thành công', null, 'homepage');
+    }
+
+    /**
+     * Check old-password
+     * @param $data
+     * @return array|null
+     */
+    public function validationChangePassword($data): ?array
+    {
+        if(Hash::check($data['old-password'], Auth::user()->password)) // check mật khẩu cũ
+        {
+            if(Hash::check($data['new-password'], Auth::user()->password)) // check mật khẩu mới
+            {
+                return $this->errorResponse('Mật khẩu mới không được trùng mật khẩu cũ');
+            } else {
+                return null;
+            }
+        } else {
+            return $this->errorResponse('Mật khẩu cũ không chính xác');
+        }
     }
 }

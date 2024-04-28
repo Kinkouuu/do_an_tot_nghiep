@@ -10,18 +10,27 @@
             <div class="col-md-5">
                     <form action="" class="change-password-form" method="POST">
                         @csrf
-                        @error('password')
+                        @auth()
+                            @error('old-password')
+                            <div class="error">{{ $message }}</div>
+                            @enderror
+                            <div class="form-group d-flex position-relative">
+                                <input id="old-password-field" type="password" class="form-control" name="old-password" placeholder="Mật khẩu cũ">
+                                <span toggle="#old-password-field" class="fa fa-fw fa-eye field-icon toggle-old-password position-absolute" style="top:30%; right: 15px"></span>
+                            </div>
+                        @endauth
+                        @error('new-password')
                         <div class="error">{{ $message }}</div>
                         @enderror
                         <div class="form-group d-flex position-relative">
-                            <input id="password-field" type="password" class="form-control" name="new-password" placeholder="Mật khẩu">
+                            <input id="password-field" type="password" class="form-control" name="new-password" placeholder="Mật khẩu mới">
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-re-password position-absolute" style="top:30%; right: 15px"></span>
                         </div>
                         @error('re-password')
                         <div class="error">{{ $message }}</div>
                         @enderror
                         <div class="form-group position-relative">
-                            <input id="re-password-field" type="password" class="form-control" name="re-password" placeholder="Nhập lại mật khẩu">
+                            <input id="re-password-field" type="password" class="form-control" name="re-password" placeholder="Nhập lại mật khẩu mới">
                             <span toggle="#re-password-field" class="fa fa-fw fa-eye field-icon toggle-re-password position-absolute" style="top:30%; right: 15px"></span>
                         </div>
                         <div class="form-group">

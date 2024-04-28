@@ -47,7 +47,6 @@ class Controller extends BaseController
         }
 
         if (!is_null($nextUrl) && $response['status'] != 'question' ) {
-            sleep(3);
             return redirect()->route($nextUrl);
         } else {
             return back();

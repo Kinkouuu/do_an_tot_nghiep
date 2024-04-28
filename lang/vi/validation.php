@@ -152,10 +152,9 @@ return [
         'month'                 => 'tháng',
         'name'                  => 'tên',
         'password'              => 'mật khẩu',
-        'old_password'          => 'mật khẩu hiện tại',
-        'new_password'          => 'mật khẩu mới',
-        'new_confirm_password'  => 'mật khẩu xác nhận',
-        'password_confirmation' => 'xác nhận mật khẩu',
+        'old-password'          => 'mật khẩu hiện tại',
+        'new-password'          => 'mật khẩu mới',
+        're-password'           => 'Xác thực mật khẩu',
         'phone'                 => 'số điện thoại',
         'second'                => 'giây',
         'sex'                   => 'giới tính',
@@ -174,6 +173,6 @@ return [
         'ward'                  => 'Phường xã',
         'number'                => 'Số nhà',
         'payment'               => 'Phương thức thanh toán',
-        're-password'           => 'Xác thực mật khẩu'
+
     ],
 ];

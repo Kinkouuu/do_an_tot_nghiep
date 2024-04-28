@@ -35,5 +35,7 @@ Route::post('/verify-code', [AuthController::class, 'verifyCode']);
 Route::get('/re-active-account', [UserPageController::class, 'reActiveAccount'])->name('re_active_account');
 Route::get('/forgot-password', [UserPageController::class, 'forgotPassword'])->name('forgot_password');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-Route::get('/change-password', [UserPageController::class, 'changePassword'])->name('change_password');
-Route::post('/change-password', [AuthController::class, 'changePassword']);
+Route::middleware(['forgotPassword'])->group(function () {
+    Route::get('/change-password', [UserPageController::class, 'changePassword'])->name('change_password');
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
+});
