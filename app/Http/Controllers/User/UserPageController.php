@@ -77,7 +77,7 @@ class UserPageController extends Controller
     public function verifyCode()
     {
         $response = $this->userService->showVerifyPage();
-        return view('user.pages.verifyCode',
+        return view('user.pages.verify-code',
         [
             'response' => $response
         ]);
@@ -96,5 +96,15 @@ class UserPageController extends Controller
 
        $response = $this->userService->reActiveUser($user);
        return $this->showAlertAndRedirect($response);
+    }
+
+    public function forgotPassword()
+    {
+        return view('user.pages.forgot-password');
+    }
+
+    public function changePassword()
+    {
+        return view('user.pages.change-password');
     }
 }

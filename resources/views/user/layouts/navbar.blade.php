@@ -14,11 +14,11 @@
         <div class="site-navbar bg-light">
             <div class="py-1">
                 <div class="row align-items-center">
-<!-- .Logo -->
+                    <!-- .Logo -->
                     <div class="col-3">
                         <h2 class="mb-0 site-logo"><a href="index.html">{{ env('APP_NAME') }}</a></h2>
                     </div>
-<!-- .Navigate bar -->
+                    <!-- .Navigate bar -->
                     <div class="col-9">
                         <nav class="site-navigation text-right" role="navigation">
                             <div class="container">
@@ -29,22 +29,23 @@
                                 </div>
                                 <ul class="site-menu js-clone-nav d-none d-lg-block">
                                     <li class="active">
-                                        <a href="index.html">Trang chủ</a>
+                                        <a href="{{ route('homepage') }}l">Trang chủ</a>
                                     </li>
 
                                     <li class="has-children">
-                                        <a href="rooms.html">Phòng</a>
+                                        <a href="#">Phòng</a>
                                         <ul class="dropdown arrow-top">
-                                            <li><a href="rooms.html">Hiện có</a></li>
-                                            <li><a href="rooms.html">Phòng đơn</a></li>
-                                            <li><a href="rooms.html">Phòng đôi</a></li>
-                                            <li><a href="rooms.html">Phòng gia đình</a></li>
+                                            <li><a href="#">Hiện có</a></li>
+                                            <li><a href="#">Phòng đơn</a></li>
+                                            <li><a href="#">Phòng đôi</a></li>
+                                            <li><a href="#">Phòng gia đình</a></li>
                                             <li class="has-children">
-                                                <a href="rooms.html">Dịch vụ</a>
+                                                <a href="#">Dịch vụ</a>
                                                 <ul class="dropdown">
-                                                    <li><a href="rooms.html">Phòng cao cấp</a></li>
-                                                    <li><a href="rooms.html">Tắm hơi</a></li>lo
-                                                    <li><a href="rooms.html">Ăn uống</a></li>
+                                                    <li><a href="#">Phòng cao cấp</a></li>
+                                                    <li><a href="#">Tắm hơi</a></li>
+                                                    lo
+                                                    <li><a href="#">Ăn uống</a></li>
 
                                                 </ul>
                                             </li>
@@ -52,15 +53,22 @@
                                     </li>
                                     <li><a href="{{ route('introduce') }}">Giới thiệu</a></li>
 
-                                    <li><a href="contact.html">Liên hệ</a></li>
+                                    <li><a href="#">Liên hệ</a></li>
                                     <li class="has-children ">
-                                        <a class="pr-4" href="rooms.html">Tài khoản</a>
-                                        <ul class="dropdown arrow-top">
-                                            <li><a href="{{ route('signup') }}">Đăng ký</a></li>
-                                            <li><a href="{{ route('login') }}">Đăng nhập</a></li>
-                                            <li><a href="rooms.html">Phòng đôi</a></li>
-                                            <li><a href="rooms.html">Phòng gia đình</a></li>
-                                        </ul>
+                                        <a class="pr-4" href="#">Tài khoản</a>
+                                        @guest()
+                                            <ul class="dropdown arrow-top">
+                                                <li><a href="{{ route('signup') }}">Đăng ký</a></li>
+                                                <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                            </ul>
+                                        @endguest
+                                        @auth()
+                                            <ul class="dropdown arrow-top">
+                                                <li><a href="#">Thông tin cá nhân</a></li>
+                                                <li><a href="#">Đổi mật khẩu</a></li>
+                                                <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                                            </ul>
+                                        @endauth
                                     </li>
                                 </ul>
                             </div>

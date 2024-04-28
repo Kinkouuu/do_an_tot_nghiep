@@ -35,13 +35,10 @@
                         </div>
                         <div class="form-group d-md-flex pb-5">
                             <div class="w-50">
-                                <label class="checkbox-wrap checkbox-primary">Lưu đăng nhập
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
+                                <a href="{{ route('forgot_password') }}" class="w-100 text-center">Quên mật khẩu</a>
                             </div>
                             <div class="w-50 text-md-left">
-                                <span href="#" style="color: #fff">Bạn chưa có tài khoản?</span>
+                                <span style="color: #fff">Bạn chưa có tài khoản?</span>
                             </div>
                         </div>
                     </form>

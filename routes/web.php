@@ -26,9 +26,14 @@ Route::get('/log-in', [UserPageController::class, 'login'])->name('login');
 Route::post('/sign-up', [AuthController::class, 'register'])->name('register');
 Route::post('/log-in', [AuthController::class, 'signin'])->name('signin');
 
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/send-verify-code/{code}', [AuthController::class, 'sendVerifyCode'])->name('send_verify_code');
 
 //User Account
 Route::get('/verify-code', [UserPageController::class, 'verifyCode'])->name('verify_code');
-Route::post('/verify-code', [AuthController::class, 'verify']);
+Route::post('/verify-code', [AuthController::class, 'verifyCode']);
 Route::get('/re-active-account', [UserPageController::class, 'reActiveAccount'])->name('re_active_account');
+Route::get('/forgot-password', [UserPageController::class, 'forgotPassword'])->name('forgot_password');
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::get('/change-password', [UserPageController::class, 'changePassword'])->name('change_password');
+Route::post('/change-password', [AuthController::class, 'changePassword']);

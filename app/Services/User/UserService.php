@@ -19,26 +19,32 @@ class UserService extends BaseService
         return User::class;
     }
 
-    public function showVerifyPage()
+    /**
+     * Validate account available
+     * @param $account
+     * @return bool
+     */
+    public function getByEmailOrPhone($account): bool
     {
+        $user = User::where('email', $account)->orWhere('phone', $account)->where('status', UserStatus::Active)->first();
+        if (!$user) {
+            return false;
+        }
+        session(['user' => $user]);
+        return true;
+    }
 
-        $email = Auth::user()->email;
-
+    public function showVerifyPage(): array
+    {
+        $email = session('user')->email;
         $data['email'] = $this->encodeEmailAddress($email);
 
         $data['type'] = VerifyCode::where('email', $email)->get()->last()->type;
 
-        switch ($data['type']) {
-            case VerifyCodeType::ForgotPassWord :
-                $data['title'] = 'Cấp lại mật khẩu';
-                break;
-            case VerifyCodeType::ReActiveAccount :
-                $data['title_page'] = 'Kích hoạt tài khoản';
-                break;
-            default:
-                $data['title_page'] = null;
-                break;
-        }
+        $data['title_page'] = match ($data['type']) {
+            VerifyCodeType::ForgotPassWord => 'Cấp lại mật khẩu',
+            VerifyCodeType::ReActiveAccount => 'Kích hoạt tài khoản'
+        };
         return $data;
     }
     public function reActiveUser(User $user)
