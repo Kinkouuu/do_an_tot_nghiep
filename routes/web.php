@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\UserPageController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 //User Page
 Route::get('/', [UserPageController::class, 'index'])->name('homepage');
 Route::get('/introduce', [UserPageController::class, 'introduce'])->name('introduce');
+Route::get('/contact', [UserPageController::class, 'contact'])->name('contact');
+Route::post('/contact', [ContactController::class, 'sendContact']);
 
 //Authentication
 Route::get('/sign-up', [UserPageController::class, 'signup'])->name('signup');

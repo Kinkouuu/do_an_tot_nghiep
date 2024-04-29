@@ -47,9 +47,11 @@ class UserPageController extends Controller
      */
     public function contact()
     {
+        $user = $this->userService->retrieveUserData();
         return view('user.pages.contact', [
             'page_title' => 'Get In Touch',
-            'page_description' => 'Chat With Us'
+            'page_description' => 'Chat With Us',
+            'user' => $user
         ]);
     }
 

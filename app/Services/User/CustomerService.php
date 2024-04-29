@@ -47,7 +47,7 @@ class CustomerService extends BaseService
      * @param Customer|null $customer
      * @return array
      */
-    public function retriveCustomerData(?Customer $customer): array
+    public function retrieveCustomerData(?Customer $customer): array
     {
         return [
             'name' => $customer->name ?? null,
