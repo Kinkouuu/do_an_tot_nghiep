@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\User\UserStatus;
+use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>

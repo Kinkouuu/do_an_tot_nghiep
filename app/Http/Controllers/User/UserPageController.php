@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\User\UserStatus;
+use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Services\User\UserService;
 use Illuminate\Contracts\Foundation\Application;

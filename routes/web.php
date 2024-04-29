@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\UserPageController;
@@ -44,4 +45,9 @@ Route::middleware(['forgotPassword'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/personal-information', [CustomerController::class,'getUserInfo'])->name('get-user-info');
     Route::post('/personal-information', [CustomerController::class,'updateUserInfo'])->name('update-user-info');
+});
+
+Route::prefix('admin')->name('admin.')->group(function ()
+{
+    Route::get('/', [AdminController::class,'index'])->name('dashboard');
 });

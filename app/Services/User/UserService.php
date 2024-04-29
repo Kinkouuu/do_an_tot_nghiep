@@ -3,14 +3,10 @@
 namespace App\Services\User;
 
 use App\Enums\Authentication\VerifyCodeType;
-use App\Enums\User\UserStatus;
-use App\Jobs\SendVerifyCodeJob;
-use App\Mail\sendVerifyCodeMail;
+use App\Enums\UserStatus;
 use App\Models\User;
 use App\Models\VerifyCode;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class UserService extends BaseService
 {
