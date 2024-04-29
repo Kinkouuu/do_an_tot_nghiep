@@ -136,7 +136,7 @@ return [
         'body'                  => 'nội dung',
         'city'                  => 'thành phố',
         'content'               => 'nội dung',
-        'country'               => 'quốc gia',
+        'country'               => 'quốc tịch',
         'date'                  => 'ngày',
         'day'                   => 'ngày',
         'description'           => 'mô tả',
@@ -168,11 +168,11 @@ return [
         'price'                 => 'giá',
         'brand_id'              => 'thương hiệu',
         'category_id'           => 'danh mục',
-        'city'                  => 'Tỉnh thành',
         'district'              => 'Quận huyện',
         'ward'                  => 'Phường xã',
         'number'                => 'Số nhà',
         'payment'               => 'Phương thức thanh toán',
-
+        'citizen_id'            => 'Số Căn Cước Công Dân/Chứng Minh Thư',
+        'birth_day'             => 'Ngày tháng năm sinh',
     ],
 ];

@@ -16,7 +16,7 @@
                 <div class="row align-items-center">
                     <!-- .Logo -->
                     <div class="col-3">
-                        <h2 class="mb-0 site-logo"><a href="index.html">{{ env('APP_NAME') }}</a></h2>
+                        <h2 class="mb-0 site-logo"><a href="{{ route('homepage') }}">{{ env('APP_NAME') }}</a></h2>
                     </div>
                     <!-- .Navigate bar -->
                     <div class="col-9">
@@ -29,7 +29,7 @@
                                 </div>
                                 <ul class="site-menu js-clone-nav d-none d-lg-block">
                                     <li class="active">
-                                        <a href="{{ route('homepage') }}l">Trang chủ</a>
+                                        <a href="{{ route('homepage') }}">Trang chủ</a>
                                     </li>
 
                                     <li class="has-children">
@@ -64,7 +64,7 @@
                                         @endguest
                                         @auth()
                                             <ul class="dropdown arrow-top">
-                                                <li><a href="#">Thông tin cá nhân</a></li>
+                                                <li><a href="{{ route('get-user-info') }}">Thông tin cá nhân</a></li>
                                                 <li><a href="{{ route('change_password') }}">Đổi mật khẩu</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                             </ul>

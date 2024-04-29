@@ -26,9 +26,8 @@ class UserPageController extends Controller
     public function index()
     {
         return view('user.pages.home', [
-            'page_title' => 'Welcome To Kinkou Resort',
+            'page_title' => 'Welcome To Kinkou Hotel',
             'page_description' => 'TRAVEL & VACATION',
-
         ]);
     }
 
