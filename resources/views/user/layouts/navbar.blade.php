@@ -53,7 +53,7 @@
                                     </li>
                                     <li><a href="{{ route('introduce') }}">Giới thiệu</a></li>
 
-                                    <li><a href="#">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                                     <li class="has-children ">
                                         <a class="pr-4" href="#">Tài khoản</a>
                                         @guest()
