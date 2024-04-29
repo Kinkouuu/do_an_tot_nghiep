@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\UserPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +39,9 @@ Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::middleware(['forgotPassword'])->group(function () {
     Route::get('/change-password', [UserPageController::class, 'changePassword'])->name('change_password');
     Route::post('/change-password', [AuthController::class, 'changePassword']);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/personal-information', [CustomerController::class,'getUserInfo'])->name('get-user-info');
+    Route::post('/personal-information', [CustomerController::class,'updateUserInfo'])->name('update-user-info');
 });
