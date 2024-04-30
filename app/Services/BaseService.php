@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\FilterType;
 use App\Enums\ResponseStatus;
 
 abstract class BaseService
@@ -23,6 +24,12 @@ abstract class BaseService
     public function all()
     {
         return $this->model->all();
+    }
+
+    // lấy dang sách theo phân trang
+    public function pagination(?int $number = 15)
+    {
+        return $this->model->orderBy('id', 'DESC')->paginate($number);
     }
 
     //tìm 1 cột theo id
@@ -47,6 +54,25 @@ abstract class BaseService
     public function delete($id)
     {
         return $this->model->where('id',$id)->delete();
+    }
+
+    public function filter(?int $type, $data) {
+        $query = $this->model->query();
+        switch ($type) {
+            case FilterType::SortBy:
+                 $query->orderBy($data['by'], $data['sort']);
+                 break;
+            case FilterType::Status:
+                 $query->where('status', $data['status']);
+                 break;
+            case FilterType::Search:
+                foreach ($data['columns'] as $columns)
+                {
+                    $query->orWhere($columns, 'like', '%' . $data['value'] .'%');
+                }
+                break;
+        }
+        return $query->get();
     }
 
     /**

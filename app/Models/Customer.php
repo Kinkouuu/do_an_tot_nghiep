@@ -25,4 +25,14 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function getColumnsFilter(): array
+    {
+        return [
+            'name',
+            'country',
+            'citizen_id',
+            'created_by'
+        ];
+    }
 }

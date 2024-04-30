@@ -5,6 +5,7 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\UserPageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomer;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,5 +57,8 @@ Route::prefix('admin')->name('admin.')->group(function ()
 
    Route::middleware('staff')->group(function () {
        Route::get('/', [AdminController::class,'index'])->name('dashboard');
+
+       //Customer
+        Route::resource('customers',AdminCustomer::class);
    });
 });
