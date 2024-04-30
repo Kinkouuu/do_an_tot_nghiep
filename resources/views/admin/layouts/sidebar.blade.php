@@ -10,7 +10,7 @@
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
             <div class="text-center mt-3">
-                <p class="text-secondary">Alexander Pierce</p>
+                <p class="text-secondary text-capitalize">{{ auth()->guard('admins')->user()->name }}</p>
             </div>
 
         <!-- Sidebar Menu -->
