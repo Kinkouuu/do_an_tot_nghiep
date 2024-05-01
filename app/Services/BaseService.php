@@ -56,23 +56,28 @@ abstract class BaseService
         return $this->model->where('id',$id)->delete();
     }
 
-    public function filter(?int $type, $data) {
+    /**
+     * Filter list
+     * @param array $request
+     * @return mixed
+     */
+    public function filter(array $request): mixed
+    {
+        $searchColumns = $this->model->getColumnsFilter();
         $query = $this->model->query();
-        switch ($type) {
-            case FilterType::SortBy:
-                 $query->orderBy($data['by'], $data['sort']);
-                 break;
-            case FilterType::Status:
-                 $query->where('status', $data['status']);
-                 break;
-            case FilterType::Search:
-                foreach ($data['columns'] as $columns)
-                {
-                    $query->orWhere($columns, 'like', '%' . $data['value'] .'%');
-                }
-                break;
+        if(isset($request['sort']) && isset($request['by'])) {
+            $query->orderBy($request['by'], $request['sort']);
         }
-        return $query->get();
+        if(isset($request['status']) && $request['status'] != null) {
+            $query->whereIn('status', $request['status']);
+        }
+        if(isset($request['search'])) {
+            foreach ($searchColumns as $column)
+            {
+                $query->orWhere($column, 'like', '%' . $request['search'] .'%');
+            }
+        }
+        return $query->paginate(15);
     }
 
     /**

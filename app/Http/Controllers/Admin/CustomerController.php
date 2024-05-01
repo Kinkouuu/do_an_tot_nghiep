@@ -32,7 +32,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $customers = $this->customerService->filtered($request);
+        $customers = $this->customerService->filter($request->all());
         return view('admin.pages.customers.index', [
             'title' => 'Danh sách khách hàng',
             'customers' => $customers

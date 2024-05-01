@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="container-fluid d-flex py-3 col-md-12">
-        <div class="col-md-3 d-flex align-items-center">
+        <div class="col-md-4 d-flex align-items-center">
             <h4 class="text-right m-0 text-bold text-uppercase">{{$title}}</h4>
         </div>
-        <form class="col-md-6 d-flex justify-content-around align-items-center" method="GET">
+        <form class="col-md-5 d-flex justify-content-around align-items-center" method="GET">
                 <span class="mr-2">Sắp xếp theo: {{( request()->input('by') === 'country') ? 'selected' : '' }}</span>
-                <select class="form-control w-50" name="by">
+                <select class="form-control w-25" name="by">
                     <option value="id" {{ (request()->input('by') == 'id') ? 'selected' : '' }}>ID</option>
                     <option value="country" {{ (request()->input('by') == 'country') ? 'selected' : '' }}>Quốc tịch</option>
                     <option value="name" {{ (request()->input('by') == 'name') ? 'selected' : '' }}>Họ tên</option>
@@ -15,7 +15,7 @@
                 </select>
                 <select class="form-control w-25" name="sort">
                     <option value="DESC" {{ (request()->input('sort') == 'DESC') ? 'selected' : '' }}> Giảm dần</option>
-                    <option value="ASC" {{ (request()->input('by') == 'ASC') ? 'selected' : '' }}>Tăng dần</option>
+                    <option value="ASC" {{ (request()->input('sort') == 'ASC') ? 'selected' : '' }}>Tăng dần</option>
                 </select>
                 <button type="submit" class="btn btn-info">
                     <i class="fa-solid fa-filter"></i>
@@ -92,7 +92,7 @@
        @endforeach
         </tbody>
     </table>
-{{--    {!! $customers->links('pagination::bootstrap-4') !!}--}}
+    {!! $customers->links('pagination::bootstrap-4') !!}
 @endsection
 
 @push('script')

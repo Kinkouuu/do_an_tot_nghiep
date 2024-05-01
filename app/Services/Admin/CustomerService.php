@@ -2,9 +2,7 @@
 
 namespace App\Services\Admin;
 
-use App\Enums\FilterType;
 use App\Models\Customer;
-use App\Models\User;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -76,21 +74,5 @@ class CustomerService extends BaseService
             DB::rollBack();
             return $this->errorResponse('Có lỗi xảy ra!', 'Vui lòng thử lại');
         }
-    }
-
-    public function filtered($request)
-    {
-        if($request->has('by') && $request->has('sort'))
-        {
-            $customers = $this->filter(FilterType::SortBy, $request->all());
-        } elseif ($request->has('search')) {
-            $customers = $this->filter(FilterType::Search, [
-                'columns' => Customer::getColumnsFilter(),
-                'value' => $request->get('search')
-            ]);
-        } else {
-            $customers = $this->pagination();
-        }
-        return $customers;
     }
 }

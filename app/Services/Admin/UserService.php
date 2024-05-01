@@ -2,9 +2,7 @@
 
 namespace App\Services\Admin;
 
-use App\Enums\FilterType;
 use App\Enums\UserStatus;
-use App\Models\Customer;
 use App\Models\User;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
@@ -18,8 +16,7 @@ class UserService extends BaseService
     }
 
     /**
-     * @param string $email
-     * @param string $phone
+     * @param array $request
      * @return mixed
      */
     public function adminCreateOrUpdateUserAccount(array $request): mixed
@@ -41,10 +38,5 @@ class UserService extends BaseService
                 'status' => UserStatus::Active
             ]);
         }
-    }
-
-    public function getActiveUser()
-    {
-        return User::where('status', UserStatus::Active)->orderBy('id', 'DESC')->get();
     }
 }

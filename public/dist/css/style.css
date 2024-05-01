@@ -3,3 +3,8 @@
     text-transform: capitalize;
     text-align: center;
 }
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-right: 1em;
+}
