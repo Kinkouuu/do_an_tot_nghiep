@@ -4,7 +4,12 @@
 
     @include('admin.layouts.sidebar')
 
-    @yield('content')
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        @yield('content')
+    </div>
+    <!-- /.content-wrapper -->
+
 </div>
 <!-- ./wrapper --><!-- jQuery -->
 @include('admin.layouts.footer')

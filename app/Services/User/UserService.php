@@ -65,5 +65,4 @@ class UserService extends BaseService
         return $hiddenUsername . "@" . $domain;
     }
 
-
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('country')->nullable();
             $table->enum('gender',[0,1])->default(0);
-            $table->string('citizen_id');
+            $table->string('citizen_id')->unique();
             $table->timestamp('birth_day');
             $table->string('created_by')->default(RoleAccount::Admin);
             $table->timestamps();

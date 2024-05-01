@@ -17,5 +17,22 @@ class Admin extends Authenticatable
         'password',
         'status',
         'role',
+        'home_town',
+        'email',
+        'phone',
+        'citizen_id',
+        'gender',
     ];
+
+    public static function getColumnsFilter(): array
+    {
+        return [
+            'name',
+            'account_name',
+            'role',
+            'email',
+            'phone',
+            'citizen_id',
+        ];
+    }
 }

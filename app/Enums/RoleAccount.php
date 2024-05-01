@@ -16,7 +16,7 @@ final class RoleAccount extends Enum
     const Employee = 'employee';
     const Customer = 'customer';
 
-    public function isStaff(): array
+    public static function isStaff(): array
     {
         return [
             self::Admin,
