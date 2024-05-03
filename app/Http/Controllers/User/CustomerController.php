@@ -27,7 +27,7 @@ class CustomerController extends Controller
     {
         $user = Auth::user();
         $userInfo = $this->customerService->getByUserID($user->id);
-        $customer = $this->customerService->retriveCustomerData($userInfo);
+        $customer = $this->customerService->retrieveCustomerData($userInfo);
 
         return view('user.pages.personal-information', [
             'page_title' => 'Personal Information',

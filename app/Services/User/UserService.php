@@ -3,10 +3,12 @@
 namespace App\Services\User;
 
 use App\Enums\Authentication\VerifyCodeType;
+
 use App\Enums\UserStatus;
 use App\Models\User;
 use App\Models\VerifyCode;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\Auth;
 
 class UserService extends BaseService
 {
@@ -65,4 +67,16 @@ class UserService extends BaseService
         return $hiddenUsername . "@" . $domain;
     }
 
+    /**
+     * @return array
+     */
+    public function retrieveUserData(): array
+    {
+        $user = Auth::user();
+        return [
+            'email' => $user->email ?? null,
+            'phone' => $user->phone ?? null,
+            'name' => $user->customer->name ?? null,
+        ];
+    }
 }
