@@ -73,6 +73,5 @@ Route::prefix('admin')->name('admin.')->group(function ()
            Route::resource('staffs', StaffController::class);
            Route::post('staffs/reset-password/{staff}', [StaffController::class, 'resetPassword'])->name('staffs.reset-password');
        });
-
    });
 });

@@ -3,7 +3,7 @@
 <div class="hold-transition login-page">
     <div class=" login-box">
         <div class="login-logo">
-            <p ><b>Kinkou</b>Hotel</p>
+            <img src="{{ asset('images/logo.png') }}">
         </div>
 
         <div class="card">
