@@ -16,7 +16,7 @@
                 <div class="row align-items-center">
                     <!-- .Logo -->
                     <div class="col-3">
-                        <h2 class="mb-0 site-logo"><a href="{{ route('homepage') }}">{{ env('APP_NAME') }}</a></h2>
+                        <img src="{{ asset('images/logo.png') }}">
                     </div>
                     <!-- .Navigate bar -->
                     <div class="col-9">
@@ -53,7 +53,7 @@
                                     </li>
                                     <li><a href="{{ route('introduce') }}">Giới thiệu</a></li>
 
-                                    <li><a href="#">Liên hệ</a></li>
+                                    <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                                     <li class="has-children ">
                                         <a class="pr-4" href="#">Tài khoản</a>
                                         @guest()
