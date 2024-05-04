@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\FilterType;
 use App\Enums\ResponseStatus;
 
 abstract class BaseService
@@ -23,6 +24,12 @@ abstract class BaseService
     public function all()
     {
         return $this->model->all();
+    }
+
+    // lấy dang sách theo phân trang
+    public function pagination(?int $number = 15)
+    {
+        return $this->model->orderBy('id', 'DESC')->paginate($number);
     }
 
     //tìm 1 cột theo id
@@ -47,6 +54,30 @@ abstract class BaseService
     public function delete($id)
     {
         return $this->model->where('id',$id)->delete();
+    }
+
+    /**
+     * Filter list
+     * @param array $request
+     * @return mixed
+     */
+    public function filter(array $request): mixed
+    {
+        $searchColumns = $this->model->getColumnsFilter();
+        $query = $this->model->query();
+        if(isset($request['sort']) && isset($request['by'])) {
+            $query->orderBy($request['by'], $request['sort']);
+        }
+        if(isset($request['status']) && $request['status'] != null) {
+            $query->whereIn('status', $request['status']);
+        }
+        if(isset($request['search'])) {
+            foreach ($searchColumns as $column)
+            {
+                $query->orWhere($column, 'like', '%' . $request['search'] .'%');
+            }
+        }
+        return $query->paginate(15);
     }
 
     /**

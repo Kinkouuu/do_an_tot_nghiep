@@ -151,7 +151,7 @@ return [
         'mobile'                => 'di động',
         'month'                 => 'tháng',
         'name'                  => 'tên',
-        'password'              => 'mật khẩu',
+        'password'              => 'Mật khẩu',
         'old-password'          => 'mật khẩu hiện tại',
         'new-password'          => 'mật khẩu mới',
         're-password'           => 'Xác thực mật khẩu',
@@ -174,5 +174,6 @@ return [
         'payment'               => 'Phương thức thanh toán',
         'citizen_id'            => 'Số Căn Cước Công Dân/Chứng Minh Thư',
         'birth_day'             => 'Ngày tháng năm sinh',
+        'account_name'          => 'Tên tài khoản đăng nhập'
     ],
 ];

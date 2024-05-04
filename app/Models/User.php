@@ -21,6 +21,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
+        'status'
     ];
 
     /**
@@ -45,5 +46,13 @@ class User extends Authenticatable
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public static function getColumnsFilter(): array
+    {
+        return [
+            'phone',
+            'email',
+        ];
     }
 }

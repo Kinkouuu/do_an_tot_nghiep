@@ -3,7 +3,8 @@
 namespace App\Services\User;
 
 use App\Enums\Authentication\VerifyCodeType;
-use App\Enums\User\UserStatus;
+
+use App\Enums\UserStatus;
 use App\Models\User;
 use App\Models\VerifyCode;
 use App\Services\BaseService;

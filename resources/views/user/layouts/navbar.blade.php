@@ -16,7 +16,7 @@
                 <div class="row align-items-center">
                     <!-- .Logo -->
                     <div class="col-3">
-                        <h2 class="mb-0 site-logo"><a href="{{ route('homepage') }}">{{ env('APP_NAME') }}</a></h2>
+                        <img src="{{ asset('images/logo.png') }}">
                     </div>
                     <!-- .Navigate bar -->
                     <div class="col-9">

@@ -5,8 +5,7 @@ namespace App\Services\User;
 
 use App\Enums\Authentication\ValidationMessages;
 use App\Enums\Authentication\VerifyCodeType;
-use App\Enums\ResponseStatus;
-use App\Enums\User\UserStatus;
+use App\Enums\UserStatus;
 use App\Jobs\SendVerifyCodeJob;
 use App\Mail\sendVerifyCodeMail;
 use App\Models\User;

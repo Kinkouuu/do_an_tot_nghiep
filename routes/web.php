@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\UserPageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\StaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,4 +51,27 @@ Route::middleware(['forgotPassword'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/personal-information', [CustomerController::class,'getUserInfo'])->name('get-user-info');
     Route::post('/personal-information', [CustomerController::class,'updateUserInfo'])->name('update-user-info');
+});
+
+Route::prefix('admin')->name('admin.')->group(function ()
+{
+    //Admin authentication
+    Route::get('/login', [AdminController::class,'login'])->name('login');
+    Route::post('/login', [AdminController::class,'signin']);
+    Route::get('/logout', [AdminController::class,'logout'])->name('logout');
+
+   Route::middleware('staff')->group(function () {
+       Route::get('/', [AdminController::class,'index'])->name('dashboard');
+
+       //Customer manager
+       Route::resource('customers', AdminCustomerController::class);
+       //User manager
+       Route::resource('users', AdminUserController::class);
+
+       Route::middleware('admin')->group(function () {
+           //Staff Manager
+           Route::resource('staffs', StaffController::class);
+           Route::post('staffs/reset-password/{staff}', [StaffController::class, 'resetPassword'])->name('staffs.reset-password');
+       });
+   });
 });

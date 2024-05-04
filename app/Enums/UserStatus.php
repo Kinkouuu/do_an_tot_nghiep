@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Enums\User;
+namespace App\Enums;
 
-use Illuminate\Validation\Rules\Enum;
+
+use BenSampo\Enum\Enum;
 
 class UserStatus extends Enum
 {

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace App\Enums;
 
@@ -15,4 +15,13 @@ final class RoleAccount extends Enum
     const Manager = 'manager';
     const Employee = 'employee';
     const Customer = 'customer';
+
+    public static function isStaff(): array
+    {
+        return [
+            self::Admin,
+            self::Manager,
+            self::Employee
+        ];
+    }
 }
