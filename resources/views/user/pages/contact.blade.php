@@ -69,15 +69,15 @@
 
                 <div class="col-lg-4">
                     <div class="p-4 mb-3 bg-white">
-                        <h3 class="h5 text-black mb-3">Contact Info</h3>
+                        <h3 class="h5 text-black mb-3">Thông tin liên hệ</h3>
                         <p class="mb-0 font-weight-bold">Address</p>
-                        <p class="mb-4">203 Fake St. Mountain View, San Francisco, California, USA</p>
+                        <p class="mb-4">Tầng 4, Grandeur Palace, 138B Giảng Võ, Ba Đình, Hà Nội</p>
 
                         <p class="mb-0 font-weight-bold">Phone</p>
-                        <p class="mb-4"><a href="#">+1 232 3235 324</a></p>
+                        <p class="mb-4"> <a href="tel:+84397910001">+84 39 79 10001</a></p></p>
 
                         <p class="mb-0 font-weight-bold">Email Address</p>
-                        <p class="mb-0"><a href="#">youremail@domain.com</a></p>
+                        <p class="mb-0"> <a href="mailto:contact@vietnamvacationclub.vn">contact@vietnamvacationclub.vn</a></p>
                     </div>
                 </div>
             </div>
