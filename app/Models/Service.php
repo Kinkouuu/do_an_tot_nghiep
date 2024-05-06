@@ -26,7 +26,6 @@ class Service extends Model
     public static function getColumnsFilter()
     {
         return [
-            'type_service_id',
             'name',
             'price',
             'status'

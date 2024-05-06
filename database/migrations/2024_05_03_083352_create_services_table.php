@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('type_service_id')->nullable();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('price');
             $table->enum('status', ServiceStatus::asArray())->default(ServiceStatus::Active);
             $table->softDeletes();

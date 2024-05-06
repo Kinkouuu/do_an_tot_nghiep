@@ -6,7 +6,7 @@
             <h4 class="text-right m-0 text-bold text-uppercase">{{$title}}</h4>
         </div>
         <form class="col-md-5 d-flex justify-content-around align-items-center" method="GET">
-                <span class="mr-2">Sắp xếp theo: {{( request()->input('by') === 'country') ? 'selected' : '' }}</span>
+                <span class="mr-2">Sắp xếp theo: </span>
                 <select class="form-control w-25" name="by">
                     <option value="id" {{ (request()->input('by') == 'id') ? 'selected' : '' }}>ID</option>
                     <option value="country" {{ (request()->input('by') == 'country') ? 'selected' : '' }}>Quốc tịch</option>

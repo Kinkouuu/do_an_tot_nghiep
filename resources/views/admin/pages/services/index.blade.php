@@ -6,7 +6,7 @@
             <h4 class="text-right m-0 text-bold text-uppercase">{{$title}}</h4>
         </div>
         <form class="col-md-5 d-flex justify-content-around align-items-center" method="GET">
-            <span class="mr-2">Sắp xếp theo: {{( request()->input('by') === 'name') ? 'selected' : '' }}</span>
+            <span class="mr-2">Sắp xếp theo: </span>
             <select class="form-control w-25" name="by">
                 <option value="id" {{ (request()->input('by') == 'id') ? 'selected' : '' }}>ID</option>
                 <option value="type_service_id" {{ (request()->input('by') == 'type_service_id') ? 'selected' : '' }}>Loại dịch vụ</option>
@@ -28,7 +28,6 @@
             <th scope="col">ID</th>
             <th scope="col">Loại dịch vụ</th>
             <th scope="col">Tên dịch vụ</th>
-            <th scope="col">Mô tả</th>
             <th scope="col">Giá niêm yết</th>
             <th scope="col">Trạng thái</th>
             <th>&nbsp;</th>
@@ -40,7 +39,6 @@
                 <th scope="row">{{ $service->id }}</th>
                 <td class="text-capitalize">{{ $service->typeService->name }}</td>
                 <td class="text-capitalize">{{ $service->name }}</td>
-                <td class="text-capitalize">{{ $service->description }}</td>
                 <td>{{ number_format($service->price) }} VND</td>
 
                 <td>{{ $service->status ==\App\Enums\Service\ServiceStatus::Active ? 'Đang cung cấp' : 'Dừng cung cấp' }}</td>

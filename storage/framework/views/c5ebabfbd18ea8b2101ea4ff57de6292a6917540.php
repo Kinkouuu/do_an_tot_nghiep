@@ -32,6 +32,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
 <?php echo $__env->yieldPushContent('script'); ?>
+<!-- Ckeditor -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/translations/de.js"></script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '.ckeditor' ), {
+            // The language code is defined in the https://en.wikipedia.org/wiki/ISO_639-1 standard.
+            language: 'vi'
+        } )
+        .then( editor => {
+            console.log( editor );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
 <?php echo \Livewire\Livewire::scripts(); ?>
 
 </body>

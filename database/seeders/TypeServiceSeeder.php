@@ -18,36 +18,40 @@ class TypeServiceSeeder extends Seeder
     {
         $baseServiceTypes = [
             [
-                'icon' => '<i class="fa-solid fa-champagne-glasses"></i>',
+                'icon' => 'fa-solid fa-champagne-glasses',
                 'name' => 'Ăn uống',
             ],
             [
-                'icon' => '<i class="fa-solid fa-taxi"></i>',
+                'icon' => 'fa-solid fa-taxi',
                 'name' => 'Xe đưa đón',
             ],
             [
-                'icon' => '<i class="fa-solid fa-dumbbell"></i>',
+                'icon' => 'fa-solid fa-dumbbell',
                 'name' => 'Fitness',
             ],
             [
-                'icon' => '<i class="fa-solid fa-shirt"></i>',
+                'icon' => 'fa-solid fa-shirt',
                 'name' =>  'Giặt là',
             ],
             [
-                'icon' => '<i class="fa-solid fa-heart-pulse"></i>',
+                'icon' => 'fa-solid fa-heart-pulse',
                 'name' =>  'Spa',
             ],
             [
-                'icon' => '<i class="fa-solid fa-tents"></i>',
+                'icon' => 'fa-solid fa-tents',
                 'name' =>  'Khu vui chơi',
             ],
             [
-                'icon' => '<i class="fa-solid fa-umbrella-beach"></i>',
+                'icon' => 'fa-solid fa-umbrella-beach',
                 'name' =>   'Bể bơi',
             ],
             [
-                'icon' => '<i class="fa-solid fa-handshake"></i>',
+                'icon' => 'fa-solid fa-handshake',
                 'name' =>  'Thuê hội trường'
+            ],
+            [
+                'icon' => 'fa-solid fa-microchip',
+                'name' =>  'Thuê thiết bị/vật dụng',
             ],
         ];
 

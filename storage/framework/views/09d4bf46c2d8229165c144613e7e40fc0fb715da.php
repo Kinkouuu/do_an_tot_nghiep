@@ -48,10 +48,10 @@ endif;
 unset($__errorArgs, $__bag); ?>
         <div class="w-100 input-group input-group-sm mb-3">
             <div class="w-25 input-group-prepend">
-                <span class="input-group-text w-100" id="inputGroup-sizing-sm">Mô tả</span>
+                <span class="input-group-text w-100" id="inputGroup-sizing-sm">Mô tả chi tiết</span>
             </div>
-            <textarea class="form-control" placeholder="Mô tả chi tiết"
-                      name="description" maxlength="300" style="min-height: 150px"><?php echo e(old('description')); ?></textarea>
+            <textarea class="ckeditor" placeholder="Mô tả chi tiết"
+                      name="description" id="description" maxlength="300" style="min-height: 150px"><?php echo e(old('description')); ?></textarea>
         </div>
 
         <?php $__errorArgs = ['price'];

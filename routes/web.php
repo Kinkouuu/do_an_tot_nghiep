@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DeviceController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ContactController;
@@ -68,7 +69,8 @@ Route::prefix('admin')->name('admin.')->group(function ()
        Route::resource('customers', AdminCustomerController::class);
        //User manager
        Route::resource('users', AdminUserController::class);
-
+       //Device Manager
+       Route::resource('devices', DeviceController::class);
        Route::middleware('admin')->group(function () {
            //Staff Manager
            Route::resource('staffs', StaffController::class);

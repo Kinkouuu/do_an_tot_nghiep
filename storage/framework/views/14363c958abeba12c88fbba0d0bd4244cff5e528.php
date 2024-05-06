@@ -96,7 +96,29 @@
                     </ul>
                 </li>
                 <?php endif; ?>
-
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fa-solid fa-house-laptop"></i>
+                        <p>
+                            Quản lý thiết bị
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo e(route('admin.devices.index')); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách thiết bị</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo e(route('admin.devices.create')); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm thiết bị mới</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

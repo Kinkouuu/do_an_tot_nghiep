@@ -41,7 +41,8 @@
 
     <?php echo \Livewire\Livewire::styles(); ?>
 
-
+    <!-- Ckeditor-->
+    <script src="<?php echo e(asset('ckeditor/ckeditor.js')); ?>"></script>
     <!-- Custom CSS-->
     <link rel="stylesheet" href="<?php echo e(asset('dist/css/style.css')); ?>">
 </head>

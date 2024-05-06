@@ -40,7 +40,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @livewireStyles
-
+    <!-- Ckeditor-->
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <!-- Custom CSS-->
     <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
 </head>
