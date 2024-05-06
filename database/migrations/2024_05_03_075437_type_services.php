@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('type_services', function (Blueprint $table) {
             $table->id();
+            $table->string('icon');
             $table->string('name');
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('type_services');
     }
 };

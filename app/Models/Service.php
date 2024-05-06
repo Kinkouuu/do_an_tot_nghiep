@@ -14,11 +14,22 @@ class Service extends Model
         'type_service_id',
         'name',
         'description',
+        'status',
         'price',
     ];
 
     public function typeService()
     {
-        return $this->belongsTo('type_services', 'type_service_id');
+        return $this->belongsTo(TypeService::class);
+    }
+
+    public static function getColumnsFilter()
+    {
+        return [
+            'type_service_id',
+            'name',
+            'price',
+            'status'
+        ];
     }
 }

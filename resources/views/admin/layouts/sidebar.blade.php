@@ -20,7 +20,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 {{--CUSTOMER--}}
-                <li class="nav-item menu-open">
+                <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="fas fa-user-tie"></i>
                         <p>
@@ -44,7 +44,7 @@
                     </ul>
 
                 {{--ACCOUNT--}}
-                <li class="nav-item menu-open">
+                <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-user-large"></i>
                         <p>
@@ -69,6 +69,33 @@
                         @endif
                     </ul>
                 </li>
+
+                {{--Services--}}
+                @if (Auth::guard('admins')->user()->role == \App\Enums\RoleAccount::Admin )
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fa-solid fa-bell-concierge"></i>
+                        <p>
+                            Quản lý dịch vụ
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.services.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Dịch vụ cung cấp</p>
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.services.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Thêm dịch vụ mới</p>
+                                </a>
+                            </li>
+                    </ul>
+                </li>
+                @endif
 
             </ul>
         </nav>

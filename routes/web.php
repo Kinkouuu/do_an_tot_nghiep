@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\CustomerController;
@@ -60,7 +61,7 @@ Route::prefix('admin')->name('admin.')->group(function ()
     Route::post('/login', [AdminController::class,'signin']);
     Route::get('/logout', [AdminController::class,'logout'])->name('logout');
 
-   Route::middleware('staff')->group(function () {
+   Route::middleware('staffs')->group(function () {
        Route::get('/', [AdminController::class,'index'])->name('dashboard');
 
        //Customer manager
@@ -72,6 +73,8 @@ Route::prefix('admin')->name('admin.')->group(function ()
            //Staff Manager
            Route::resource('staffs', StaffController::class);
            Route::post('staffs/reset-password/{staff}', [StaffController::class, 'resetPassword'])->name('staffs.reset-password');
+           //Service Manager
+           Route::resource('services', ServiceController::class);
        });
    });
 });

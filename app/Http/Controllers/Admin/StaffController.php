@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\ResponseStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\AdminAccountRequest;
+use App\Http\Requests\Admin\AccountRequest;
 use App\Models\Admin;
 use App\Services\Admin\StaffService;
 use Illuminate\Contracts\Foundation\Application;
@@ -33,7 +33,7 @@ class StaffController extends Controller
     {
         $staffs = $this->staffService->filter($request->all());
 
-        return view('admin.pages.staff.index', [
+        return view('admin.pages.staffs.index', [
             'title' => 'Tài khoản nhân viên',
             'staffs' => $staffs
         ]);
@@ -46,7 +46,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.staff.create', [
+        return view('admin.pages.staffs.create', [
             'title' => 'Thêm tài khoản nhân viên mới'
         ]);
     }
@@ -54,10 +54,10 @@ class StaffController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param AdminAccountRequest $request
+     * @param AccountRequest $request
      * @return RedirectResponse
      */
-    public function store(AdminAccountRequest $request)
+    public function store(AccountRequest $request)
     {
        $response = $this->staffService->createStaffAccount($request->all());
        return $this->showAlertAndRedirect($response);
@@ -82,7 +82,7 @@ class StaffController extends Controller
      */
     public function edit(Admin $staff)
     {
-        return view('admin.pages.staff.edit', [
+        return view('admin.pages.staffs.edit', [
             'title' => "Cập nhật thông tin nhân viên",
             'staff' => $staff
         ]);
@@ -91,16 +91,16 @@ class StaffController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param AdminAccountRequest $request
+     * @param AccountRequest $request
      * @param Admin $staff
      * @return RedirectResponse
      */
-    public function update(AdminAccountRequest $request, Admin $staff)
+    public function update(AccountRequest $request, Admin $staff)
     {
-        $this->staffService->update($request->all(), $staff->id);
+        $this->staffService->update($request->except('_token', '_method'), $staff->id);
 
         return $this->showAlertAndRedirect($this->staffService->successResponse(
-            title: 'Thêm tài khoản thành công!',
+            title: 'Cập nhật tài khoản thành công!',
             nextUrl: 'admin.staffs.index'
         ));
     }
