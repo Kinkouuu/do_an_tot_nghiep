@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Room\PriceType;
+use App\Models\RoomPrice;
 use App\Models\TypeRoom;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class TypeRoomSeeder extends Seeder
@@ -23,11 +25,11 @@ class TypeRoomSeeder extends Seeder
         ];
 
         foreach ($typeRooms as $typeRoom) {
-            TypeRoom::create(
-                [
+            TypeRoom::create([
                     'name' => $typeRoom,
-                ]
-            );
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
         }
     }
 }

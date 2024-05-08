@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\Service\ServiceStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ServiceRequest extends FormRequest
+class RoomTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +24,9 @@ class ServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|string',
-            'description' => 'nullable|max:1000|string',
-            'price' => 'nullable|numeric|min:0',
-            'status' => ['required', Rule::in(ServiceStatus::asArray())]
+            'name' => 'required|max:255|unique:room_types,name' . $this->typeRoom?->id,
+            'description' => 'nullable|string|max:1000',
+            'price.*' => 'required|numeric|min:0',
         ];
     }
 }

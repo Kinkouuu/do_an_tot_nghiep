@@ -8,3 +8,30 @@
     align-items: center;
     margin-right: 1em;
 }
+
+.image-area {
+    height: 250px;
+    border-style: dashed;
+    border-color: gray;
+    background-color: #dbdbdb;
+}
+
+.image-delete-btn {
+    background: transparent;
+    position: absolute;
+    bottom: 1%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #d6d6d6;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.image-delete-btn:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: red;
+}

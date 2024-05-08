@@ -109,4 +109,22 @@ abstract class BaseService
             'message' => $message
         ];
     }
+
+    /**
+     * @param string|null $title
+     * @param string|null $message
+     * @param string $nextUrl
+     * @param string $code
+     * @return array
+     */
+    public function questionResponse(string $nextUrl, string|int $code = null, ?string $title = null, ?string $message = null): array
+    {
+        return [
+            'status' => ResponseStatus::Question,
+            'nextUrl' => $nextUrl,
+            'code' => $code,
+            'title' => $title,
+            'message' => $message,
+        ];
+    }
 }

@@ -119,6 +119,29 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fa-solid fa-hotel"></i>
+                        <p>
+                            Quản lý phòng
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.room-type.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách loại phòng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.room-type.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm loại phòng mới</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

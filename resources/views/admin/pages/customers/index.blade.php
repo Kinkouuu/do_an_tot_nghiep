@@ -21,22 +21,22 @@
                     <i class="fa-solid fa-filter"></i>
                 </button>
         </form>
-        <div class="col-md-3 d-flex justify-content-around">
-            <div class="d-flex ">
-                <div class="border bg-light text-center mx-2" style="width: 60px; height: 60px;">
-                    <span class="text-center">No account</span>
-                </div>
-                <div class="bg-secondary text-center mx-2" style="width: 60px; height: 60px;">
-                    <span class="text-center">Cancel</span>
-                </div>
-                <div class="bg-success text-center mx-2" style="width: 60px; height: 60px;">
-                    <span class="text-center">Active</span>
-                </div>
-                <div class="bg-warning text-center mx-2" style="width: 60px; height: 60px;">
-                    <span class="text-center">Banned</span>
-                </div>
-            </div>
-        </div>
+{{--        <div class="col-md-3 d-flex justify-content-around">--}}
+{{--            <div class="d-flex ">--}}
+{{--                <div class="border bg-light text-center mx-2" style="width: 60px; height: 60px;">--}}
+{{--                    <span class="text-center">No account</span>--}}
+{{--                </div>--}}
+{{--                <div class="bg-secondary text-center mx-2" style="width: 60px; height: 60px;">--}}
+{{--                    <span class="text-center">Cancel</span>--}}
+{{--                </div>--}}
+{{--                <div class="bg-success text-center mx-2" style="width: 60px; height: 60px;">--}}
+{{--                    <span class="text-center">Active</span>--}}
+{{--                </div>--}}
+{{--                <div class="bg-warning text-center mx-2" style="width: 60px; height: 60px;">--}}
+{{--                    <span class="text-center">Banned</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </div>
     <table class="table table-bordered table-striped mx-1">
         <thead class="thead-dark">
@@ -48,21 +48,22 @@
             <th scope="col">CCCD/CMT/Visa</th>
             <th scope="col">Email</th>
             <th scope="col">SDT</th>
-{{--            <th scope="col">Trạng thái tài khoản</th>--}}
+            <th scope="col">Trạng thái tài khoản</th>
             <th scope="col">Người tạo</th>
             <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
        @foreach($customers as $customer)
-           <tr id="customer-{{ $customer->id }}"
-               class="{{ isset($customer->user->status)
-                      ? match ($customer->user->status) {
-                        \App\Enums\UserStatus::Cancelled => 'bg-secondary',
-                        \App\Enums\UserStatus::Active => 'bg-success',
-                        \App\Enums\UserStatus::Banned => 'bg-warning',
-                       }
-                    : null }}"
+           <tr
+{{--               id="customer-{{ $customer->id }}"--}}
+{{--               class="{{ isset($customer->user->status)--}}
+{{--                      ? match ($customer->user->status) {--}}
+{{--                        \App\Enums\UserStatus::Cancelled => 'bg-secondary',--}}
+{{--                        \App\Enums\UserStatus::Active => 'bg-success',--}}
+{{--                        \App\Enums\UserStatus::Banned => 'bg-warning',--}}
+{{--                       }--}}
+{{--                    : null }}"--}}
            >
                <th scope="row">{{ $customer->id }}</th>
                <td class="text-capitalize">{{ $customer->name }}</td>
@@ -71,14 +72,14 @@
                <td>{{ $customer->citizen_id }}</td>
                <td>{{ $customer->user->email ?? null }}</td>
                <td>{{ $customer->user->phone ?? null }}</td>
-{{--               <td>{{ isset($customer->user->status)--}}
-{{--                      ? match ($customer->user->status) {--}}
-{{--                        \App\Enums\UserStatus::Cancelled => 'Đã hủy',--}}
-{{--                        \App\Enums\UserStatus::Active => 'Đang hoạt động',--}}
-{{--                        \App\Enums\UserStatus::Banned => 'Bị cấm',--}}
-{{--                       }--}}
-{{--                    : 'Chưa có tài khoản' }}--}}
-{{--               </td>--}}
+               <td>{{ isset($customer->user->status)
+                      ? match ($customer->user->status) {
+                        \App\Enums\UserStatus::Cancelled => 'Đã hủy',
+                        \App\Enums\UserStatus::Active => 'Đang hoạt động',
+                        \App\Enums\UserStatus::Banned => 'Bị cấm',
+                       }
+                    : 'Chưa có tài khoản' }}
+               </td>
                <td class="text-capitalize">{{ $customer->created_by }}</td>
                <td>
                    <a type="button" class="btn btn-primary mb-1" href="{{ route('admin.customers.edit', $customer) }}">

@@ -27,7 +27,7 @@ class DeviceRequest extends FormRequest
             'name' => 'required|max:255|string',
             'rental_price' => 'nullable|numeric|min:0',
             'quantity' => 'nullable|numeric|min:0',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:1000',
         ];
     }
 }

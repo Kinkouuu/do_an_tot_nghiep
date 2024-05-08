@@ -59,7 +59,7 @@ class TypeServiceSeeder extends Seeder
         {
             DB::table('type_services')->insert([
                 'icon' => $serviceType['icon'],
-                'name'=>$serviceType['name'],
+                'name' => $serviceType['name'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
                 ]);

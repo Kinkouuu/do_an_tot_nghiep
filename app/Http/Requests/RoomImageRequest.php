@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
-use App\Enums\Service\ServiceStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ServiceRequest extends FormRequest
+class RoomImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +24,13 @@ class ServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|string',
-            'description' => 'nullable|max:1000|string',
-            'price' => 'nullable|numeric|min:0',
-            'status' => ['required', Rule::in(ServiceStatus::asArray())]
+            'fileUpload' =>  [
+                'required',
+                'image',
+                'mimes:jpeg,jpg,png,webp',
+                'mimetypes:image/*',
+                'max:2048',
+            ],
         ];
     }
 }

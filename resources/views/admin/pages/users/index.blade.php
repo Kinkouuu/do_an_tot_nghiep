@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container-fluid d-flex py-3 col-md-12">
-        <div class="col-md-3 d-flex align-items-center">
-            <h4 class="text-right m-0 text-bold text-uppercase">{{$title}}</h4>
+        <div class="col-md-3 d-flex align-items-center p-0">
+            <h4 class=" px-0 m-0 text-bold text-uppercase">{{$title}}</h4>
         </div>
         <form class="col-md-9 d-flex">
             <div class="col-md-6 d-flex justify-content-around align-items-center" method="GET">

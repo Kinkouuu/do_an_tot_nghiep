@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class TypeRoom extends Model
 {
     use HasFactory;
+
+    protected $table = 'room_types';
+    protected $fillable = [
+      'name',
+      'description',
+    ];
+
+    public function roomPrices()
+    {
+        return $this->hasMany(RoomPrice::class);
+    }
+
+    public function roomImages()
+    {
+        return $this->hasMany(RoomImage::class);
+    }
 }

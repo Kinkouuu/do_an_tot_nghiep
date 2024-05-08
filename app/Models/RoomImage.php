@@ -5,7 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RoomCapacity extends Model
+class RoomImage extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'type_room_id',
+        'path',
+        'type',
+    ];
 }

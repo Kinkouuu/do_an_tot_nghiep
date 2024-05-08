@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DeviceController;
+use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ContactController;
@@ -71,12 +72,24 @@ Route::prefix('admin')->name('admin.')->group(function ()
        Route::resource('users', AdminUserController::class);
        //Device Manager
        Route::resource('devices', DeviceController::class);
+       //GET room type
+       Route::get('room-type', [RoomTypeController::class, 'index'])->name('room-type.index');
+
        Route::middleware('admin')->group(function () {
            //Staff Manager
            Route::resource('staffs', StaffController::class);
            Route::post('staffs/reset-password/{staff}', [StaffController::class, 'resetPassword'])->name('staffs.reset-password');
            //Service Manager
            Route::resource('services', ServiceController::class);
+           //Room Type Manager
+           Route::prefix('room-type')->name('room-type.')->group(function () {
+               Route::get('create', [RoomTypeController::class, 'create'])->name('create');
+               Route::post('create', [RoomTypeController::class, 'store']);
+               Route::get('images/{code}', [RoomTypeController::class, 'getImages'])->name('images');
+               Route::post('images/change-thumb/{typeRoom}', [RoomTypeController::class, 'changeThumbNail'])->name('images.thumb');
+               Route::delete('images/{roomImage}', [RoomTypeController::class, 'deleteImage'])->name('images.delete');
+               Route::post('images/change-detail/{typeRoom}', [RoomTypeController::class, 'changeDetail'])->name('images.detail');
+           });
        });
    });
 });

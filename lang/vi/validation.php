@@ -166,6 +166,11 @@ return [
         'year'                  => 'năm',
         'fileUpload'            => 'file ảnh',
         'price'                 => 'giá',
+        'price.0'               => 'Giá niêm yết (theo giờ)',
+        'price.1'               => 'Giá niêm yết (theo ngày)',
+        'price.2'               => 'Giá 2 giờ đầu',
+        'price.3'               => 'Phí trả phòng chậm',
+        'price.4'               => 'Phí nhận phòng sớm',
         'brand_id'              => 'thương hiệu',
         'category_id'           => 'danh mục',
         'district'              => 'Quận huyện',
@@ -174,6 +179,6 @@ return [
         'payment'               => 'Phương thức thanh toán',
         'citizen_id'            => 'Số Căn Cước Công Dân/Chứng Minh Thư',
         'birth_day'             => 'Ngày tháng năm sinh',
-        'account_name'          => 'Tên tài khoản đăng nhập'
+        'account_name'          => 'Tên tài khoản đăng nhập',
     ],
 ];
