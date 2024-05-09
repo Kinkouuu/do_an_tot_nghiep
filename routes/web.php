@@ -89,6 +89,7 @@ Route::prefix('admin')->name('admin.')->group(function ()
                Route::post('images/change-thumb/{typeRoom}', [RoomTypeController::class, 'changeThumbNail'])->name('images.thumb');
                Route::delete('images/{roomImage}', [RoomTypeController::class, 'deleteImage'])->name('images.delete');
                Route::post('images/change-detail/{typeRoom}', [RoomTypeController::class, 'changeDetail'])->name('images.detail');
+               Route::get('service/{code}', [RoomTypeController::class, 'getServices'])->name('services');
            });
        });
    });

@@ -1,6 +1,6 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
+    <!-- Branch Logo -->
     <a href="<?php echo e(route('admin.dashboard')); ?>" class="brand-link">
         <img src="<?php echo e(asset('dist/img/AdminLTELogo.png')); ?>" alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -115,6 +115,29 @@
                             <a href="<?php echo e(route('admin.devices.create')); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm thiết bị mới</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fa-solid fa-hotel"></i>
+                        <p>
+                            Quản lý phòng
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo e(route('admin.room-type.index')); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách loại phòng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo e(route('admin.room-type.create')); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm loại phòng mới</p>
                             </a>
                         </li>
                     </ul>

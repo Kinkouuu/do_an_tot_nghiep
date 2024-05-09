@@ -40,7 +40,7 @@ class Controller extends BaseController
             case 'question':
                 Alert::question($title,$message)
                     ->showCancelButton('Hủy')
-                    ->showConfirmButton('<a href=\''. route($nextUrl, ['code' => $response['code'] ?? null]) .'\'>Xác nhận</a>');
+                    ->showConfirmButton('<a class="text-white" href=\''. route($nextUrl, ['code' => $response['code'] ?? null]) .'\'>Xác nhận</a>');
                 break;
             default:
                 Alert::alert($title, $message);

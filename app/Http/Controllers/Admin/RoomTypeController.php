@@ -10,6 +10,7 @@ use App\Http\Requests\RoomImageRequest;
 use App\Models\RoomImage;
 use App\Models\TypeRoom;
 use App\Services\Admin\RoomTypeService;
+use App\Services\Admin\ServiceService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -20,20 +21,27 @@ use Illuminate\Http\Response;
 class RoomTypeController extends Controller
 {
     protected RoomTypeService $roomTypeService;
+    protected ServiceService $serviceService;
 
-    public function __construct(RoomTypeService $roomTypeService)
+    public function __construct(RoomTypeService $roomTypeService, ServiceService $serviceService)
     {
         $this->roomTypeService = $roomTypeService;
+        $this->serviceService = $serviceService;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return Application|Factory|\Illuminate\View\View|View
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $roomTypes = $this->roomTypeService->getAll($request->all());
+
+        return view('admin.pages.room-types.index', [
+            'title' => 'Danh sách phân loại phòng',
+            'roomTypes' => $roomTypes,
+        ]);
     }
 
     /**
@@ -108,7 +116,7 @@ class RoomTypeController extends Controller
 
     public function getImages(int $typeRoomID)
     {
-        $typeRoom = $this->roomTypeService->getImages($typeRoomID);
+        $typeRoom = $this->roomTypeService->getById($typeRoomID);
 
         $thumbImage = $this->roomTypeService->getThumbNailImage($typeRoom);
         $detailImages = $this->roomTypeService->getDetailImages($typeRoom);
@@ -171,6 +179,24 @@ class RoomTypeController extends Controller
         return $this->showAlertAndRedirect([
            'status' =>  ResponseStatus::Success,
             'title' => 'Xóa ảnh thành công'
+        ]);
+    }
+
+    /**
+     * Lấy danh sách đã/chưa được cung cấp sẵn cho từng loại phòng
+     * @param int $typeRoomID
+     * @return Application|Factory|View|\Illuminate\View\View
+     */
+    public function getServices(int $typeRoomID)
+    {
+        $typeRoom = $this->roomTypeService->getById($typeRoomID);
+        $activeTypeServices = $this->serviceService->getActiveTypeServices();
+        $services = $this->roomTypeService->getListServices($typeRoom, $activeTypeServices);
+//dd($services);
+        return view('admin.pages.room-types.services', [
+            'title' => 'Cập nhật dịch vụ của loại phòng ',
+            'type_room' => $typeRoom,
+            'services' => $services,
         ]);
     }
 }

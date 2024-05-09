@@ -11,6 +11,6 @@ use BenSampo\Enum\Enum;
  */
 final class ServiceStatus extends Enum
 {
-    const DeActive = 0;
-    const Active = 1;
+    const DeActive = '0';
+    const Active = '1';
 }

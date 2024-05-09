@@ -28,7 +28,7 @@ class ServiceRequest extends FormRequest
         return [
             'name' => 'required|max:255|string',
             'description' => 'nullable|max:1000|string',
-            'price' => 'nullable|numeric|min:0',
+            'price' => 'required|numeric|min:0',
             'status' => ['required', Rule::in(ServiceStatus::asArray())]
         ];
     }
