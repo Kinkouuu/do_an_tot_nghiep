@@ -24,7 +24,7 @@ class RoomTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|unique:room_types,name' . $this->typeRoom?->id,
+            'name' => 'required|max:255|unique:room_types,name,' . $this->typeRoom?->id,
             'description' => 'nullable|string|max:1000',
             'price.*' => 'required|numeric|min:0',
         ];

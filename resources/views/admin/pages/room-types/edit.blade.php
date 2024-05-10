@@ -63,7 +63,7 @@
                         </div>
                     @endforeach
 
-                    <button type="submit" class="btn btn-outline-success text-uppercase text-center m-auto">Thêm mới</button>
+                    <button type="submit" class="btn btn-outline-success text-uppercase text-center m-auto">Cập nhật</button>
                 </form>
             </div>
         </div>

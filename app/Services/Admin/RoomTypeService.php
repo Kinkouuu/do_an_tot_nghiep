@@ -77,7 +77,7 @@ class RoomTypeService extends BaseService
             foreach ($data['price'] as $key => $price) {
                 RoomPrice::create([
                     'type_room_id' => $typeRoom->id,
-                    'type_price' => (string) $key,
+                    'type_price' => (string)$key,
                     'price' => $price
                 ]);
             }
@@ -89,6 +89,40 @@ class RoomTypeService extends BaseService
                 $typeRoom->id,
                 'Thêm loại phòng mới thành công',
                 'Tiếp tục thêm dịch vụ của phòng!',
+            );
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function updateRoomType(array $data, TypeRoom $typeRoom)
+    {
+        DB::beginTransaction();
+        try {
+            $typeRoom->update([
+                'name' => $data['name'],
+                'description' => $data['description']
+            ]);
+
+            foreach ($data['price'] as $key => $price) {
+                $roomPrice = RoomPrice::where('type_room_id', $typeRoom->id)->where('type_price', (string)$key)->first();
+                //Cập nhật nếu đã có trong CSDL
+                if ($roomPrice) {
+                    $roomPrice->price = $price;
+                    $roomPrice->save();
+                } else {//Thêm nếu chưa có trong CSDL
+                    RoomPrice::create([
+                        'type_room_id' => $typeRoom->id,
+                        'type_price' => (string)$key,
+                        'price' => $price
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return $this->successResponse(
+                'Cập nhật phân loại phòng thành công',
             );
         } catch (\Exception $e) {
             DB::rollBack();
@@ -119,7 +153,7 @@ class RoomTypeService extends BaseService
     public function getRoomPrices(TypeRoom $typeRoom): array
     {
         $roomPrices = [];
-        foreach (PriceType::asArray() as $key=>$priceType) {
+        foreach (PriceType::asArray() as $key => $priceType) {
             //Khởi tạo giá trị cho từng loại giá
             $roomPrices[$key] = [
                 'id' => $priceType['value'],
@@ -128,7 +162,7 @@ class RoomTypeService extends BaseService
                 'price' => 0,
             ];
             foreach ($typeRoom->roomPrices as $roomPrice) {
-                if($priceType['value'] == $roomPrice->type_price) {
+                if ($priceType['value'] == $roomPrice->type_price) {
                     //Cập nhật lại giá cho loại giá tương ứng
                     $roomPrices[$key]['price'] = $roomPrice->price;
                     break;

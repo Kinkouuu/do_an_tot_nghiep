@@ -86,6 +86,7 @@ Route::prefix('admin')->name('admin.')->group(function ()
                Route::get('create', [RoomTypeController::class, 'create'])->name('create');
                Route::post('create', [RoomTypeController::class, 'store']);
                Route::get('{typeRoom}/edit', [RoomTypeController::class, 'edit'])->name('edit');
+               Route::post('{typeRoom}/edit', [RoomTypeController::class, 'update'])->name('update');
 
                Route::get('images/{code}', [RoomTypeController::class, 'getImages'])->name('images');
                Route::post('images/{typeRoom}/change-thumb', [RoomTypeController::class, 'changeThumbNail'])->name('images.thumb');

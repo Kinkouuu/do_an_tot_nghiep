@@ -99,13 +99,15 @@ class RoomTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @param RoomTypeRequest $request
+     * @param TypeRoom $typeRoom
+     * @return RedirectResponse
      */
-    public function update(Request $request, TypeRoom $typeRoom)
+    public function update(RoomTypeRequest $request, TypeRoom $typeRoom)
     {
-        //
+        $response = $this->roomTypeService->updateRoomType($request->all(), $typeRoom);
+
+        return $this->showAlertAndRedirect($response);
     }
 
     /**
