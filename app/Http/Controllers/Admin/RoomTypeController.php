@@ -83,12 +83,17 @@ class RoomTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param TypeRoom $typeRoom
+     * @return Application|Factory|\Illuminate\View\View|View
      */
-    public function edit($id)
+    public function edit(TypeRoom $typeRoom)
     {
-        //
+        $prices = $this->roomTypeService->getRoomPrices($typeRoom);
+        return view('admin.pages.room-types.edit', [
+            'title' => 'Cập nhật thông tin loại phòng',
+            'type_room' => $typeRoom,
+            'prices' => $prices,
+        ]);
     }
 
     /**
@@ -192,11 +197,37 @@ class RoomTypeController extends Controller
         $typeRoom = $this->roomTypeService->getById($typeRoomID);
         $activeTypeServices = $this->serviceService->getActiveTypeServices();
         $services = $this->roomTypeService->getListServices($typeRoom, $activeTypeServices);
-//dd($services);
         return view('admin.pages.room-types.services', [
             'title' => 'Cập nhật dịch vụ của loại phòng ',
             'type_room' => $typeRoom,
             'services' => $services,
         ]);
     }
+
+    /**
+     * Thêm dịch vụ mới vào danh sách dịch vụ sẵn có của loại phòng
+     * @param Request $request
+     * @param TypeRoom $typeRoom
+     * @return RedirectResponse
+     */
+    public function addServices(Request $request, TypeRoom $typeRoom)
+    {
+        $response = $this->roomTypeService->storeRoomService($request->get('add_services'), $typeRoom);
+
+        return $this->showAlertAndRedirect($response);
+    }
+
+    /**
+     * Xóa dịch vụ có sẵn
+     * @param Request $request
+     * @param TypeRoom $typeRoom
+     * @return RedirectResponse
+     */
+    public function removeServices(Request $request, TypeRoom $typeRoom)
+    {
+        $response = $this->roomTypeService->deleteRoomService($request->get('remove_services'), $typeRoom);
+
+        return $this->showAlertAndRedirect($response);
+    }
+
 }

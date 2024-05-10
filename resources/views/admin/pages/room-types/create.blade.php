@@ -37,7 +37,7 @@
                 </div>
                 <input type="number" min="0" class="form-control w-auto" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-sm"
-                       name="price[{{ $priceType['value'] }}]" value="{{ old("price[" .  $priceType['value'] . "]") }}">
+                       name="price[{{ $priceType['value'] }}]" value="{{ old("price." .  $priceType['value']) }}">
                 <span class="input-group-text w-10" id="inputGroup-sizing-sm">VND/{{ $priceType['type'] }}</span>
             </div>
         @endforeach

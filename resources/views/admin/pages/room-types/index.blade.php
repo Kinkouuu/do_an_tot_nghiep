@@ -47,7 +47,7 @@
                 @endforeach
                 <td class="text-capitalize">{{ $roomType['status'] ? 'Đang hoạt động' : 'Đang tạm dừng'}}</td>
                 <td>
-                    <a type="button" class="btn btn-primary mb-1" href="">
+                    <a type="button" class="btn btn-primary mb-1" href="{{ route('admin.room-type.edit', ['typeRoom' => $roomType['id']]) }}">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                     <a type="button" class="btn btn-success mb-1" href="{{ route('admin.room-type.images', ['code' =>  $roomType['id']]) }}">

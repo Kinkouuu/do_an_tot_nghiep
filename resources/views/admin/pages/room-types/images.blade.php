@@ -1,7 +1,31 @@
 @extends('admin.layouts.main')
 
 @section('content')
-    <h1 class="text-center p-3">{{$title}} <strong class="text-secondary">[ {{ $type_room['name'] }} ]</strong></h1>
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="d-flex justify-content-between mt-3 mb-5">
+                    <div class="col-2 my-auto text-center">
+                        <a class="btn btn-outline-success" href="{{ route('admin.room-type.services', ['code' =>  $type_room['id']]) }}">
+                            <i class="fa-solid fa-cart-flatbed-suitcase"></i>
+                            Chi tiết dịch vụ
+                        </a>
+                    </div>
+
+                    <h1 class="col-8 my-auto text-center">{{$title}}
+                        <br>
+                        <strong class="text-secondary text-uppercase">[ {{ $type_room['name'] }} ]</strong>
+                    </h1>
+                    <div class="col-2 my-auto text-center">
+                        <a class="btn btn-outline-success" href="{{ route('admin.room-type.edit', ['typeRoom' => $type_room['id']]) }}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Thông tin chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @error('fileUpload')
         <div class="error mt-3">{{ $message }}</div>
     @enderror

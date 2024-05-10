@@ -28,10 +28,9 @@ class RoomTypeService extends BaseService
         $data = [];
         $roomTypes = $this->all();
         $priceTypes = PriceType::getRoomPriceType();
-        foreach ($roomTypes as $roomType)
-        {
-            $prices =[];
-            foreach ($priceTypes as $key=>$priceType) //giá phòng theo từng loại
+        foreach ($roomTypes as $roomType) {
+            $prices = [];
+            foreach ($priceTypes as $key => $priceType) //giá phòng theo từng loại
             {
                 $prices[$key] = $roomType?->roomPrices[$key]?->price ?? 0;
             }
@@ -47,17 +46,15 @@ class RoomTypeService extends BaseService
 
         $result = collect($data);
 
-        if(isset($request['search']))
-        {
+        if (isset($request['search'])) {
             $searchTerm = $request['search'];
             $result = $result->filter(function ($item) use ($searchTerm) {
                 return str_contains($item['name'], $searchTerm);
             });
         }
 
-        if(isset($request['by']) && isset($request['sort']))
-        {
-            $result = $result->sortBy($request['by'],null, $request['sort']);
+        if (isset($request['by']) && isset($request['sort'])) {
+            $result = $result->sortBy($request['by'], null, $request['sort']);
         }
 
         return $result;
@@ -80,7 +77,7 @@ class RoomTypeService extends BaseService
             foreach ($data['price'] as $key => $price) {
                 RoomPrice::create([
                     'type_room_id' => $typeRoom->id,
-                    'type' => $key,
+                    'type_price' => (string) $key,
                     'price' => $price
                 ]);
             }
@@ -107,12 +104,38 @@ class RoomTypeService extends BaseService
     {
         $typeRoom = $this->find($typeRoomID);
 
-        if(!$typeRoom)
-        {
+        if (!$typeRoom) {
             abort(404);
         }
 
         return $typeRoom;
+    }
+
+    /**
+     * Lấy các loại giá niêm yết của loại phòng
+     * @param TypeRoom $typeRoom
+     * @return array
+     */
+    public function getRoomPrices(TypeRoom $typeRoom): array
+    {
+        $roomPrices = [];
+        foreach (PriceType::asArray() as $key=>$priceType) {
+            //Khởi tạo giá trị cho từng loại giá
+            $roomPrices[$key] = [
+                'id' => $priceType['value'],
+                'type' => $priceType['type'],
+                'name' => $priceType['text'],
+                'price' => 0,
+            ];
+            foreach ($typeRoom->roomPrices as $roomPrice) {
+                if($priceType['value'] == $roomPrice->type_price) {
+                    //Cập nhật lại giá cho loại giá tương ứng
+                    $roomPrices[$key]['price'] = $roomPrice->price;
+                    break;
+                }
+            }
+        }
+        return $roomPrices;
     }
 
     /**
@@ -121,7 +144,7 @@ class RoomTypeService extends BaseService
      */
     public function getThumbNailImage(TypeRoom $typeRoom): mixed
     {
-       return $typeRoom->roomImages->filter(function ($item) {
+        return $typeRoom->roomImages->filter(function ($item) {
             return ($item['type'] == ImageType::ThumbNail);
         })->first();
     }
@@ -143,13 +166,12 @@ class RoomTypeService extends BaseService
      * @param int|string|null $imageType
      * @return array
      */
-    public function storeImages($files, TypeRoom $typeRoom , ?string $imageType = ImageType::ThumbNail): array
+    public function storeImages($files, TypeRoom $typeRoom, ?string $imageType = ImageType::ThumbNail): array
     {
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $ext = $file->extension();
-            $file_name = $typeRoom->name . '-' . time()  . '.' .$ext;
-            $file->move('storage/images/room_type',$file_name);
+            $file_name = $typeRoom->name . '-' . time() . '.' . $ext;
+            $file->move('storage/images/room_type', $file_name);
 
             RoomImage::create([
                 'type_room_id' => $typeRoom->id,
@@ -185,10 +207,9 @@ class RoomTypeService extends BaseService
         $servicesProvide = [];
         $serviceIds = [];
         //Lấy các dịch vụ phòng đang có
-        foreach ($typeRoom->roomServices as $roomService)
-        {
+        foreach ($typeRoom->roomServices as $roomService) {
             $providedTypeService = $roomService->typeService; //Lấy thông tin loại dịch vụ
-            if(!isset($servicesProvide[$providedTypeService->id])) { //Lưu thông tin loại dịch vụ nếu chưa có trong ds
+            if (!isset($servicesProvide[$providedTypeService->id])) { //Lưu thông tin loại dịch vụ nếu chưa có trong ds
                 $servicesProvide[$providedTypeService->id] = [
                     'type_service_id' => $providedTypeService->id,
                     'type_service_icon' => $providedTypeService->icon,
@@ -208,24 +229,23 @@ class RoomTypeService extends BaseService
         }
 
         // Lấy các dịch vụ đang được cung cấp group theo loại dịch vụ
-        foreach ($typeServices as $key=>$typeService)
-        {
+        foreach ($typeServices as $key => $typeService) {
             $servicesUnProvide[] = [
                 'type_service_id' => $typeService->id,
                 'type_service_icon' => $typeService->icon,
                 'type_service_name' => $typeService->name,
             ];
-           foreach($typeService->services as $service) {
-               //Thêm vào danh sách các dịch vụ phòng chưa có
-               if(!in_array($service->id, $serviceIds)) {
-                   $servicesUnProvide[$key]['services'][] = [
-                       'id' => $service->id,
-                       'name' => $service->name,
-                       'price' => $service->price,
-                       'status' => $service->status,
-                   ];
-               }
-           }
+            foreach ($typeService->services as $service) {
+                //Thêm vào danh sách các dịch vụ phòng chưa có
+                if (!in_array($service->id, $serviceIds)) {
+                    $servicesUnProvide[$key]['services'][] = [
+                        'id' => $service->id,
+                        'name' => $service->name,
+                        'price' => $service->price,
+                        'status' => $service->status,
+                    ];
+                }
+            }
         }
 
         return [
@@ -233,4 +253,44 @@ class RoomTypeService extends BaseService
             'un_provided_service' => $servicesUnProvide,
         ];
     }
+
+    /**
+     * Lưu dịch vụ mới vào pivot table
+     * @param array $newServices
+     * @param TypeRoom $typeRoom
+     * @return array
+     */
+    public function storeRoomService(array $newServices, TypeRoom $typeRoom): array
+    {
+        foreach ($newServices as $item) {
+            // Check xem phòng đã có dịch vụ chưa
+            if (!$typeRoom->roomServices->contains('id', $item)) {
+                //Nếu chưa thì thêm vào, mặc định là miễn phí
+                $typeRoom->roomServices()->attach([$item], ['discount' => 100]);
+            }
+        }
+        $roomThumbNail = $this->getThumbNailImage($typeRoom);
+        // Nếu chưa có ảnh thumbnail thì show pop up chuyển hướng
+        if (!$roomThumbNail) {
+            return $this->questionResponse(
+                'admin.room-type.images',
+                $typeRoom->id,
+                'Thêm dịch vụ thành công', 'Tiếp tục cập nhật ảnh phòng');
+        } else {
+            return $this->successResponse('Thêm dịch vụ thành công');
+        }
+    }
+
+    public function deleteRoomService(array $removeServices, TypeRoom $typeRoom)
+    {
+        foreach ($removeServices as $item) {
+            // Check xem phòng đang có dịch vụ đó ko
+            if ($typeRoom->roomServices->contains('id', $item)) {
+                //Nếu có thì xóa
+                $typeRoom->roomServices()->detach([$item]);
+            }
+            return $this->successResponse('Xóa dịch vụ thành công');
+        }
+    }
+
 }

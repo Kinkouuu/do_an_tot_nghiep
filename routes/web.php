@@ -85,11 +85,16 @@ Route::prefix('admin')->name('admin.')->group(function ()
            Route::prefix('room-type')->name('room-type.')->group(function () {
                Route::get('create', [RoomTypeController::class, 'create'])->name('create');
                Route::post('create', [RoomTypeController::class, 'store']);
+               Route::get('{typeRoom}/edit', [RoomTypeController::class, 'edit'])->name('edit');
+
                Route::get('images/{code}', [RoomTypeController::class, 'getImages'])->name('images');
-               Route::post('images/change-thumb/{typeRoom}', [RoomTypeController::class, 'changeThumbNail'])->name('images.thumb');
+               Route::post('images/{typeRoom}/change-thumb', [RoomTypeController::class, 'changeThumbNail'])->name('images.thumb');
                Route::delete('images/{roomImage}', [RoomTypeController::class, 'deleteImage'])->name('images.delete');
-               Route::post('images/change-detail/{typeRoom}', [RoomTypeController::class, 'changeDetail'])->name('images.detail');
-               Route::get('service/{code}', [RoomTypeController::class, 'getServices'])->name('services');
+               Route::post('images/{typeRoom}/change-detail', [RoomTypeController::class, 'changeDetail'])->name('images.detail');
+               Route::get('services/{code}', [RoomTypeController::class, 'getServices'])->name('services');
+               Route::post('services/{typeRoom}/add', [RoomTypeController::class, 'addServices'])->name('services.add');
+               Route::post('services/{typeRoom}/remove', [RoomTypeController::class, 'removeServices'])->name('services.remove');
+               Route::post('services/{typeRoom}', [RoomTypeController::class, 'addServices'])->name('services.add');
            });
        });
    });
