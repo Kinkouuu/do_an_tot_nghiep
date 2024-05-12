@@ -52,51 +52,58 @@ Route::middleware(['forgotPassword'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/personal-information', [CustomerController::class,'getUserInfo'])->name('get-user-info');
-    Route::post('/personal-information', [CustomerController::class,'updateUserInfo'])->name('update-user-info');
+    Route::get('/personal-information', [CustomerController::class, 'getUserInfo'])->name('get-user-info');
+    Route::post('/personal-information', [CustomerController::class, 'updateUserInfo'])->name('update-user-info');
 });
 
-Route::prefix('admin')->name('admin.')->group(function ()
-{
+Route::prefix('admin')->name('admin.')->group(function () {
     //Admin authentication
-    Route::get('/login', [AdminController::class,'login'])->name('login');
-    Route::post('/login', [AdminController::class,'signin']);
-    Route::get('/logout', [AdminController::class,'logout'])->name('logout');
+    Route::get('/login', [AdminController::class, 'login'])->name('login');
+    Route::post('/login', [AdminController::class, 'signin']);
+    Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
+    /*Middleware STAFF*/
+    Route::middleware('staffs')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
-   Route::middleware('staffs')->group(function () {
-       Route::get('/', [AdminController::class,'index'])->name('dashboard');
+        //Customer manager
+        Route::resource('customers', AdminCustomerController::class);
+        //User manager
+        Route::resource('users', AdminUserController::class);
+        //Device Manager
+        Route::resource('devices', DeviceController::class);
+        //GET room type
+        Route::get('room-type', [RoomTypeController::class, 'index'])->name('room-type.index');
+        Route::get('room-type/images/{code}', [RoomTypeController::class, 'getImages'])->name('room-type.images');
+        Route::get('room-type/services/{code}', [RoomTypeController::class, 'getServices'])->name('room-type.services');
 
-       //Customer manager
-       Route::resource('customers', AdminCustomerController::class);
-       //User manager
-       Route::resource('users', AdminUserController::class);
-       //Device Manager
-       Route::resource('devices', DeviceController::class);
-       //GET room type
-       Route::get('room-type', [RoomTypeController::class, 'index'])->name('room-type.index');
+        /*Middleware MANAGER*/
+        Route::middleware('manager')->group(function () {
+            //Room type manager
+            Route::prefix('room-type')->name('room-type.')->group(function () {
+                Route::post('images/{typeRoom}/change-thumb', [RoomTypeController::class, 'changeThumbNail'])->name('images.thumb');
+                Route::delete('images/{roomImage}', [RoomTypeController::class, 'deleteImage'])->name('images.delete');
+                Route::post('images/{typeRoom}/change-detail', [RoomTypeController::class, 'changeDetail'])->name('images.detail');
+                Route::post('services/{typeRoom}/add', [RoomTypeController::class, 'addServices'])->name('services.add');
+                Route::post('services/{typeRoom}/remove', [RoomTypeController::class, 'removeServices'])->name('services.remove');
+                Route::post('services/{typeRoom}', [RoomTypeController::class, 'addServices'])->name('services.add');
+            });
+        });
 
-       Route::middleware('admin')->group(function () {
-           //Staff Manager
-           Route::resource('staffs', StaffController::class);
-           Route::post('staffs/reset-password/{staff}', [StaffController::class, 'resetPassword'])->name('staffs.reset-password');
-           //Service Manager
-           Route::resource('services', ServiceController::class);
-           //Room Type Manager
-           Route::prefix('room-type')->name('room-type.')->group(function () {
-               Route::get('create', [RoomTypeController::class, 'create'])->name('create');
-               Route::post('create', [RoomTypeController::class, 'store']);
-               Route::get('{typeRoom}/edit', [RoomTypeController::class, 'edit'])->name('edit');
-               Route::post('{typeRoom}/edit', [RoomTypeController::class, 'update'])->name('update');
+        /*Middleware ADMIN*/
+        Route::middleware('admin')->group(function () {
+            //Staff Manager
+            Route::resource('staffs', StaffController::class);
+            Route::post('staffs/reset-password/{staff}', [StaffController::class, 'resetPassword'])->name('staffs.reset-password');
+            //Service Manager
+            Route::resource('services', ServiceController::class);
+            //Room Type Manager
+            Route::prefix('room-type')->name('room-type.')->group(function () {
+                Route::get('create', [RoomTypeController::class, 'create'])->name('create');
+                Route::post('create', [RoomTypeController::class, 'store']);
+                Route::get('{typeRoom}/edit', [RoomTypeController::class, 'edit'])->name('edit');
+                Route::post('{typeRoom}/edit', [RoomTypeController::class, 'update'])->name('update');
+            });
+        });
 
-               Route::get('images/{code}', [RoomTypeController::class, 'getImages'])->name('images');
-               Route::post('images/{typeRoom}/change-thumb', [RoomTypeController::class, 'changeThumbNail'])->name('images.thumb');
-               Route::delete('images/{roomImage}', [RoomTypeController::class, 'deleteImage'])->name('images.delete');
-               Route::post('images/{typeRoom}/change-detail', [RoomTypeController::class, 'changeDetail'])->name('images.detail');
-               Route::get('services/{code}', [RoomTypeController::class, 'getServices'])->name('services');
-               Route::post('services/{typeRoom}/add', [RoomTypeController::class, 'addServices'])->name('services.add');
-               Route::post('services/{typeRoom}/remove', [RoomTypeController::class, 'removeServices'])->name('services.remove');
-               Route::post('services/{typeRoom}', [RoomTypeController::class, 'addServices'])->name('services.add');
-           });
-       });
-   });
+    });
 });

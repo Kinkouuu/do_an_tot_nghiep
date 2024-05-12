@@ -96,13 +96,20 @@ class RoomTypeService extends BaseService
         }
     }
 
-    public function updateRoomType(array $data, TypeRoom $typeRoom)
+    /**
+     * Update room type information & price
+     * @param array $data
+     * @param TypeRoom $typeRoom
+     * @return array
+     */
+    public function updateRoomType(array $data, TypeRoom $typeRoom): array
     {
         DB::beginTransaction();
         try {
             $typeRoom->update([
                 'name' => $data['name'],
-                'description' => $data['description']
+                'description' => $data['description'],
+                'status' => $data['status'],
             ]);
 
             foreach ($data['price'] as $key => $price) {

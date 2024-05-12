@@ -36,6 +36,22 @@
                         <input type="text" class="form-control w-75" aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-sm" name="name" value="{{ $type_room->name }}">
                     </div>
+                    <div class="w-100 input-group input-group-sm mb-3">
+                        <div class="w-25 input-group-prepend">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm">Trạng thái</span>
+                        </div>
+                        <select class="form-select" name="status">
+                            @foreach(\App\Enums\Service\ServiceStatus::asArray() as $status)
+                                <option {{ $type_room->status == $status ? 'selected' : '' }} value={{ $status }}>
+                                    {{  match ($status) {
+                                            \App\Enums\Service\ServiceStatus::DeActive => 'Dừng hoạt động',
+                                             \App\Enums\Service\ServiceStatus::Active => 'Đang kích hoạt',
+                                        }
+                                    }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     @error('description')
                     <div class="error">{{ $message }}</div>

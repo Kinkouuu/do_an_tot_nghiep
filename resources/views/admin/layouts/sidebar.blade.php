@@ -1,17 +1,17 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Branch Logo -->
-    <a href="{{ route('admin.dashboard') }}" class="brand-link">
-        <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Kinkou Management</span>
+    <a href="{{ route('admin.dashboard') }}" class="brand-link bg-gradient-secondary text-center">
+        <img src="{{ asset('images/logo.png') }}" alt="AdminLTE Logo"
+              style="opacity: .8">
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="text-center mt-3">
-            <p class="text-secondary text-capitalize">{{ auth()->guard('admins')->user()->name }}</p>
+        <div class=" brand-link">
+            <img src="{{asset('dist/img/AdminLTELogo.png')}}"  class="brand-image img-circle elevation-3">
+            <span class="brand-text font-weight-light text-capitalize">{{ auth()->guard('admins')->user()->name }}</span>
         </div>
 
         <!-- Sidebar Menu -->
@@ -59,19 +59,19 @@
                                 <p>Tài khoản người dùng</p>
                             </a>
                         </li>
-                        @if (Auth::guard('admins')->user()->role == \App\Enums\RoleAccount::Admin )
+                        @isAdmin
                             <li class="nav-item">
                                 <a href="{{ route('admin.staffs.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Tài khoản nhân viên</p>
                                 </a>
                             </li>
-                        @endif
+                        @endisAdmin
                     </ul>
                 </li>
 
                 {{--Services--}}
-                @if (Auth::guard('admins')->user()->role == \App\Enums\RoleAccount::Admin )
+                @isAdmin
                 <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-bell-concierge"></i>
@@ -95,7 +95,7 @@
                             </li>
                     </ul>
                 </li>
-                @endif
+                @endisAdmin
                 <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-house-laptop"></i>
@@ -134,12 +134,14 @@
                                 <p>Danh sách loại phòng</p>
                             </a>
                         </li>
+                        @isAdmin
                         <li class="nav-item">
                             <a href="{{ route('admin.room-type.create') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm loại phòng mới</p>
                             </a>
                         </li>
+                        @endisAdmin
                     </ul>
                 </li>
             </ul>

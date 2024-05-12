@@ -94,11 +94,20 @@
                                             {{ number_format($service['price']) }} VND/người/vé
                                         </div>
                                         <div class="col-md-3 px-0 d-flex align-items-center">
-                                            @livewire('room-service.change-discount', [
+                                            @isManager
+                                                @livewire('room-service.change-discount', [
                                                 'roomType' => $type_room,
                                                 'service' => $service,
                                                 'discount' => $service['discount']
-                                            ])
+                                                ])
+                                            @else
+                                                <div class="w-100">
+                                                    <div class="d-flex">
+                                                        Giảm: {{ $service['discount'] }}%/vé
+                                                    </div>
+                                                </div>
+
+                                                @endisManager
                                         </div>
                                     </div>
                                 @endforeach
