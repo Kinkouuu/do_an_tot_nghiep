@@ -45,6 +45,20 @@
             </select>
         </div>
 
+        <div class="w-100 input-group input-group-sm mb-3">
+            <div class="w-25 input-group-prepend">
+                <span class="input-group-text w-100" id="inputGroup-sizing-sm">Chi nhánh</span>
+            </div>
+            <select class="selectpicker w-75" name="branch_id" data-live-search="true" data-style="bg-white border border-left-0">
+                <option value=""></option>
+                @foreach($branches as $branch)
+                    <option {{ old('branch_id') == $branch->id ? 'selected' : '' }} value={{ $branch->id }}>
+                        {{ $branch->name . ' - ' . $branch->city }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
         @error('name')
         <div class="error">{{ $message }}</div>
         @enderror

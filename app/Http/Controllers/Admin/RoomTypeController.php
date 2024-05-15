@@ -17,6 +17,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class RoomTypeController extends Controller
 {
@@ -214,6 +215,16 @@ class RoomTypeController extends Controller
      */
     public function addServices(Request $request, TypeRoom $typeRoom)
     {
+        $validator = Validator::make($request->all(), [
+            'add_services' => 'required'
+        ]);
+
+        if($validator->fails()) {
+            return $this->showAlertAndRedirect([
+                'status' => ResponseStatus::Error,
+                'title'  => 'Vui lòng chọn dịch vụ muốn thêm'
+            ]);
+        }
         $response = $this->roomTypeService->storeRoomService($request->get('add_services'), $typeRoom);
 
         return $this->showAlertAndRedirect($response);
@@ -227,6 +238,16 @@ class RoomTypeController extends Controller
      */
     public function removeServices(Request $request, TypeRoom $typeRoom)
     {
+        $validator = Validator::make($request->all(), [
+            'remove_services' => 'required'
+        ]);
+
+        if($validator->fails()) {
+            return $this->showAlertAndRedirect([
+                'status' => ResponseStatus::Error,
+                'title'  => 'Vui lòng chọn dịch vụ muốn xóa'
+            ]);
+        }
         $response = $this->roomTypeService->deleteRoomService($request->get('remove_services'), $typeRoom);
 
         return $this->showAlertAndRedirect($response);

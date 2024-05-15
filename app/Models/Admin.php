@@ -22,6 +22,7 @@ class Admin extends Authenticatable
         'phone',
         'citizen_id',
         'gender',
+        'branch_id'
     ];
 
     public static function getColumnsFilter(): array
@@ -33,6 +34,12 @@ class Admin extends Authenticatable
             'email',
             'phone',
             'citizen_id',
+            'branch_id',
         ];
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }

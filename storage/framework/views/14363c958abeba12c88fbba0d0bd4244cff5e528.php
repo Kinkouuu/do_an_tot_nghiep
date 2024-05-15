@@ -1,17 +1,17 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Branch Logo -->
-    <a href="<?php echo e(route('admin.dashboard')); ?>" class="brand-link">
-        <img src="<?php echo e(asset('dist/img/AdminLTELogo.png')); ?>" alt="AdminLTE Logo"
-             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Kinkou Management</span>
+    <a href="<?php echo e(route('admin.dashboard')); ?>" class="brand-link bg-gradient-secondary text-center">
+        <img src="<?php echo e(asset('images/logo.png')); ?>" alt="AdminLTE Logo"
+              style="opacity: .8">
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="text-center mt-3">
-            <p class="text-secondary text-capitalize"><?php echo e(auth()->guard('admins')->user()->name); ?></p>
+        <div class=" brand-link">
+            <img src="<?php echo e(asset('dist/img/AdminLTELogo.png')); ?>"  class="brand-image img-circle elevation-3">
+            <span class="brand-text font-weight-light text-capitalize"><?php echo e(auth()->guard('admins')->user()->name); ?></span>
         </div>
 
         <!-- Sidebar Menu -->
@@ -59,7 +59,7 @@
                                 <p>Tài khoản người dùng</p>
                             </a>
                         </li>
-                        <?php if(Auth::guard('admins')->user()->role == \App\Enums\RoleAccount::Admin ): ?>
+                        <?php if (\Illuminate\Support\Facades\Blade::check('isAdmin')): ?>
                             <li class="nav-item">
                                 <a href="<?php echo e(route('admin.staffs.index')); ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -71,7 +71,7 @@
                 </li>
 
                 
-                <?php if(Auth::guard('admins')->user()->role == \App\Enums\RoleAccount::Admin ): ?>
+                <?php if (\Illuminate\Support\Facades\Blade::check('isAdmin')): ?>
                 <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-bell-concierge"></i>
@@ -134,12 +134,28 @@
                                 <p>Danh sách loại phòng</p>
                             </a>
                         </li>
+                        <?php if (\Illuminate\Support\Facades\Blade::check('isAdmin')): ?>
                         <li class="nav-item">
                             <a href="<?php echo e(route('admin.room-type.create')); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm loại phòng mới</p>
                             </a>
                         </li>
+                        <?php endif; ?>
+                        <li class="nav-item">
+                            <a href="<?php echo e(route('admin.room.index')); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách phòng</p>
+                            </a>
+                        </li>
+                        <?php if (\Illuminate\Support\Facades\Blade::check('isManager')): ?>
+                        <li class="nav-item">
+                            <a href="<?php echo e(route('admin.room.create')); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm phòng mới</p>
+                            </a>
+                        </li>
+                        <?php endif; ?>
                     </ul>
                 </li>
             </ul>

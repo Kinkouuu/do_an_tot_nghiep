@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
-use App\Enums\FilterType;
 use App\Enums\ResponseStatus;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request;
 
 abstract class BaseService
 {
@@ -57,7 +59,7 @@ abstract class BaseService
     }
 
     /**
-     * Filter list
+     * Lọc & tìm kiếm & phân trang từ query DB
      * @param array $request
      * @return mixed
      */
@@ -74,16 +76,59 @@ abstract class BaseService
         if(isset($request['search'])) {
             foreach ($searchColumns as $column)
             {
-                $query->orWhere($column, 'like', '%' . $request['search'] .'%');
+                $query->orWhere($column, 'like', '%' . $request['search'] . '%');
             }
         }
         return $query->paginate(15);
     }
 
     /**
+     * Lọc & tìm kiếm & phân trang dựa trên dữ liệu truyền vào
+     * @param array|null $request
+     * @param Collection $data
+     * @return LengthAwarePaginator
+     */
+    public function search(?array $request, Collection $data): LengthAwarePaginator
+    {
+        $searchColumns = $this->model->getColumnsFilter();
+        // Tìm kiếm
+        if (isset($request['search'])) {
+            $searchTerm = $request['search'];
+            $data = $data->filter(function ($item) use ($searchColumns, $searchTerm) {
+                foreach ($searchColumns as $value) {
+                    if (stristr($item[$value], $searchTerm)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+        //Sắp xếp theo bộ lọc
+        if (isset($request['by']) && isset($request['sort'])) {
+            $data = $data->sortBy($request['by'], null, $request['sort']);
+        }
+        // Lọc theo trạng thái
+        if(isset($request['status'])) {
+            $status = $request['status'];
+            $data = $data->filter(function ($item) use ($status) {
+                return in_array($item['status'] , $status);
+            });
+        }
+        //Phân trang dữ liệu
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $paginatedData = $data->slice(($currentPage - 1) * config('constants.item_per_page'), config('constants.item_per_page'))->all();
+        $paginatedCollection = new LengthAwarePaginator($paginatedData, count($data), config('constants.item_per_page'), $currentPage);
+
+        $paginatedCollection->withPath(Request::url());
+
+        return $paginatedCollection;
+    }
+
+    /**
      * render success response
      * @param string|null $title
      * @param string|null $message
+     * @param string|null $nextUrl
      * @return array
      */
     public function successResponse(?string $title = null, ?string $message = null, ?string $nextUrl = null): array

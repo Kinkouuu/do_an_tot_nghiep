@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Enums\Room\ImageType;
 use App\Enums\Room\PriceType;
+use App\Enums\Room\RoomTypeStatus;
 use App\Models\RoomImage;
 use App\Models\RoomPrice;
 use App\Models\TypeRoom;
@@ -19,6 +20,15 @@ class RoomTypeService extends BaseService
         return TypeRoom::class;
     }
 
+    /**
+     * lấy danh sách các loại phòng đang hoạt động
+
+     * @return mixed
+     */
+    public function getActiveRoomType(): mixed
+    {
+        return TypeRoom::where('status', RoomTypeStatus::Active)->orderBy('name', 'ASC')->get();
+    }
     /**
      * @param array|null $request
      * @return Collection
@@ -49,7 +59,7 @@ class RoomTypeService extends BaseService
         if (isset($request['search'])) {
             $searchTerm = $request['search'];
             $result = $result->filter(function ($item) use ($searchTerm) {
-                return str_contains($item['name'], $searchTerm);
+                return stristr($item['name'], $searchTerm);
             });
         }
 

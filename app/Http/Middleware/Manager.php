@@ -18,7 +18,11 @@ class Manager
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admins')->user()->role == RoleAccount::Manager) {
+        if (
+            Auth::guard('admins')->user()->role == RoleAccount::Manager
+            ||
+            Auth::guard('admins')->user()->role == RoleAccount::Admin
+        ) {
             return $next($request);
         } else {
             abort(403, 'Unauthorized');

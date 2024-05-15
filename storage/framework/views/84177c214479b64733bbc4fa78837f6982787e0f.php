@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
     <div class="container-fluid d-flex py-3 col-md-12">
         <div class="col-md-3 d-flex align-items-center">
@@ -15,6 +13,7 @@
                     <option value="phone" <?php echo e((request()->input('by') == 'phone') ? 'selected' : ''); ?>>SDT</option>
                     <option value="status" <?php echo e((request()->input('by') == 'status') ? 'selected' : ''); ?>>Trạng Thái</option>
                     <option value="role" <?php echo e((request()->input('by') == 'role') ? 'selected' : ''); ?>>Chức vụ</option>
+                    <option value="branch_id" <?php echo e((request()->input('by') == 'branch_id') ? 'selected' : ''); ?>>Chi nhánh</option>
                 </select>
                 <select class="form-control w-25" name="sort">
                     <option value="DESC" <?php echo e((request()->input('sort') == 'DESC') ? 'selected' : ''); ?>> Giảm dần</option>
@@ -70,6 +69,7 @@
             <th scope="col">Giới tính</th>
             <th scope="col">Trạng thái tài khoản</th>
             <th scope="col">Chức vụ</th>
+            <th scope="col">Chi nhánh</th>
             <th>
                 <a type="button" class="btn btn-success" href="<?php echo e(route('admin.staffs.create')); ?>">
                     <i class="fa-solid fa-user-plus"></i>
@@ -93,20 +93,21 @@
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('status.change-status', ['item' => $staff])->html();
-} elseif ($_instance->childHasBeenRendered('tEer21f')) {
-    $componentId = $_instance->getRenderedChildComponentId('tEer21f');
-    $componentTag = $_instance->getRenderedChildComponentTagName('tEer21f');
+} elseif ($_instance->childHasBeenRendered('J6mWXCD')) {
+    $componentId = $_instance->getRenderedChildComponentId('J6mWXCD');
+    $componentTag = $_instance->getRenderedChildComponentTagName('J6mWXCD');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('tEer21f');
+    $_instance->preserveRenderedChild('J6mWXCD');
 } else {
     $response = \Livewire\Livewire::mount('status.change-status', ['item' => $staff]);
     $html = $response->html();
-    $_instance->logRenderedChild('tEer21f', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('J6mWXCD', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
                 </td>
                 <td class="text-capitalize"><?php echo e($staff->role); ?></td>
+                <td class="text-capitalize"><?php echo e($staff->branch?->name . ' - ' . $staff->branch?->city); ?></td>
 
                 <td>
                     <a type="button" class="btn btn-primary mb-1" href="<?php echo e(route('admin.staffs.edit', $staff)); ?>">

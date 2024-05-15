@@ -57,6 +57,22 @@ unset($__errorArgs, $__bag); ?>
             </select>
         </div>
 
+        <div class="w-100 input-group input-group-sm mb-3">
+            <div class="w-25 input-group-prepend">
+                <span class="input-group-text w-100" id="inputGroup-sizing-sm">Chi nhánh</span>
+            </div>
+            <select class="selectpicker w-75" name="branch_id" data-live-search="true" data-style="bg-white border border-left-0">
+                <option value="">
+                </option>
+                <?php $__currentLoopData = $branches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option <?php echo e(old('branch_id') == $branch->id ? 'selected' : ''); ?> value=<?php echo e($branch->id); ?>>
+                        <?php echo e($branch->name . ' - ' . $branch->city); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </select>
+        </div>
+
         <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

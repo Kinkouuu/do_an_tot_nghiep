@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Device extends Model
 {
@@ -19,17 +20,18 @@ class Device extends Model
         'for_rent',
     ];
 
-    public function typeDevice()
+    public function typeDevice(): BelongsTo
     {
         return $this->belongsTo(TypeDevice::class);
     }
 
-    public static function getColumnsFilter()
+    public static function getColumnsFilter(): array
     {
         return [
             'name',
             'rental_price',
             'brand',
+            'type_device',
         ];
     }
 }

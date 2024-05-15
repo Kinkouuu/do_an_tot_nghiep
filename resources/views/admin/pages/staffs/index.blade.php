@@ -15,6 +15,7 @@
                     <option value="phone" {{ (request()->input('by') == 'phone') ? 'selected' : '' }}>SDT</option>
                     <option value="status" {{ (request()->input('by') == 'status') ? 'selected' : '' }}>Trạng Thái</option>
                     <option value="role" {{ (request()->input('by') == 'role') ? 'selected' : '' }}>Chức vụ</option>
+                    <option value="branch_id" {{ (request()->input('by') == 'branch_id') ? 'selected' : '' }}>Chi nhánh</option>
                 </select>
                 <select class="form-control w-25" name="sort">
                     <option value="DESC" {{ (request()->input('sort') == 'DESC') ? 'selected' : '' }}> Giảm dần</option>
@@ -70,6 +71,7 @@
             <th scope="col">Giới tính</th>
             <th scope="col">Trạng thái tài khoản</th>
             <th scope="col">Chức vụ</th>
+            <th scope="col">Chi nhánh</th>
             <th>
                 <a type="button" class="btn btn-success" href="{{ route('admin.staffs.create') }}">
                     <i class="fa-solid fa-user-plus"></i>
@@ -93,6 +95,7 @@
                     @livewire('status.change-status', ['item' => $staff])
                 </td>
                 <td class="text-capitalize">{{ $staff->role }}</td>
+                <td class="text-capitalize">{{ $staff->branch?->name . ' - ' . $staff->branch?->city  }}</td>
 
                 <td>
                     <a type="button" class="btn btn-primary mb-1" href="{{ route('admin.staffs.edit', $staff) }}">

@@ -7,14 +7,15 @@
             <span class="mr-2">Sắp xếp theo: </span>
             <select class="form-control w-25" name="by">
                 <option value="id" <?php echo e((request()->input('by') == 'id') ? 'selected' : ''); ?>>ID</option>
-                <option value="type_device_id" <?php echo e((request()->input('by') == 'type_device_id') ? 'selected' : ''); ?>>Loại thiết bị</option>
+                <option value="type_device" <?php echo e((request()->input('by') == 'type_device') ? 'selected' : ''); ?>>Loại thiết bị</option>
                 <option value="name" <?php echo e((request()->input('by') == 'name') ? 'selected' : ''); ?>>Tên</option>
-                <option value="compensation_price" <?php echo e((request()->input('by') == 'compensation_price') ? 'selected' : ''); ?>>Giá</option>
+                <option value="rental_price" <?php echo e((request()->input('by') == 'rental_price') ? 'selected' : ''); ?>>Giá</option>
                 <option value="brand" <?php echo e((request()->input('by') == 'brand') ? 'selected' : ''); ?>>Nhãn hiệu</option>
+                <option value="quantity" <?php echo e((request()->input('by') == 'quantity') ? 'selected' : ''); ?>>Số lượng</option>
             </select>
             <select class="form-control w-25" name="sort">
-                <option value="ASC" <?php echo e((request()->input('sort') == 'ASC') ? 'selected' : ''); ?>>Tăng dần</option>
-                <option value="DESC" <?php echo e((request()->input('sort') == 'DESC') ? 'selected' : ''); ?>> Giảm dần</option>
+                <option value="0" <?php echo e((request()->input('sort') == '0') ? 'selected' : ''); ?>>Tăng dần</option>
+                <option value="1" <?php echo e((request()->input('sort') == '1') ? 'selected' : ''); ?>> Giảm dần</option>
             </select>
             <button type="submit" class="btn btn-info">
                 <i class="fa-solid fa-filter"></i>
@@ -30,6 +31,7 @@
             <th scope="col">Nhãn hiệu</th>
             <th scope="col">Giá cho thuê</th>
             <th scope="col">Tổng số lượng</th>
+            <th scope="col">Đang sử dụng</th>
             <th scope="col">Cho thuê thiết bị</th>
             <th>&nbsp;</th>
         </tr>
@@ -37,16 +39,17 @@
         <tbody>
         <?php $__currentLoopData = $devices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $device): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
-                <th scope="row"><?php echo e($device->id); ?></th>
-                <th class="text-capitalize"><?php echo e($device->typeDevice->name); ?></th>
-                <td class="text-capitalize"><?php echo e($device->name); ?></td>
-                <td class="text-capitalize"><?php echo e($device->brand); ?></td>
-                <td><?php echo e(number_format($device->rental_price)); ?> VND/thiết bị/ngày</td>
-                <td><?php echo e(number_format($device->quantity)); ?> thiết bị</td>
+                <th scope="row"><?php echo e($device['id']); ?></th>
+                <th class="text-capitalize"><?php echo e($device['type_device']); ?></th>
+                <td class="text-capitalize"><?php echo e($device['name']); ?></td>
+                <td class="text-capitalize"><?php echo e($device['brand']); ?></td>
+                <td><?php echo e(number_format($device['rental_price'])); ?> VND/thiết bị/ngày</td>
+                <td><?php echo e(number_format($device['quantity'])); ?> thiết bị</td>
+                <td><?php echo e(number_format($device['equipping_quantity'])); ?> thiết bị</td>
 
-                <td><?php echo e($device->for_rent ? 'Cho thuê' : 'Không cho thuê'); ?></td>
+                <td><?php echo e($device['for_rent']); ?></td>
                 <td>
-                    <a type="button" class="btn btn-primary mb-1" href="<?php echo e(route('admin.devices.edit', $device)); ?>">
+                    <a type="button" class="btn btn-primary mb-1" href="<?php echo e(route('admin.devices.edit', $device['id'])); ?>">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                 </td>

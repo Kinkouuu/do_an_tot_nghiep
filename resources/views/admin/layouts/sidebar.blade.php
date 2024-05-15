@@ -142,6 +142,20 @@
                             </a>
                         </li>
                         @endisAdmin
+                        <li class="nav-item">
+                            <a href="{{ route('admin.room.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách phòng</p>
+                            </a>
+                        </li>
+                        @isManager
+                        <li class="nav-item">
+                            <a href="{{ route('admin.room.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm phòng mới</p>
+                            </a>
+                        </li>
+                        @endisManager
                     </ul>
                 </li>
             </ul>

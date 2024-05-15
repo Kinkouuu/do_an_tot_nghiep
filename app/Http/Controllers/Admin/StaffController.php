@@ -6,6 +6,7 @@ use App\Enums\ResponseStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AccountRequest;
 use App\Models\Admin;
+use App\Models\Branch;
 use App\Services\Admin\StaffService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -46,8 +47,10 @@ class StaffController extends Controller
      */
     public function create()
     {
+        $branches = Branch::all()->sortBy('name');
         return view('admin.pages.staffs.create', [
-            'title' => 'Thêm tài khoản nhân viên mới'
+            'title' => 'Thêm tài khoản nhân viên mới',
+            'branches' => $branches
         ]);
     }
 
@@ -82,9 +85,12 @@ class StaffController extends Controller
      */
     public function edit(Admin $staff)
     {
+        $branches = Branch::all()->sortBy('name');
+
         return view('admin.pages.staffs.edit', [
             'title' => "Cập nhật thông tin nhân viên",
-            'staff' => $staff
+            'staff' => $staff,
+            'branches' => $branches
         ]);
     }
 

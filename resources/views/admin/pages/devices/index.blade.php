@@ -9,14 +9,15 @@
             <span class="mr-2">Sắp xếp theo: </span>
             <select class="form-control w-25" name="by">
                 <option value="id" {{ (request()->input('by') == 'id') ? 'selected' : '' }}>ID</option>
-                <option value="type_device_id" {{ (request()->input('by') == 'type_device_id') ? 'selected' : '' }}>Loại thiết bị</option>
+                <option value="type_device" {{ (request()->input('by') == 'type_device') ? 'selected' : '' }}>Loại thiết bị</option>
                 <option value="name" {{ (request()->input('by') == 'name') ? 'selected' : '' }}>Tên</option>
-                <option value="compensation_price" {{ (request()->input('by') == 'compensation_price') ? 'selected' : '' }}>Giá</option>
+                <option value="rental_price" {{ (request()->input('by') == 'rental_price') ? 'selected' : '' }}>Giá</option>
                 <option value="brand" {{ (request()->input('by') == 'brand') ? 'selected' : '' }}>Nhãn hiệu</option>
+                <option value="quantity" {{ (request()->input('by') == 'quantity') ? 'selected' : '' }}>Số lượng</option>
             </select>
             <select class="form-control w-25" name="sort">
-                <option value="ASC" {{ (request()->input('sort') == 'ASC') ? 'selected' : '' }}>Tăng dần</option>
-                <option value="DESC" {{ (request()->input('sort') == 'DESC') ? 'selected' : '' }}> Giảm dần</option>
+                <option value="0" {{ (request()->input('sort') == '0') ? 'selected' : '' }}>Tăng dần</option>
+                <option value="1" {{ (request()->input('sort') == '1') ? 'selected' : '' }}> Giảm dần</option>
             </select>
             <button type="submit" class="btn btn-info">
                 <i class="fa-solid fa-filter"></i>
@@ -32,6 +33,7 @@
             <th scope="col">Nhãn hiệu</th>
             <th scope="col">Giá cho thuê</th>
             <th scope="col">Tổng số lượng</th>
+            <th scope="col">Đang sử dụng</th>
             <th scope="col">Cho thuê thiết bị</th>
             <th>&nbsp;</th>
         </tr>
@@ -39,16 +41,17 @@
         <tbody>
         @foreach($devices as $device)
             <tr>
-                <th scope="row">{{ $device->id }}</th>
-                <th class="text-capitalize">{{ $device->typeDevice->name }}</th>
-                <td class="text-capitalize">{{ $device->name }}</td>
-                <td class="text-capitalize">{{ $device->brand }}</td>
-                <td>{{ number_format($device->rental_price) }} VND/thiết bị/ngày</td>
-                <td>{{ number_format($device->quantity) }} thiết bị</td>
+                <th scope="row">{{ $device['id'] }}</th>
+                <th class="text-capitalize">{{ $device['type_device']}}</th>
+                <td class="text-capitalize">{{ $device['name'] }}</td>
+                <td class="text-capitalize">{{ $device['brand'] }}</td>
+                <td>{{ number_format($device['rental_price']) }} VND/thiết bị/ngày</td>
+                <td>{{ number_format($device['quantity']) }} thiết bị</td>
+                <td>{{ number_format($device['equipping_quantity']) }} thiết bị</td>
 
-                <td>{{ $device->for_rent ? 'Cho thuê' : 'Không cho thuê' }}</td>
+                <td>{{ $device['for_rent']}}</td>
                 <td>
-                    <a type="button" class="btn btn-primary mb-1" href="{{ route('admin.devices.edit', $device) }}">
+                    <a type="button" class="btn btn-primary mb-1" href="{{ route('admin.devices.edit', $device['id']) }}">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                 </td>

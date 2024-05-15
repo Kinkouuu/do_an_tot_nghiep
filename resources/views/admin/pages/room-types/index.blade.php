@@ -10,6 +10,7 @@
             <select class="form-control w-25" name="by">
                 <option value="id" {{ (request()->input('by') == 'id') ? 'selected' : '' }}>ID</option>
                 <option value="name" {{ (request()->input('by') == 'name') ? 'selected' : '' }}>Tên</option>
+                <option value="status" {{ (request()->input('by') == 'status') ? 'selected' : '' }}>Trạng thái</option>
             </select>
             <select class="form-control w-25" name="sort">
                 <option value="0" {{ (request()->input('sort') == '0') ? 'selected' : '' }}>Tăng dần</option>

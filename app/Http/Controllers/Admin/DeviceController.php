@@ -30,7 +30,8 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
-        $devices = $this->deviceService->filter($request->all());
+        $allDevices = $this->deviceService->all();
+        $devices = $this->deviceService->getUsingDevices($allDevices, $request->all());
 
         return view('admin.pages.devices.index', [
             'title' => 'Danh sách thiết bị',

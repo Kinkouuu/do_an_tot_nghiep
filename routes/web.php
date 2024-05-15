@@ -1,17 +1,18 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DeviceController;
+use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\StaffController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\UserPageController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\StaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('services/{typeRoom}/add', [RoomTypeController::class, 'addServices'])->name('services.add');
                 Route::post('services/{typeRoom}/remove', [RoomTypeController::class, 'removeServices'])->name('services.remove');
                 Route::post('services/{typeRoom}', [RoomTypeController::class, 'addServices'])->name('services.add');
+            });
+            //Room manager
+               Route::resource('room',RoomController::class);
+            Route::prefix('room')->name('room.')->group(function () {
+                Route::get('{code}/devices', [RoomController::class, 'getDevices'])->name('devices');
             });
         });
 
