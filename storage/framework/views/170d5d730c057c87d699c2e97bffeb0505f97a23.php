@@ -12,14 +12,14 @@
 
     <div class="container">
         <div class="site-navbar bg-light">
-            <div class="py-1">
-                <div class="row align-items-center">
+            <div class="col-md-12 py-1">
+                <div class="d-flex align-items-center">
                     <!-- .Logo -->
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <img src="<?php echo e(asset('images/logo.png')); ?>">
                     </div>
                     <!-- .Navigate bar -->
-                    <div class="col-9">
+                    <div class="col-md-9">
                         <nav class="site-navigation text-right" role="navigation">
                             <div class="container">
                                 <div class="d-inline-block d-lg-none  ml-md-0 mr-auto py-3">
@@ -28,7 +28,7 @@
                                     </a>
                                 </div>
                                 <ul class="site-menu js-clone-nav d-none d-lg-block">
-                                    <li class="active">
+                                    <li class="<?php echo e(request()->is('/') ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('homepage')); ?>">Trang chủ</a>
                                     </li>
 
@@ -51,9 +51,9 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a href="<?php echo e(route('introduce')); ?>">Giới thiệu</a></li>
+                                    <li class="<?php echo e(request()->is('introduce') ? 'active' : ''); ?>"><a href="<?php echo e(route('introduce')); ?>">Giới thiệu</a></li>
 
-                                    <li><a href="<?php echo e(route('contact')); ?>">Liên hệ</a></li>
+                                    <li class="<?php echo e(request()->is('contact') ? 'active' : ''); ?>"><a href="<?php echo e(route('contact')); ?>">Liên hệ</a></li>
                                     <li class="has-children ">
                                         <a class="pr-4" href="#">Tài khoản</a>
                                         <?php if(auth()->guard()->guest()): ?>

@@ -12,14 +12,14 @@
 
     <div class="container">
         <div class="site-navbar bg-light">
-            <div class="py-1">
-                <div class="row align-items-center">
+            <div class="col-md-12 py-1">
+                <div class="d-flex align-items-center">
                     <!-- .Logo -->
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <img src="{{ asset('images/logo.png') }}">
                     </div>
                     <!-- .Navigate bar -->
-                    <div class="col-9">
+                    <div class="col-md-9">
                         <nav class="site-navigation text-right" role="navigation">
                             <div class="container">
                                 <div class="d-inline-block d-lg-none  ml-md-0 mr-auto py-3">
@@ -28,32 +28,44 @@
                                     </a>
                                 </div>
                                 <ul class="site-menu js-clone-nav d-none d-lg-block">
-                                    <li class="active">
+                                    <li class="{{ request()->is('/') ? 'active' : '' }}">
                                         <a href="{{ route('homepage') }}">Trang chủ</a>
                                     </li>
 
                                     <li class="has-children">
-                                        <a href="#">Phòng</a>
+                                        <a href="#">Danh mục</a>
                                         <ul class="dropdown arrow-top">
-                                            <li><a href="#">Hiện có</a></li>
-                                            <li><a href="#">Phòng đơn</a></li>
-                                            <li><a href="#">Phòng đôi</a></li>
-                                            <li><a href="#">Phòng gia đình</a></li>
                                             <li class="has-children">
+                                                <a href="#">Loại phòng</a>
+                                                <ul class="dropdown">
+                                                    @foreach($room_types as $room_type)
+                                                        <li><a href="#" class="text-uppercase">{{ $room_type['name'] }}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            <li class="has-children">a
                                                 <a href="#">Dịch vụ</a>
                                                 <ul class="dropdown">
-                                                    <li><a href="#">Phòng cao cấp</a></li>
-                                                    <li><a href="#">Tắm hơi</a></li>
-                                                    lo
-                                                    <li><a href="#">Ăn uống</a></li>
-
+                                                    @foreach($service_types as $service_type)
+                                                        <li class= "{{ empty( $service_type['services']) ? '' : 'has-children' }}">
+                                                            <a href="#">
+                                                                <i class="{{ $service_type['icon'] }}"></i>
+                                                                <span>{{ $service_type['name'] }}</span>
+                                                            </a>
+                                                            <ul class="dropdown">
+                                                                @foreach( $service_type['services'] as $service)
+                                                                    <li><a href="#" class="text-capitalize">{{ $service['name'] }}</a></li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                    @endforeach
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a href="{{ route('introduce') }}">Giới thiệu</a></li>
+                                    <li class="{{ request()->is('introduce') ? 'active' : '' }}"><a href="{{ route('introduce') }}">Giới thiệu</a></li>
 
-                                    <li><a href="{{ route('contact') }}">Liên hệ</a></li>
+                                    <li class="{{ request()->is('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Liên hệ</a></li>
                                     <li class="has-children ">
                                         <a class="pr-4" href="#">Tài khoản</a>
                                         @guest()
@@ -64,6 +76,9 @@
                                         @endguest
                                         @auth()
                                             <ul class="dropdown arrow-top">
+                                                <li class="text-secondary text-uppercase text-center border-bottom pb-2">
+                                                    {{ auth()->user()?->customer->name ?? auth()->user()->phone }}
+                                                </li>
                                                 <li><a href="{{ route('get-user-info') }}">Thông tin cá nhân</a></li>
                                                 <li><a href="{{ route('change_password') }}">Đổi mật khẩu</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng xuất</a></li>

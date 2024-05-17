@@ -2862,3 +2862,30 @@ a:hover {
     text-transform: capitalize;
     text-align: center;
 }
+.find-input {
+    height: 40px;
+}
+
+#form-search {
+    position: absolute;
+    bottom: 4%;
+    z-index: 1;
+}
+
+.search-section {
+    background-color: rgb(113 , 113, 113,0.5);
+}
+.branch-city {
+    padding-top: 0.3em;
+    position: absolute;
+    left: 2%;
+    z-index: 1;
+    color: whitesmoke;
+}
+.branch-count {
+    position: absolute;
+    right: 5%;
+    top: 90px;
+    z-index: 1;
+    color: whitesmoke;
+}

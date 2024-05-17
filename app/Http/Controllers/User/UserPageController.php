@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
+use App\Services\User\BranchService;
+use App\Services\User\RoomTypeService;
 use App\Services\User\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -13,11 +15,15 @@ use Illuminate\Support\Facades\Auth;
 
 class UserPageController extends Controller
 {
-    private UserService $userService;
+    protected UserService $userService;
+    protected RoomTypeService $roomTypeService;
+    protected BranchService $branchService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, RoomTypeService $roomTypeService, BranchService $branchService)
     {
         $this->userService = $userService;
+        $this->roomTypeService = $roomTypeService;
+        $this->branchService = $branchService;
     }
 
     /**
@@ -25,9 +31,13 @@ class UserPageController extends Controller
      */
     public function index()
     {
+        $roomTypes = $this->roomTypeService->getActiveRoomType();
+        $branches = $this->branchService->getBranchCities();
         return view('user.pages.home', [
-            'page_title' => 'Welcome To Kinkou Hotel',
+            'page_title' => 'Welcome To V.V.C',
             'page_description' => 'TRAVEL & VACATION',
+            'room_types' => $roomTypes,
+            'branches' => $branches,
         ]);
     }
 

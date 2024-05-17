@@ -286,13 +286,13 @@ jQuery(document).ready(function($) {
 	var siteCountDown = function() {
 
 		if ( $('#date-countdown').length > 0 ) {
-			$('#date-countdown').countdown('2020/10/10', function(event) {
+			$('#date-countdown').countdown('2024/10/10', function(event) {
 			  var $this = $(this).html(event.strftime(''
-			    + '<span class="countdown-block"><span class="label">%w</span> weeks </span>'
-			    + '<span class="countdown-block"><span class="label">%d</span> days </span>'
-			    + '<span class="countdown-block"><span class="label">%H</span> hr </span>'
-			    + '<span class="countdown-block"><span class="label">%M</span> min </span>'
-			    + '<span class="countdown-block"><span class="label">%S</span> sec</span>'));
+			    + '<span class="countdown-block"><span class="label">%m</span> tháng </span>'
+			    + '<span class="countdown-block"><span class="label">%d</span> ngày </span>'
+			    + '<span class="countdown-block"><span class="label">%H</span> giờ </span>'
+			    + '<span class="countdown-block"><span class="label">%M</span> phút </span>'
+			    + '<span class="countdown-block"><span class="label">%S</span> giây</span>'));
 			});
 		}
 
