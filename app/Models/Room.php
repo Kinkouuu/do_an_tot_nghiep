@@ -38,6 +38,12 @@ class Room extends Model
             ->withPivot('quantity', 'note');
     }
 
+    public function roomBookings(): BelongsToMany
+    {
+        return $this->belongsToMany(Booking::class, 'booking_room', 'room_id', 'booking_id')
+            ->withPivot('checkin_at', 'checkout_at', 'price');
+    }
+
     public static function getColumnsFilter()
     {
         return [

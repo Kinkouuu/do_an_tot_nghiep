@@ -5,6 +5,18 @@
         <h1 class="text-center text-secondary text-uppercase">&mdash; Cập nhật thông tin cá nhân &mdash;</h1>
         <form method="POST">
             @csrf
+            <div class="input-group mb-3">
+                <div class="input-group-prepend w-25">
+                    <span class="input-group-text w-100">Số điện thoại</span>
+                </div>
+                <input type="text" class="form-control w-75" value="{{ $phone }}" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend w-25">
+                    <span class="input-group-text w-100">Địa chỉ email</span>
+                </div>
+                <input type="text" class="form-control w-75" name="email" value="{{ $email }}" disabled>
+            </div>
             @error('name')
             <div class="error">{{ $message }}</div>
             @enderror

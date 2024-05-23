@@ -1,10 +1,20 @@
-
-
 <?php $__env->startSection('content'); ?>
     <section class="container col-md-8 mx-auto my-5">
         <h1 class="text-center text-secondary text-uppercase">&mdash; Cập nhật thông tin cá nhân &mdash;</h1>
         <form method="POST">
             <?php echo csrf_field(); ?>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend w-25">
+                    <span class="input-group-text w-100">Số điện thoại</span>
+                </div>
+                <input type="text" class="form-control w-75" value="<?php echo e($phone); ?>" disabled>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend w-25">
+                    <span class="input-group-text w-100">Địa chỉ email</span>
+                </div>
+                <input type="text" class="form-control w-75" name="email" value="<?php echo e($email); ?>" disabled>
+            </div>
             <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

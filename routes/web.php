@@ -3,14 +3,16 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DeviceController;
-use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\RoomController as AdminRoomController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\CustomerController;
+use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\UserPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,7 +42,10 @@ Route::post('/log-in', [AuthController::class, 'signin'])->name('signin');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/send-verify-code/{code}', [AuthController::class, 'sendVerifyCode'])->name('send_verify_code');
+//Room & Branch
+Route::get('/search', [UserPageController::class,'search'])->name('search');
 
+Route::get('/room-type/{roomType}', [RoomController::class,'getRoomType'])->name('room-type');
 //User Account
 Route::get('/verify-code', [UserPageController::class, 'verifyCode'])->name('verify_code');
 Route::post('/verify-code', [AuthController::class, 'verifyCode']);
@@ -89,9 +94,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('services/{typeRoom}', [RoomTypeController::class, 'addServices'])->name('services.add');
             });
             //Room manager
-               Route::resource('room',RoomController::class);
+               Route::resource('room',AdminRoomController::class);
             Route::prefix('room')->name('room.')->group(function () {
-                Route::get('{code}/devices', [RoomController::class, 'getDevices'])->name('devices');
+                Route::get('{code}/devices', [AdminRoomController::class, 'getDevices'])->name('devices');
             });
         });
 

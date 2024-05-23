@@ -39,7 +39,7 @@
                                                 <a href="#">Loại phòng</a>
                                                 <ul class="dropdown">
                                                     @foreach($room_types as $room_type)
-                                                        <li><a href="#" class="text-uppercase">{{ $room_type['name'] }}</a></li>
+                                                        <li><a href="{{ route('room-type', ['roomType' => base64_encode($room_type['id'])]) }}" class="text-uppercase">{{ $room_type['name'] }}</a></li>
                                                     @endforeach
                                                 </ul>
                                             </li>

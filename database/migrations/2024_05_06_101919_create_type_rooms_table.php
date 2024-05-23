@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('room_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->enum('status', ServiceStatus::asArray())->default(ServiceStatus::Active);
             $table->timestamps();
         });

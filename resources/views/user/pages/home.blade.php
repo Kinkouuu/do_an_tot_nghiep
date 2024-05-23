@@ -16,8 +16,8 @@
                 @foreach($room_types as $room_type)
                     <div class="col-md-6 col-lg-4 mb-5">
                         <div class="hotel-room text-center">
-                            <a href="#" class="d-block mb-0 thumbnail">
-                                <img src="{{ asset($room_type['thumb_nail']) }}" alt="Image" class="img-fluid">
+                            <a href="{{ route('room-type', base64_encode($room_type['id'])) }}"  class="d-block mb-0 thumbnail">
+                                <img src="{{ asset($room_type['thumb_nail']) }}" alt="Image" class="img-fluid" loading="lazy">
                             </a>
                             <div class="hotel-room-body">
                                 <h3 class="heading mb-0"><a href="#">{{ $room_type['name'] }}</a></h3>
@@ -45,12 +45,12 @@
                   <span class="icon-wrap">
                     <span class="icon icon-play"></span>
                   </span>
-                            <img src="{{ asset('images/img_2.jpg') }}" alt="" class="img-fluid">
+                            <img src="{{ asset('images/img_2.jpg') }}" alt="" class="img-fluid" loading="lazy">
                         </a>
                     </div>
 
                     <img src="{{ asset('images/img_1.jpg') }}" href="{{ asset('images/img_1.jpg') }}" alt="Image"
-                         class="img-fluid image-absolute image-popup img-opacity">
+                         class="img-fluid image-absolute image-popup img-opacity" loading="lazy">
 
                 </div>
                 <div class="col-md-5 ml-auto">
@@ -160,7 +160,7 @@
                          style=" background-image: linear-gradient(to right, lightpink, lightcyan); height: 250px">
                         <a href="" class="position-relative">
                             <h3 class="branch-city text-bold text-uppercase">{{ $branch->first()->city }}</h3>
-                            <img src="{{ asset($branch->first()->avatar) }}" alt="Image" class="img-fluid w-100 h-100">
+                            <img src="{{ asset($branch->first()->avatar) }}" alt="Image" class="img-fluid w-100 h-100" loading="lazy">
                             <div class="branch-count">{{ count($branch) }} chi nhánh
                                 <i class="fa-solid fa-circle-chevron-right"></i>
                             </div>

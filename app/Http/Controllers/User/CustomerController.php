@@ -32,6 +32,8 @@ class CustomerController extends Controller
         return view('user.pages.personal-information', [
             'page_title' => 'Personal Information',
             'page_description' => 'Reputable & Confidential',
+            'email' => $user->email,
+            'phone' => $user->phone,
             'customer' => $customer
         ]);
     }
@@ -39,7 +41,6 @@ class CustomerController extends Controller
     public function updateUserInfo(CustomerRequest $request)
     {
         $user = Auth::user();
-//        dd($request->all());
         $userInfo = $this->customerService->getByUserID($user->id);
         if($userInfo) {
             $response = $this->customerService->updateCustomer($userInfo, $request->except('_token'));

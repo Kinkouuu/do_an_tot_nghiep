@@ -6,8 +6,8 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center h-50">
                     <div class="col-md-7 text-center" data-aos="fade">
-                        <h1 class="mb-2"><?php echo e($page_title); ?></h1>
-                        <h2 class="caption"><?php echo e($page_description); ?></h2>
+                        <h1 class="mb-2 text-uppercase"><?php echo e($page_title); ?></h1>
+                        <h2 class="caption"><?php echo e($page_description ?? null); ?></h2>
                     </div>
                 </div>
             </div>
@@ -18,8 +18,8 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center h-50">
                     <div class="col-md-7 text-center" data-aos="fade">
-                        <h1 class="mb-2"><?php echo e($page_title); ?></h1>
-                        <h2 class="caption"><?php echo e($page_description); ?></h2>
+                        <h1 class="mb-2 text-uppercase"><?php echo e($page_title); ?></h1>
+                        <h2 class="caption"><?php echo e($page_description ?? null); ?></h2>
                     </div>
                 </div>
             </div>
@@ -27,20 +27,21 @@
     </div>
 
 <!-- Search form -->
-    <?php if (isset($component)) { $__componentOriginal388c211f7710f1d87d652d21a88b5c50f16ce562 = $component; } ?>
-<?php $component = App\View\Components\RoomSearch::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('room-search'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\RoomSearch::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes([]); ?> <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal388c211f7710f1d87d652d21a88b5c50f16ce562)): ?>
-<?php $component = $__componentOriginal388c211f7710f1d87d652d21a88b5c50f16ce562; ?>
-<?php unset($__componentOriginal388c211f7710f1d87d652d21a88b5c50f16ce562); ?>
-<?php endif; ?>
+    <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('room.form-search')->html();
+} elseif ($_instance->childHasBeenRendered('KP4SoM9')) {
+    $componentId = $_instance->getRenderedChildComponentId('KP4SoM9');
+    $componentTag = $_instance->getRenderedChildComponentTagName('KP4SoM9');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('KP4SoM9');
+} else {
+    $response = \Livewire\Livewire::mount('room.form-search');
+    $html = $response->html();
+    $_instance->logRenderedChild('KP4SoM9', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
 
 </div>
 <?php /**PATH E:\DATN\VVCBooking\resources\views/user/layouts/slide.blade.php ENDPATH**/ ?>
