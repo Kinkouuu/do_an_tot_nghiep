@@ -2,28 +2,29 @@
 
 namespace App\Http\Livewire\Room;
 
-use App\Http\Controllers\User\BookingController;
+use App\Services\User\BookingService;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BookingForm extends Component
 {
-    protected BookingController $bookingController;
+    protected BookingService $bookingService;
     public $roomBranch;
     public $time;
 
     public function __construct($id = null)
     {
         parent::__construct($id);
-        $this->bookingController = app()->make(BookingController::class);
+        $this->bookingService = app()->make(BookingService::class);
     }
 
     public function render()
     {
-        return view('livewire.room.booking-form');
+        $user = Auth::user();
+        return view('livewire.room.booking-form',[
+            'user' => $user
+        ]);
     }
 
-    public function storeBooking()
-    {
-        $this->bookingController->bookingConfirm($this->roomBranch);
-    }
 }

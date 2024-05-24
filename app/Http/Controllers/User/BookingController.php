@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\ResponseStatus;
 use App\Http\Controllers\Controller;
 use App\Services\User\BookingService;
 use Illuminate\Http\Request;
@@ -95,8 +94,14 @@ class BookingController extends Controller
 
     public function bookingConfirm(array $roomBranch)
     {
-        $customer = Auth::user()?->customer;
-
-        dd($roomBranch);
+        $user = Auth::user();
+        return redirect()->route('booking-confirm', [
+            'page_title' => 'aa'
+        ]);
+//        return view('user.pages.bookings.booking-confirm', [
+//            'customer' => $user?->customer,
+//            'branch' => $roomBranch['branch'],
+//            'rooms' => $roomBranch['rooms'],
+//        ]);
     }
 }

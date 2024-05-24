@@ -1,4 +1,4 @@
-<form class="col-md-11 mx-auto mt-4 py-3" style="background-color: #f1e6b2" wire:submit.prevent="storeBooking">
+<form class="col-md-11 mx-auto mt-4 py-3" style="background-color: #f1e6b2" wire:submit.prevent="confirmBooking">
     <div class="row">
         <div class="col-md-3 text-center m-auto">
             <img class="rounded w-100" src="<?php echo e($roomBranch['branch']['avatar']); ?>">
@@ -75,7 +75,37 @@
                     <div class="col-md-12 d-flex justify-content-between border-top border-secondary px-0 pt-2">
                         <h4 class="text-success">Tổng chi
                             phí: <?php echo e(number_format($roomBranch['total_price'], 0, ',', '.')); ?> VND</h4>
-                        <button type="submit" class="btn btn-warning text-light"> Đặt ngay</button>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-warning text-light" data-toggle="modal" data-target="#staticBackdrop">
+                           Đặt phòng ngay
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Điền thông tin cá nhân</h5>
+                                        <?php if($user): ?>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        <?php else: ?>
+                                            <a href="<?php echo e(route('login')); ?>"> Đăng nhập</a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="modal-body">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-success">Đặt phòng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>

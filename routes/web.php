@@ -60,6 +60,8 @@ Route::middleware(['forgotPassword'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/personal-information', [CustomerController::class, 'getUserInfo'])->name('get-user-info');
     Route::post('/personal-information', [CustomerController::class, 'updateUserInfo'])->name('update-user-info');
+
+    Route::get('booking-confirm', [BookingController::class, 'bookingConfirm'])->name('booking-confirm');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
