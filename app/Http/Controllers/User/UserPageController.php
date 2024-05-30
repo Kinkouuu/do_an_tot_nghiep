@@ -158,7 +158,8 @@ class UserPageController extends Controller
         return view('user.pages.rooms.response-search-list', [
             'page_title' => 'Best choice for your trip',
             'time' => $time,
-            'roomBranches' => $allocateRooms
+            'roomBranches' => $allocateRooms,
+            'condition' => $data,
         ]);
     }
 }

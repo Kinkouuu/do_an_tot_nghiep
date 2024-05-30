@@ -8,7 +8,7 @@
 </div>
 <!-- .site-mobile-menu -->
 
-<div class="site-navbar-wrap js-site-navbar bg-white">
+<div class="<?php echo e(request()->is('booking-confirm') ? 'sticky-top bg-light' : 'site-navbar-wrap js-site-navbar bg-white'); ?>">
 
     <div class="container">
         <div class="site-navbar bg-light">

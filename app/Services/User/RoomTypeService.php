@@ -111,17 +111,28 @@ class RoomTypeService extends BaseService
      */
     private function getRoomImages(TypeRoom $typeRoom): array
     {
-        $thumbImg = $typeRoom->roomImages->filter(function ($item) {
-            return ($item['type'] == ImageType::ThumbNail);
-        })->pluck('path')->first();
+        $thumbImg = $this->getThumbNail($typeRoom);
 
-        $detailImg = $typeRoom->roomImages->filter(function ($item) {
-            return ($item['type'] == ImageType::Detail);
-        })->pluck('path');
+        $detailImg = $this->getDetailImg($typeRoom);
+
         return [
             'thumb_nail' => $thumbImg,
             'details_img' => $detailImg,
         ];
+    }
+
+    private function getThumbNail(TypeRoom $typeRoom)
+    {
+        return $typeRoom->roomImages->filter(function ($item) {
+            return ($item['type'] == ImageType::ThumbNail);
+        })->pluck('path')->first();
+    }
+
+    private function getDetailImg(TypeRoom $typeRoom)
+    {
+        return $typeRoom->roomImages->filter(function ($item) {
+            return ($item['type'] == ImageType::Detail);
+        })->pluck('path');
     }
 
     /**
@@ -211,5 +222,25 @@ class RoomTypeService extends BaseService
             ];
         }
         return $branches;
+    }
+
+    /**
+     * @param array $rooms
+     * @return array
+     */
+    public function getRoomTypesGlobalInfo(array $rooms): array
+    {
+        $data = [];
+        foreach ($rooms as $room)
+        {
+            $roomType = $this->find($room['room_type_id']);
+            $thumbNail = $this->getThumbNail($roomType);
+            $services = $this->getRoomServices($roomType);
+            $data[] = array_merge($room, [
+                'thumb_nail' => $thumbNail,
+                'services' => $services,
+            ]);
+        }
+        return $data;
     }
 }

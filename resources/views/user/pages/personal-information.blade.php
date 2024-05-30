@@ -15,7 +15,7 @@
                 <div class="input-group-prepend w-25">
                     <span class="input-group-text w-100">Địa chỉ email</span>
                 </div>
-                <input type="text" class="form-control w-75" name="email" value="{{ $email }}" disabled>
+                <input type="email" class="form-control w-75" name="email" value="{{ $email }}">
             </div>
             @error('name')
             <div class="error">{{ $message }}</div>

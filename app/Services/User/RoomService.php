@@ -224,7 +224,6 @@ class RoomService extends BaseService
         $rooms = collect();
         $duplicatedRoom = false;
 
-
         // tính tiền thuê từng phòng
          foreach ($separatedRooms as $separatedRoom)
          {
@@ -269,6 +268,7 @@ class RoomService extends BaseService
                  $rooms = $rooms->push([
                      "room_ids" => [$room->id],
                      "room_type" => $room->roomType->name,
+                     "room_type_id" => $room->roomType->id,
                      "single_bed" => $separatedRoom['single_bed'],
                      "double_bed" => $separatedRoom['double_bed'],
                      "twin_bed" => $separatedRoom['twin_bed'],

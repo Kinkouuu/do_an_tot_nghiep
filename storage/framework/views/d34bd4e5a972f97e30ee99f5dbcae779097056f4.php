@@ -12,7 +12,8 @@
                             </label>
                             <select class="col-md-10 form-control" name="city">
                                 <?php $__currentLoopData = $branchCities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch_city): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option class="text-capitalize " <?php echo e(request()->get('city') == $branch_city ? 'selected' : ''); ?>
+                                    <option class="text-capitalize "
+                                            <?php echo e(request()->get('city') == $branch_city ? 'selected' : ''); ?>
 
                                             value="<?php echo e($branch_city); ?>"><?php echo e($branch_city); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -45,9 +46,9 @@
                                 <i class="fa-solid fa-calendar-plus"></i>
                                 <span>Ngày nhận phòng</span>
                             </label>
-                                <input type="datetime-local" name="checkin" class="col-md-10 form-control find-input"
-                                       min="<?php echo e($minCheckin); ?>" wire:change="setMinCheckOut($event.target.value)"
-                                       value="<?php echo e(request()->get('checkin') ?? null); ?>" required>
+                            <input type="datetime-local" name="checkin" class="col-md-10 form-control find-input"
+                                   min="<?php echo e($minCheckin); ?>" wire:change="setMinCheckOut($event.target.value)"
+                                   value="<?php echo e(request()->get('checkin') ?? null); ?>" step="1800" required>
 
                         </div>
                         <div class="col-md-6 pb-2">
@@ -55,8 +56,8 @@
                                 <i class="fa-solid fa-calendar-minus"></i>
                                 <span>Ngày trả phòng</span>
                             </label>
-                                <input type="datetime-local" name="checkout" class="w-100 form-control find-input"
-                                       value="<?php echo e(request()->get('checkout') ?? null); ?>"  min="<?php echo e($minCheckout); ?>" required>
+                            <input type="datetime-local" name="checkout" class="w-100 form-control find-input"
+                                   value="<?php echo e(request()->get('checkout') ?? null); ?>" min="<?php echo e($minCheckout); ?>" required>
                         </div>
                         <div class="col-md-12 pb-2">
                             <div class="col-md-12 text-center pt-2">
@@ -70,7 +71,6 @@
                 </div>
             </div>
         </div>
-</div>
-</form>
+    </form>
 </div>
 <?php /**PATH E:\DATN\VVCBooking\resources\views/livewire/room/form-search.blade.php ENDPATH**/ ?>

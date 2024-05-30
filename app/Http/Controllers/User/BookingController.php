@@ -4,16 +4,19 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Services\User\BookingService;
+use App\Services\User\RoomTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class BookingController extends Controller
 {
     protected BookingService $bookingService;
-
-    public function __construct(BookingService $bookingService)
+    protected RoomTypeService $roomTypeService;
+    public function __construct(BookingService $bookingService, RoomTypeService $roomTypeService)
     {
         $this->bookingService = $bookingService;
+        $this->roomTypeService = $roomTypeService;
     }
     /**
      * Display a listing of the resource.
@@ -92,16 +95,24 @@ class BookingController extends Controller
         //
     }
 
-    public function bookingConfirm(array $roomBranch)
+    public function bookingConfirm()
     {
         $user = Auth::user();
-        return redirect()->route('booking-confirm', [
-            'page_title' => 'aa'
+        $data = Cache::get('cart_' . $user->id);
+        if(!$data)
+        {
+            return redirect()->route('homepage');
+        }
+
+        $rooms = $this->roomTypeService->getRoomTypesGlobalInfo($data['rooms']);
+        $condition = $this->bookingService->retrieveCondition($data['condition']);
+
+        return view('user.pages.bookings.booking-confirm', [
+            'user' => $user,
+            'condition' => $condition,
+            'branch' => $data['branch'],
+            'rooms' => $rooms,
+            'total_price' => $data['total_price']
         ]);
-//        return view('user.pages.bookings.booking-confirm', [
-//            'customer' => $user?->customer,
-//            'branch' => $roomBranch['branch'],
-//            'rooms' => $roomBranch['rooms'],
-//        ]);
     }
 }

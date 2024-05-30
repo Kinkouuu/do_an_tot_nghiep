@@ -6,6 +6,8 @@ use App\Enums\RoleAccount;
 use App\Models\Customer;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Exception;
 
 class CustomerService extends BaseService
 {
@@ -25,22 +27,41 @@ class CustomerService extends BaseService
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @return array
      */
     public function createCustomer(array $data): array
     {
        $data['user_id'] = Auth::user()->id;
        $data['created_by'] = RoleAccount::Customer;
-       $this->create($data);
+       DB::beginTransaction();
 
-       return $this->successResponse('Thêm thông tin cá nhân thành công');
+        try {
+            $this->create($data);
+            DB::commit();
+            return $this->successResponse('Thêm thông tin cá nhân thành công');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
-    public function updateCustomer(Customer $customerID, array $data)
+    /**
+     * @param Customer $customerID
+     * @param array $data
+     * @return array
+     */
+    public function updateCustomer(Customer $customerID, array $data): array
     {
-        $this->update($data, $customerID->id);
-        return $this->successResponse('Cập nhật thông tin cá nhân thành công');
+        DB::beginTransaction();
+        try {
+            $this->update($data, $customerID->id);
+            DB::commit();
+            return $this->successResponse('Cập nhật thông tin cá nhân thành công');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**

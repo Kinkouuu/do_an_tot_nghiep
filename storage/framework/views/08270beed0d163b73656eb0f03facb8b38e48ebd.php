@@ -1,22 +1,29 @@
 <?php $__env->startSection('content'); ?>
         <div class="container-fluid">
             <div class="row">
-                <h1 class="m-auto p-5 text-capitalize">Lựa chọn tốt nhất cho kì nghỉ của bạn!</h1>
-
                <?php if(count($roomBranches) > 0): ?>
+                    <h1 class="m-auto p-5 text-capitalize">Lựa chọn tốt nhất cho kì nghỉ của bạn!</h1>
                     <?php $__currentLoopData = $roomBranches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $roomBranch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                       <?php
 if (! isset($_instance)) {
-    $html = \Livewire\Livewire::mount('room.booking-form', ['roomBranch' => $roomBranch, 'time' => $time])->html();
-} elseif ($_instance->childHasBeenRendered('u73qqPN')) {
-    $componentId = $_instance->getRenderedChildComponentId('u73qqPN');
-    $componentTag = $_instance->getRenderedChildComponentTagName('u73qqPN');
+    $html = \Livewire\Livewire::mount('room.booking-form', [
+                        'roomBranch' => $roomBranch,
+                         'time' => $time,
+                         'condition' => $condition
+                         ])->html();
+} elseif ($_instance->childHasBeenRendered('MTYPQay')) {
+    $componentId = $_instance->getRenderedChildComponentId('MTYPQay');
+    $componentTag = $_instance->getRenderedChildComponentTagName('MTYPQay');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('u73qqPN');
+    $_instance->preserveRenderedChild('MTYPQay');
 } else {
-    $response = \Livewire\Livewire::mount('room.booking-form', ['roomBranch' => $roomBranch, 'time' => $time]);
+    $response = \Livewire\Livewire::mount('room.booking-form', [
+                        'roomBranch' => $roomBranch,
+                         'time' => $time,
+                         'condition' => $condition
+                         ]);
     $html = $response->html();
-    $_instance->logRenderedChild('u73qqPN', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('MTYPQay', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

@@ -24,6 +24,7 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
+            'email' => 'required|email|max:255',
            'name' => 'required|max:255',
             'address' => 'required|string',
             'country' => 'required|string',

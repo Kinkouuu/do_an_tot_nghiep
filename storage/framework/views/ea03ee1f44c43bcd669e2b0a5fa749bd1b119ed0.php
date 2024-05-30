@@ -10,7 +10,6 @@
 <script src="<?php echo e(asset('js/bootstrap-datepicker.min.js')); ?>"></script>
 <script src="<?php echo e(asset('js/aos.js')); ?>"></script>
 
-
 <script src="<?php echo e(asset('js/mediaelement-and-player.min.js')); ?>"></script>
 <!-- Select Option Live Search -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
@@ -35,6 +34,27 @@
         }
     });
 </script>
+<!-- Sweet alert in livewire -->
+<script>
+    window.addEventListener('show-alert', event => {
+        Swal.fire({
+            title: event.detail.title,
+            text: event.detail.text,
+            icon: event.detail.icon
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Refresh the page
+                location.reload();
+            }
+        })
+    })
+</script>
+
+
+
+
+
+
 
     <?php echo $__env->yieldPushContent('script'); ?>
     <?php echo \Livewire\Livewire::scripts(); ?>
