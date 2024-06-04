@@ -11,7 +11,28 @@ use BenSampo\Enum\Enum;
  */
 final class PaymentType extends Enum
 {
-    const Cash = 'cash';
-    const VNPay = 'vn_pay';
-    const DebitCard = 'debit_card';
+    const Cash = 'Cash';
+    const VNPay = 'VnMart';
+    const DebitCard = 'Visa';
+
+    public static function getPaymentType()
+    {
+        return [
+            [
+                'type' => self::Cash,
+                'name' => 'Tiền mặt',
+                'icon' => 'fa-solid fa-coins'
+            ],
+            [
+                'type' => self::VNPay,
+                'name' => 'Ví điện tử VNPay',
+                'icon' => 'fa-solid fa-qrcode'
+            ],
+            [
+                'type' => self::DebitCard,
+                'name' => 'Thẻ Visa Debit',
+                'icon' => 'fa-regular fa-credit-card'
+            ],
+        ];
+    }
 }

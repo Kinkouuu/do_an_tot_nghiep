@@ -2845,6 +2845,13 @@ a:hover {
     z-index: 9;
     bottom: -50px; }
 
+.detail-img-absolute {
+    position: absolute;
+    width: 50%;
+    right: -10px;
+    border: 7px solid #fff;
+    z-index: 9;
+    bottom: -30px; }
 .img-opacity img {
     -webkit-transition: .2s all ease;
     -o-transition: .2s all ease;

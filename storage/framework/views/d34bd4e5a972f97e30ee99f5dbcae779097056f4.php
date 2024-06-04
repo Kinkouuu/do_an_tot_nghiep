@@ -48,7 +48,7 @@
                             </label>
                             <input type="datetime-local" name="checkin" class="col-md-10 form-control find-input"
                                    min="<?php echo e($minCheckin); ?>" wire:change="setMinCheckOut($event.target.value)"
-                                   value="<?php echo e(request()->get('checkin') ?? null); ?>" step="1800" required>
+                                   value="<?php echo e(request()->get('checkin') ?? null); ?>" required>
 
                         </div>
                         <div class="col-md-6 pb-2">

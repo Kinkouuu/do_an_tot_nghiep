@@ -80,7 +80,7 @@ use Illuminate\Support\Carbon;
                 @endforeach
                     <div class="col-md-12 d-flex justify-content-between border-top border-secondary px-0 pt-2">
                         <h4 class="text-success">Tổng chi
-                            phí: {{ number_format($roomBranch['total_price'], 0, ',', '.')  }} VND</h4>
+                            phí: {{ number_format($roomBranch['total_amount']['total_price'], 0, ',', '.')  }} VND</h4>
 
                         <!-- Button trigger modal -->
                         @if($user)

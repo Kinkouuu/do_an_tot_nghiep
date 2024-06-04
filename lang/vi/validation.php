@@ -180,6 +180,7 @@ return [
         'citizen_id'            => 'Số Căn Cước Công Dân/Chứng Minh Thư',
         'birth_day'             => 'Ngày tháng năm sinh',
         'account_name'          => 'Tên tài khoản đăng nhập',
-        'account'               => ' Số điện thoại đăng nhập',
+        'account'               => 'Số điện thoại đăng nhập',
+        'note'                  => 'Ghi chú',
     ],
 ];

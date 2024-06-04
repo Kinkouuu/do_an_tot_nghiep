@@ -8,6 +8,7 @@ use App\Services\User\BookingService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BookingForm extends Component
 {
@@ -88,7 +89,7 @@ class BookingForm extends Component
        Cache::put('cart_' . $userId, [
            'branch' => $this->roomBranch['branch'],
            'rooms' => $this->roomBranch['rooms'],
-           'total_price' => $this->roomBranch['total_price'],
+           'total_amount' => $this->roomBranch['total_amount'],
            'condition' => $this->condition,
        ]);
         return redirect()->route('booking-confirm');

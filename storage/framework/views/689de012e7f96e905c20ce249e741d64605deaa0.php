@@ -82,7 +82,7 @@ use Illuminate\Support\Carbon;
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-md-12 d-flex justify-content-between border-top border-secondary px-0 pt-2">
                         <h4 class="text-success">Tổng chi
-                            phí: <?php echo e(number_format($roomBranch['total_price'], 0, ',', '.')); ?> VND</h4>
+                            phí: <?php echo e(number_format($roomBranch['total_amount']['total_price'], 0, ',', '.')); ?> VND</h4>
 
                         <!-- Button trigger modal -->
                         <?php if($user): ?>

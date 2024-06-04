@@ -43,7 +43,7 @@
                                                     @endforeach
                                                 </ul>
                                             </li>
-                                            <li class="has-children">a
+                                            <li class="has-children">
                                                 <a href="#">Dịch vụ</a>
                                                 <ul class="dropdown">
                                                     @foreach($service_types as $service_type)

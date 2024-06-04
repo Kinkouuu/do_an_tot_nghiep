@@ -148,8 +148,8 @@ class UserPageController extends Controller
         }
 
         $data = $request->except('_token');
-        $checkInAt = Carbon::parse($request['checkin'])->floorHours();
-        $checkOutAt = Carbon::parse($request['checkout'])->ceilHour();
+        $checkInAt = Carbon::parse($request['checkin']);
+        $checkOutAt = Carbon::parse($request['checkout'])   ;
         $time = $checkOutAt->diffInHours($checkInAt);
         $roomList = $this->roomService->searchByCondition($data);
         $roomsOfBranch = $this->branchService->groupRoomByBranch($roomList);

@@ -62,6 +62,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/personal-information', [CustomerController::class, 'updateUserInfo'])->name('update-user-info');
 
     Route::get('booking-confirm', [BookingController::class, 'bookingConfirm'])->name('booking-confirm');
+    Route::post('booking-confirm', [BookingController::class, 'store'])->name('booking');
+    Route::prefix('booking')->name('booking.')->group(function () {
+        Route::get('/', [BookingController::class, 'index'])->name('list');
+        Route::get('/payment-response/{bookingId}', [BookingController::class, 'showPaymentResponse'])->name('payment-response');
+        Route::get('/{bookingId}', [BookingController::class, 'show'])->name('show');
+    });
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

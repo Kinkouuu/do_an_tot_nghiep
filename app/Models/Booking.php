@@ -11,7 +11,14 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'customer_id',
+        'user_id',
+        'name',
+        'phone',
+        'country',
+        'gender',
+        'citizen_id',
+        'for_relative',
+        'payment_type',
         'type',
         'booking_checkin',
         'booking_checkout',
@@ -20,6 +27,7 @@ class Booking extends Model
         'number_of_children',
         'deposit',
         'note',
+        'reason',
     ];
 
     public function bookingRooms(): BelongsToMany

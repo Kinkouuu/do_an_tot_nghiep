@@ -36,7 +36,6 @@
                                                     <span class="text-danger">(-{{ $service['discount'] }}%)</span>
                                                 @endif
                                             </p>
-
                                         </li>
                                     @endforeach
                                 </ul>

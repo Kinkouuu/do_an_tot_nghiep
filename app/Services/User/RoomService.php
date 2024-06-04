@@ -9,6 +9,7 @@ use App\Models\DeviceRoom;
 use App\Models\Room;
 use App\Services\BaseService;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Collection;
 
 class RoomService extends BaseService
@@ -70,7 +71,7 @@ class RoomService extends BaseService
      * @param string $checkOut
      * @return array
      */
-    private function getBookedRoomIds(string $checkIn, string $checkOut): array
+    private function getBookedRoomIds(string|Carbon $checkIn, string|Carbon $checkOut): array
     {
         //* Lấy các phòng đã được đặt trước trong thời gian yêu cầu
         $bookings = Booking::where('booking_checkin', '<', $checkOut)->where('booking_checkout', '>', $checkIn)
@@ -101,11 +102,11 @@ class RoomService extends BaseService
             ) {
                 $roomAllocated = $this->separateRoom($request['adults'], $request['children'], collect($roomsCapacity));
                 $roomList = $this->syncRoomsInfo($roomAllocated, $time);
-                $totalPrice = $this->getTotalPrice($roomList);
+                $totalAmount = $this->getTotalAmount($roomList);
                 $data[] = [
                     'branch' => $roomOfBranch['branch'],
                     'rooms' => $roomList,
-                    'total_price' => $totalPrice,
+                    'total_amount' => $totalAmount,
                 ];
             }
         }
@@ -122,27 +123,24 @@ class RoomService extends BaseService
         //Tính sức chứa tối đa của từng phòng
         foreach ($rooms as $room)
         {
-            $single = DeviceRoom::where('room_id', $room['id'])->where('device_id', 1)->sum('quantity');
-            $double = DeviceRoom::where('room_id', $room['id'])->where('device_id', 2)->sum('quantity');
-            $twin = DeviceRoom::where('room_id', $room['id'])->where('device_id', 3)->sum('quantity');
-            $family = DeviceRoom::where('room_id', $room['id'])->where('device_id', 4)->sum('quantity');
-            $adult = $single*config('constants.room_capacity.single.adults')
-                  + $double*config('constants.room_capacity.double.adults')
-                  + $twin*config('constants.room_capacity.twin.adults')
-                  + $family*config('constants.room_capacity.family.adults');
-            $children = $single*config('constants.room_capacity.single.children')
-                    + $double*config('constants.room_capacity.double.children')
-                    + $twin*config('constants.room_capacity.twin.children')
-                    + $family*config('constants.room_capacity.family.children');
+            $bedAmount = $this->getBedAmount($room);
+            $adult = $bedAmount['single']*config('constants.room_capacity.single.adults')
+                  + $bedAmount['double']*config('constants.room_capacity.double.adults')
+                  + $bedAmount['twin']*config('constants.room_capacity.twin.adults')
+                  + $bedAmount['family']*config('constants.room_capacity.family.adults');
+            $children = $bedAmount['single']*config('constants.room_capacity.single.children')
+                    + $bedAmount['double']*config('constants.room_capacity.double.children')
+                    + $bedAmount['twin']*config('constants.room_capacity.twin.children')
+                    + $bedAmount['family']*config('constants.room_capacity.family.children');
             // Chỉ lấy các phòng có sức chứa > 0
             if(($adult + $children) > 0)
             {
                 $data[] = [
                     'room_id' => $room['id'],
-                    'single_bed' => $single,
-                    'double_bed'=> $double,
-                    'twin_bed'=> $twin,
-                    'family_bed' => $family,
+                    'single_bed' => $bedAmount['single'],
+                    'double_bed'=> $bedAmount['double'],
+                    'twin_bed'=> $bedAmount['twin'],
+                    'family_bed' => $bedAmount['family'],
                     'adult_capacity' => $adult,
                     'children_capacity' => $children
                 ];
@@ -160,6 +158,26 @@ class RoomService extends BaseService
             return ($totalA < $totalB) ? 1 : -1;
         });
         return $data;
+    }
+
+    /**
+     * Lấy số giường trong mỗi phòng
+     * @param Room $room
+     * @return array
+     */
+    private function getBedAmount(Room|array $room): array
+    {
+        $single = DeviceRoom::where('room_id', $room['id'])->where('device_id', 1)->sum('quantity');
+        $double = DeviceRoom::where('room_id', $room['id'])->where('device_id', 2)->sum('quantity');
+        $twin = DeviceRoom::where('room_id', $room['id'])->where('device_id', 3)->sum('quantity');
+        $family = DeviceRoom::where('room_id', $room['id'])->where('device_id', 4)->sum('quantity');
+
+        return [
+            'single' => $single,
+            'double' => $double,
+            'twin' => $twin,
+            'family' => $family
+        ];
     }
 
     /**
@@ -228,7 +246,7 @@ class RoomService extends BaseService
          foreach ($separatedRooms as $separatedRoom)
          {
              $room = $this->find($separatedRoom['room_id']);
-             // Lấy phòng có thôgn tin bị trùng
+             // Lấy phòng có thông tin bị trùng
              if(!$rooms->isEmpty()) {
                  $duplicatedRoom = $rooms->search(function ($item) use ($room, $separatedRoom) {
                      return $item['room_type'] == $room->roomType->name
@@ -240,30 +258,7 @@ class RoomService extends BaseService
              }
             //Thêm phòng mới nếu không bị trùng hoặc danh sách đang rỗng
              if($duplicatedRoom === false || $rooms->isEmpty()) {
-                 if ($bookingHour < 24)
-                 {
-                     $priceHourly = $room->roomType->roomPrices->first(function ($item) {
-                         return $item['type_price'] == PriceType::ListedHourPrice['value'];
-                     });
-                     $priceFirstHour = $room->roomType->roomPrices->first(function ($item) {
-                         return $item['type_price'] == PriceType::First2Hours['value'];
-                     });
-
-                     $priceUnit =  [
-                         'hourly' => $priceHourly['price'],
-                         'firstHour' => $priceFirstHour['price'],
-                     ];
-                     $totalPriceARoom = $priceFirstHour['price']*2 + $priceHourly['price']*ceil($bookingHour-2 > 0 ?? 0);
-
-                 } else {
-                     $pricePerDay = $room->roomType->roomPrices->first(function ($item) {
-                         return $item['type_price'] == PriceType::ListedDayPrice['value'];
-                     });
-                     $priceUnit = [
-                         'perDay' => $pricePerDay['price'],
-                     ];
-                     $totalPriceARoom = $pricePerDay['price']*ceil($bookingHour/24);
-                 }
+                 $prices = $this->getPrices($room, $bookingHour);
 
                  $rooms = $rooms->push([
                      "room_ids" => [$room->id],
@@ -273,8 +268,8 @@ class RoomService extends BaseService
                      "double_bed" => $separatedRoom['double_bed'],
                      "twin_bed" => $separatedRoom['twin_bed'],
                      "family_bed" => $separatedRoom['family_bed'],
-                     'price_unit' => $priceUnit,
-                     'total_price_1_room' => $totalPriceARoom,
+                     'price_unit' => $prices['price_unit'],
+                     'total_price_1_room' => $prices['total_price_1_room'],
                      "adult_capacity" => $separatedRoom['adult_capacity'],
                      "children_capacity" => $separatedRoom['children_capacity'],
                  ]);
@@ -293,17 +288,100 @@ class RoomService extends BaseService
     }
 
     /**
+     * Tính giá cho loại phòng
+     * @param Room $room
+     * @param int $bookingHour
+     * @return array
+     */
+    public function getPrices(Room $room, int $bookingHour): array
+    {
+        $earlyFee = $room->roomType->roomPrices->first(function ($item) {
+            return $item['type_price'] == PriceType::EarlyCheckIn['value'];
+        });
+        $lateFee = $room->roomType->roomPrices->first(function ($item) {
+            return $item['type_price'] == PriceType::LateCheckOut['value'];
+        });
+        $priceUnit = [
+            PriceType::EarlyCheckIn['value'] => $earlyFee['price'],
+            PriceType::LateCheckOut['value'] => $lateFee['price']
+        ];
+        if ($bookingHour < 24)
+        {
+            $priceHourly = $room->roomType->roomPrices->first(function ($item) {
+                return $item['type_price'] == PriceType::ListedHourPrice['value'];
+            });
+            $priceFirstHour = $room->roomType->roomPrices->first(function ($item) {
+                return $item['type_price'] == PriceType::First2Hours['value'];
+            });
+
+            $priceUnit[PriceType::ListedHourPrice['value']] = $priceHourly['price'];
+            $priceUnit[PriceType::First2Hours['value']] = $priceFirstHour['price'];
+
+            $totalPriceARoom = $priceFirstHour['price']*2 + $priceHourly['price']*ceil(max($bookingHour-2,0));
+
+        } else {
+            $pricePerDay = $room->roomType->roomPrices->first(function ($item) {
+                return $item['type_price'] == PriceType::ListedDayPrice['value'];
+            });
+            $priceUnit[PriceType::ListedDayPrice['value']] = $pricePerDay['price'];
+            $totalPriceARoom = $pricePerDay['price']*ceil($bookingHour/24);
+        }
+        return [
+          'price_unit' => $priceUnit,
+          'total_price_1_room' => $totalPriceARoom,
+        ];
+    }
+
+    /**
      * Tính tổng tiền phòng ở mỗi chi nhánh
      * @param $rooms
-     * @return float|int
+     * @return array
      */
-    private function getTotalPrice($rooms): float|int
+    private function getTotalAmount($rooms): array
     {
         $totalPrice = 0;
+        $totalRoom = 0;
         foreach ($rooms as $room)
         {
             $totalPrice += count($room['room_ids']) * $room['total_price_1_room'];
+            $totalRoom += count($room['room_ids']);
         }
-        return $totalPrice;
+        return [
+            'total_price' => $totalPrice,
+            'total_room' => $totalRoom
+        ];
+    }
+
+    /**
+     * @param Room $room
+     * @param Carbon $checkIn
+     * @param Carbon $checkOut
+     * @return mixed
+     */
+    public function getRespectiveRoom(Room $room, Carbon $checkIn, Carbon $checkOut): mixed
+    {
+        $bedAmount = $this->getBedAmount($room);
+        //Lấy các phòng tương tự với phòng mong muốn
+        $rooms = Room::where('room_type_id', $room->room_type_id)
+            ->where('branch_id', $room->branch_id)
+            ->where('id', '!=', $room->id)
+            ->get();
+        $bookedRoomIds = $this->getBookedRoomIds($checkIn, $checkOut);
+
+        // Lấy phòng tương ứng sau khi loại bỏ các phòng đã được đặt trước trong thời gian yêu cầu
+        $respectiveRooms =  $rooms->reject(function ($item) use ($bookedRoomIds) {
+            return in_array($item->id, $bookedRoomIds);
+        });
+        // Lấy các phòng có trang bị số lượng giường tương ứng
+        foreach ($respectiveRooms as $respectiveRoom)
+        {
+            $bedNumber = $this->getBedAmount($respectiveRoom);
+            if ($bedNumber != $bedAmount)
+            {
+                continue;
+            }
+            return $respectiveRoom;
+        }
+        return null;
     }
 }

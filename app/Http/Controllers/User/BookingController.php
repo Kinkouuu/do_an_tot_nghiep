@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\Booking\BookingStatus;
+use App\Enums\ResponseStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookingRequest;
 use App\Services\User\BookingService;
 use App\Services\User\RoomTypeService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -21,17 +27,16 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
-
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -41,31 +46,42 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param BookingRequest $request
+     * @return RedirectResponse|void
      */
-    public function store(Request $request)
+    public function store(BookingRequest $request)
     {
-        dd($request->all());
-        $this->bookingService->storeBooking($request->get('roomIds'));
+        $user = Auth::user();
+        $customerInfo = $request->except('_token');
+        $roomInfo = Cache::get('cart_' . $user->id);
+        if (!$roomInfo)
+        {
+            Log::info('Not found Room Information on Cart of user ' . $user->id);
+            return $this->showAlertAndRedirect([
+                'status' => ResponseStatus::Error,
+                'title' => 'Đã có lỗi xảy ra!',
+            ]);
+        }
+        $response = $this->bookingService->storeBooking($user, $customerInfo, $roomInfo);
+        return $this->showAlertAndRedirect($response);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show($id)
+    public function show(string $bookingId)
     {
-        //
+       dd(base64_decode($bookingId));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -75,9 +91,9 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -88,7 +104,7 @@ class BookingController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -112,7 +128,36 @@ class BookingController extends Controller
             'condition' => $condition,
             'branch' => $data['branch'],
             'rooms' => $rooms,
-            'total_price' => $data['total_price']
+            'total_amount' => $data['total_amount']
+        ]);
+    }
+
+    public function showPaymentResponse(string $bookingId, Request $request)
+    {
+        $response = $request->all();
+        if($response['vnp_ResponseCode'] == '00')
+        {
+            $this->bookingService->update([
+                'status' => BookingStatus::Approved['key'],
+                'deposit' => $response['vnp_Amount']
+            ], base64_decode($bookingId));
+            $data = [
+                'status' => ResponseStatus::Success,
+                'title' => 'Thanh toán thành công!',
+                'code' => $response['vnp_TransactionNo'],
+                'amount' => $response['vnp_Amount'],
+            ];
+        } else {
+            $data = [
+                'status' => ResponseStatus::Error,
+                'title' => 'Thanh toán thất bại!',
+                'code' => $response['vnp_ResponseCode'],
+            ];
+        }
+        return view('user.pages.bookings.payment-response', [
+            'data' => $data,
+            'booking_id' => $bookingId,
         ]);
     }
 }
+

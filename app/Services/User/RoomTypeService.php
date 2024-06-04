@@ -235,9 +235,11 @@ class RoomTypeService extends BaseService
         {
             $roomType = $this->find($room['room_type_id']);
             $thumbNail = $this->getThumbNail($roomType);
+            $detailImages = $this->getDetailImg($roomType);
             $services = $this->getRoomServices($roomType);
             $data[] = array_merge($room, [
                 'thumb_nail' => $thumbNail,
+                'detail_images' => $detailImages,
                 'services' => $services,
             ]);
         }

@@ -43,7 +43,7 @@
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </ul>
                                             </li>
-                                            <li class="has-children">a
+                                            <li class="has-children">
                                                 <a href="#">Dịch vụ</a>
                                                 <ul class="dropdown">
                                                     <?php $__currentLoopData = $service_types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service_type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
