@@ -9,5 +9,10 @@ return [
         'double' => ['adults' => 2, 'children' => 1,],
         'twin'   => ['adults' => 1, 'children' => 2,],
         'single' => ['adults' => 1, 'children' => 1,]
-    ]
+    ],
+    'title_booking_notification' => [
+      'awaiting_confirm' => 'Đặt phòng thành công! Vui lòng để ý điện thoại, nhân viên tư vấn sẽ gọi điện cho bạn để xác nhận lại thông tin sau ít phút.',
+      'approved' => 'Đơn đặt của bạn đã được xác nhận tự động bởi hệ thống!',
+      'refuse'=> 'Thật tiếc quá, đơn đặt của bạn đã bị từ chối với lí do: ',
+    ],
 ];

@@ -14,20 +14,16 @@ class SendBookingCompletedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public ?string $userName;
-    public array $booking;
-    public array $roomInfo;
+    public array $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(?string $userName, array $booking, array $roomInfo)
+    public function __construct(array $data)
     {
-        $this->userName = $userName;
-        $this->booking = $booking;
-        $this->roomInfo = $roomInfo;
+        $this->data = $data;
     }
 
     /**

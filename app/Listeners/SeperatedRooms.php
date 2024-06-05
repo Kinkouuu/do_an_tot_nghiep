@@ -4,14 +4,12 @@ namespace App\Listeners;
 
 use App\Enums\Booking\BookingStatus;
 use App\Events\BookingEvent;
-use App\Models\Booking;
 use App\Models\BookingRoom;
 use App\Models\Room;
 use App\Services\User\BookingService;
 use App\Services\User\RoomService;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Support\Collection;
 use Log;
 
 class SeperatedRooms
@@ -67,6 +65,11 @@ class SeperatedRooms
                         ]);
                     } else {
                         Log::info('Can not found respective room instead room ' . $roomId . ' for booking ' . $booking->id);
+                        BookingRoom::create([
+                            'booking_id' => $booking->id,
+                            'room_id' => $roomId,
+                            'price' => $room['total_price_1_room']
+                        ]);
                         $booking->status = BookingStatus::Refuse['key'];
                         $booking->refuse_reason = 'Hệ thống tự động hủy do hết phòng';
                         $booking->save();

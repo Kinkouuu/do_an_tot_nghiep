@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
+use App\Enums\Booking\BookingStatus;
+use App\Enums\Booking\PaymentType;
 use App\Events\BookingEvent;
 use App\Mail\SendBookingCompletedMail;
 use Auth;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendBookingNotification
@@ -29,26 +29,57 @@ class SendBookingNotification
      */
     public function handle(BookingEvent $event)
     {
-        $user = Auth::user();
+        $email = Auth::user()->email;
         $booking = $event->booking;
         $roomInfo = $event->roomInfo;
-
-        $bookingInfo = [
-            'id' => base64_encode($booking->id),
-            'name' => $booking->name,
-            'phone' => $booking->phone,
-            'for_relative' => $booking->for_relative,
-            'payment_type' => $booking->payment_type,
-            'booking_checkin' => $booking->booking_checkin,
-            'booking_checkout' => $booking->booking_checkout,
-            'status' => $booking->status,
-            'adult' => $booking->number_of_adult,
-            'children' => $booking->number_of_children,
-            'deposit' => $booking->deposit,
-            'note' => $booking->note,
-            'refuse_reason' => $booking->refuse_reason,
-            'created_at' => $booking->created_at
+        $title = match ($booking->status) {
+            BookingStatus::AwaitingConfirm['key'] => config('constants.title_booking_notification.awaiting_confirm'),
+            BookingStatus::Approved['key'] => config('constants.title_booking_notification.approved'),
+            BookingStatus::Refuse['key'] => config('constants.title_booking_notification.refuse') . $booking->refuse_reason,
+        };
+        if($booking->status == BookingStatus::Refuse['key']) {
+            $message = [
+                'Vui lòng chờ ít phút, chúng tôi sẽ gọi điện tư vấn cho bạn hoặc bạn có thể đặt lại đơn khác theo ' .
+                    '<a class="text-white" href=\''. route("search", ['code' => $response['code'] ?? null]) .'\'>đường dẫn.</a>',
+                'Số tiền đã thanh toán trước (nếu có) của đơn hàng sẽ được hoàn trả sau 24h làm việc.'
+            ];
+        } else {
+            $message = [
+                'Lưu ý: Người đại diện nhận phòng cần mang theo thẻ căn cước, chứng minh thư, hộ chiếu... hoặc các giấy tờ tùy thân tương đương để làm thủ tục nhận phòng.',
+                'Nếu có bất kì thắc mắc cần được tư vấn, vui lòng liên hệ qua số hotline: ' . $roomInfo['branch']['phone'],
+            ];
+            if ($booking->for_relative)
+            {
+                $message[] = 'Chúng tôi cũng sẽ gọi điện cho anh/chị ' . $booking->name . ' qua số điện thoại ' . $booking->phone . ' để xác nhận lại đơn hàng.';
+            }
+        }
+        $paymentType = match ($booking->payment_type) {
+          PaymentType::Cash => 'Tiền mặt',
+          PaymentType::VNPay => 'Ví VNPay' ,
+          PaymentType::DebitCard => 'Thẻ Visa Debit' ,
+        };
+        $data = [
+            'title' => $title,
+            'messages' => $message,
+            'booking' => [
+                'id' => base64_encode($booking->id),
+                'created_at' => $booking->created_at->isoFormat('dddd, HH:mm - DD/MM/YYYY'),
+                'payment_type' => $paymentType,
+                'booking_checkin' => $booking->booking_checkin->isoFormat('dddd, HH:mm - DD/MM/YYYY'),
+                'booking_checkout' => $booking->booking_checkout->isoFormat('dddd, HH:mm - DD/MM/YYYY'),
+                'adults' => $booking->number_of_adults,
+                'children' => $booking->number_of_children,
+                'deposit' => $booking->deposit,
+            ],
+            'branch' => [
+                'name' => $roomInfo['branch']['name'],
+                'phone' => $roomInfo['branch']['phone'],
+                'address' => $roomInfo['branch']['address'],
+                'city' => $roomInfo['branch']['city'],
+            ],
+            'rooms' => $roomInfo['rooms'],
+            'total_amount' => $roomInfo['total_amount']
         ];
-        Mail::to($user)->send(new SendBookingCompletedMail($user->name, $bookingInfo, $roomInfo));
+        Mail::to($email)->send(new SendBookingCompletedMail($data));
     }
 }

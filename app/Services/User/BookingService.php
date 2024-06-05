@@ -41,6 +41,7 @@ class BookingService extends BaseService
             'for_relative' => isset($customerInfo['forRelative']),
             'type' => BookingType::OnWebSite,
             'status' => BookingStatus::AwaitingPayment['key'],
+            'deposit' => 0,
             'payment_type' => $customerInfo['payment'],
             'booking_checkin' => Carbon::parse($roomInfo['condition']['checkin']),
             'booking_checkout' => Carbon::parse($roomInfo['condition']['checkout']),
@@ -49,13 +50,12 @@ class BookingService extends BaseService
         ];
         DB::beginTransaction();
         try {
-            $booking = Booking::query()->updateOrCreate($bookingData);
-//            $booking = $this->create($bookingData);
+            $booking = $this->create($bookingData);
             if ($customerInfo['payment'] == PaymentType::VNPay || $customerInfo['payment'] == PaymentType::DebitCard) {
                 $this->vnPay($booking, $roomInfo['total_amount']);
             } else {
 
-                $verifiedUser = $this->hasCompletedBooking($user);
+                $verifiedUser = $this->hasCompletedBookingOrVerified($user);
                 $status = $verifiedUser ? BookingStatus::Approved['key'] : BookingStatus::AwaitingConfirm['key'];
                 $booking->update([
                     'status' => $status,
@@ -167,7 +167,7 @@ class BookingService extends BaseService
      * @param User $user
      * @return bool
      */
-    private function hasCompletedBooking(User $user): bool
+    private function hasCompletedBookingOrVerified(User $user): bool
     {
         $completedBooking = Booking::where('user_id', $user->id)->whereIn('status',BookingStatus::getConfirmedBooking())->first();
         return !!$completedBooking || !!$user->verified_at;
