@@ -53,8 +53,8 @@ class SeperatedRooms
                         'price' => $room['total_price_1_room']
                     ]);
                 } else {
-                    $room = Room::find($roomId);
-                    $respectiveRoom = $this->roomService->getRespectiveRoom($room, $bookingCheckIn, $bookingCheckOut);
+                    $roomModel = Room::find($roomId);
+                    $respectiveRoom = $this->roomService->getRespectiveRoom($roomModel, $bookingCheckIn, $bookingCheckOut);
                     if ($respectiveRoom) {
                         Log::info('Separate room ' . $respectiveRoom->id . ' instead room' . $roomId . ' for booking ' . $booking->id);
                         $prices = $this->roomService->getPrices($respectiveRoom, $bookingHour);

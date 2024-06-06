@@ -54,7 +54,6 @@ class BookingService extends BaseService
             if ($customerInfo['payment'] == PaymentType::VNPay || $customerInfo['payment'] == PaymentType::DebitCard) {
                 $this->vnPay($booking, $roomInfo['total_amount']);
             } else {
-
                 $verifiedUser = $this->hasCompletedBookingOrVerified($user);
                 $status = $verifiedUser ? BookingStatus::Approved['key'] : BookingStatus::AwaitingConfirm['key'];
                 $booking->update([

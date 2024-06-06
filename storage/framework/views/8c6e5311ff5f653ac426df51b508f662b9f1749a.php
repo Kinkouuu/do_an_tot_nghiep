@@ -415,8 +415,9 @@
                                                         <path
                                                             d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
                                                     </svg>
-                                                    <p style="line-height: 140%; padding-left: 10px;"><strong>Địa
-                                                            điểm: <?php echo e($data['branch']['name']); ?></strong></p>
+                                                    <p style="line-height: 140%; padding-left: 10px;">
+                                                        <strong>Địa điểm: <?php echo e($data['branch']['name'] . ' - ' . $data['branch']['city']); ?></strong>
+                                                    </p>
                                                 </div>
 
                                             </td>
@@ -568,7 +569,7 @@
                                                     <tr>
                                                         <td><![endif]-->
                                                 <h4 style="margin: 0px; color: #0f0f0f; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 16px; font-weight: 400;">
-                                                    <span><strong>Thông tin đơn hàng</strong></span></h4>
+                                                    <span style="font-weight: bolder">THÔNG TIN ĐƠN HÀNG</span></h4>
                                                 <!--[if mso]></td></tr></table><![endif]-->
 
                                             </td>
@@ -625,9 +626,10 @@
                                                         <tr>
                                                             <td><![endif]-->
                                                     <h4 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 16px; font-weight: 400;">
-                                                    <span><span><span>
-                                                                <strong
-                                                                    style="text-transform: capitalize"><?php echo e($room['room_type']); ?></strong>
+                                                    <span><span><span
+                                                                style="text-transform: uppercase; font-weight: bold">
+                                                        <?php echo e($room['room_type']); ?>
+
                                                     </span></span></span>
                                                     </h4>
                                                     <!--[if mso]></td></tr></table><![endif]-->
@@ -663,7 +665,7 @@
 
                                                     <div
                                                         style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                        <p style="line-height: 140%; color: lightgrey">
+                                                        <p style="line-height: 140%;">
                                                             x <?php echo e(count($room['room_ids'])); ?></p>
                                                     </div>
 
@@ -1165,7 +1167,7 @@
 
                                                 <ul style="font-size: 14px; color: #ffffff; line-height: 170%; text-align: left; word-wrap: break-word;">
                                                     <?php $__currentLoopData = $data['messages']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li style="line-height: 170%;"><?php echo e($message); ?></li>
+                                                        <li style="line-height: 170%;"><?php echo $message; ?></li>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </ul>
 

@@ -275,8 +275,7 @@
 
                                                 <div
                                                     style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="line-height: 100%; text-transform: capitalize">Ngày
-                                                        đặt: {{ $data['booking']['created_at'] }}</p>
+                                                    <p style="line-height: 100%; text-transform: capitalize"> {{ $data['booking']['created_at'] }}</p>
                                                 </div>
 
                                             </td>
@@ -1161,7 +1160,7 @@
 
                                                 <ul style="font-size: 14px; color: #ffffff; line-height: 170%; text-align: left; word-wrap: break-word;">
                                                     @foreach($data['messages'] as $message)
-                                                        <li style="line-height: 170%;">{{ $message }}</li>
+                                                        <li style="line-height: 170%;">{!! $message !!}</li>
                                                     @endforeach
                                                 </ul>
 

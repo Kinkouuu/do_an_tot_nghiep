@@ -39,18 +39,18 @@ class SendBookingNotification
         };
         if($booking->status == BookingStatus::Refuse['key']) {
             $message = [
-                'Vui lòng chờ ít phút, chúng tôi sẽ gọi điện tư vấn cho bạn hoặc bạn có thể đặt lại đơn khác theo ' .
-                    '<a class="text-white" href=\''. route("search", ['code' => $response['code'] ?? null]) .'\'>đường dẫn.</a>',
-                'Số tiền đã thanh toán trước (nếu có) của đơn hàng sẽ được hoàn trả sau 24h làm việc.'
+                '<p>Vui lòng chờ ít phút, chúng tôi sẽ gọi điện tư vấn cho bạn hoặc bạn có thể đặt lại đơn khác theo ' .
+                '<a style="color: blue" href=\''. route("search", $roomInfo["condition"]) .'\'>đường dẫn.</a></p>',
+                '<p >Số tiền đã thanh toán trước (nếu có) của đơn hàng sẽ được hoàn trả sau 24h làm việc.</p>'
             ];
         } else {
             $message = [
-                'Lưu ý: Người đại diện nhận phòng cần mang theo thẻ căn cước, chứng minh thư, hộ chiếu... hoặc các giấy tờ tùy thân tương đương để làm thủ tục nhận phòng.',
-                'Nếu có bất kì thắc mắc cần được tư vấn, vui lòng liên hệ qua số hotline: ' . $roomInfo['branch']['phone'],
+                '<p>Lưu ý: Người đại diện nhận phòng cần mang theo thẻ căn cước, chứng minh thư, hộ chiếu... hoặc các giấy tờ tùy thân tương đương để làm thủ tục nhận phòng.</p>',
+                '<p>Nếu có bất kì thắc mắc cần được tư vấn, vui lòng liên hệ qua số hotline: ' . $roomInfo["branch"]["phone"] . '</p>',
             ];
             if ($booking->for_relative)
             {
-                $message[] = 'Chúng tôi cũng sẽ gọi điện cho anh/chị ' . $booking->name . ' qua số điện thoại ' . $booking->phone . ' để xác nhận lại đơn hàng.';
+                $message[] = '<p> Chúng tôi cũng sẽ gọi điện cho anh/chị ' . $booking->name . ' qua số điện thoại ' . $booking->phone . ' để xác nhận lại đơn hàng. </p>';
             }
         }
         $paymentType = match ($booking->payment_type) {
@@ -63,10 +63,10 @@ class SendBookingNotification
             'messages' => $message,
             'booking' => [
                 'id' => base64_encode($booking->id),
-                'created_at' => $booking->created_at->isoFormat('dddd, HH:mm - DD/MM/YYYY'),
+                'created_at' => $booking->created_at->isoFormat('dddd, HH:mm DD/MM/YYYY'),
                 'payment_type' => $paymentType,
-                'booking_checkin' => $booking->booking_checkin->isoFormat('dddd, HH:mm - DD/MM/YYYY'),
-                'booking_checkout' => $booking->booking_checkout->isoFormat('dddd, HH:mm - DD/MM/YYYY'),
+                'booking_checkin' => $booking->booking_checkin->isoFormat('dddd, HH:mm DD/MM/YYYY'),
+                'booking_checkout' => $booking->booking_checkout->isoFormat('dddd, HH:mm DD/MM/YYYY'),
                 'adults' => $booking->number_of_adults,
                 'children' => $booking->number_of_children,
                 'deposit' => $booking->deposit,
