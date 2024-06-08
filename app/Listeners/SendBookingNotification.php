@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\Booking\BookingStatus;
 use App\Enums\Booking\PaymentType;
+use App\Events\BookingChangeStatus;
 use App\Events\BookingEvent;
 use App\Mail\SendBookingCompletedMail;
 use Auth;
@@ -28,11 +29,15 @@ class SendBookingNotification
      * @param  \App\Events\BookingEvent  $event
      * @return void
      */
-    public function handle(BookingEvent $event)
+    public function handle(BookingEvent|BookingChangeStatus $event)
     {
         $email = Auth::user()->email;
         $booking = $event->booking;
         $roomInfo = $event->roomInfo;
+        if($booking->status == BookingStatus::AwaitingPayment['key'])
+        {
+            return;
+        }
         $title = match ($booking->status) {
             BookingStatus::AwaitingConfirm['key'] => config('constants.title_booking_notification.awaiting_confirm'),
             BookingStatus::Approved['key'] => config('constants.title_booking_notification.approved'),

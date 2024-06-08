@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\BookingChangeStatus;
 use App\Events\BookingEvent;
 use App\Listeners\SendBookingNotification;
 use App\Listeners\SeperatedRooms;
@@ -24,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
             SeperatedRooms::class,
             SendBookingNotification::class,
         ],
+        BookingChangeStatus::class => [
+            SendBookingNotification::class,
+        ]
     ];
 
     /**

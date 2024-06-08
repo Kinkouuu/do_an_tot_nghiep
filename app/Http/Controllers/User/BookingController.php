@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Enums\Booking\BookingStatus;
 use App\Enums\ResponseStatus;
+use App\Events\BookingChangeStatus;
 use App\Events\BookingEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
@@ -143,23 +144,21 @@ class BookingController extends Controller
 
     public function showPaymentResponse(string $bookingId, Request $request)
     {
-        $user = Auth::user();
         $booking = $this->bookingService->find(base64_decode($bookingId));
-        $roomInfo = Cache::get('cart_' . $user->id);
+        $roomInfo = Cache::get('booking_' . $booking->id);
         $response = $request->all();
-        if($response['vnp_ResponseCode'] == '00')
+        if($response['vnp_ResponseCode'] == '00' && $roomInfo)
         {
             //Cập nhật trạng thái đơn đặt và xếp phòng cho khách
             $booking->status = BookingStatus::Approved['key'];
-            $booking->deposit = $response['vnp_Amount'];
+            $booking->deposit = $response['vnp_Amount']/100;
             $booking->save();
-            BookingEvent::dispatch($booking, $roomInfo);
-            Cache::forget('cart_' . $user->id);
+            BookingChangeStatus::dispatch($booking, $roomInfo);
             $data = [
                 'status' => ResponseStatus::Success,
                 'title' => 'Thanh toán thành công!',
                 'code' => $response['vnp_TransactionNo'],
-                'amount' => $response['vnp_Amount'],
+                'amount' => $response['vnp_Amount']/100,
             ];
         } else {
             // Xóa đơn hàng khỏi DB nếu giao dịch thất bại
@@ -170,6 +169,7 @@ class BookingController extends Controller
                 'code' => $response['vnp_ResponseCode'],
             ];
         }
+        Cache::forget('booking_' . $booking->id);
         return view('user.pages.bookings.payment-response', [
             'data' => $data,
             'booking_id' => $bookingId,

@@ -30,6 +30,11 @@ class BookingService extends BaseService
      */
     public function storeBooking(User $user, array $customerInfo, array $roomInfo): array
     {
+        $status = $customerInfo['payment'] == PaymentType::Cash
+            ? $this->hasCompletedBookingOrVerified($user)
+                ? BookingStatus::Approved['key']
+                : BookingStatus::AwaitingConfirm['key']
+            : BookingStatus::AwaitingPayment['key'];
         $bookingData = [
             'user_id' => $user->id,
             'name' => $customerInfo['name'],
@@ -40,7 +45,7 @@ class BookingService extends BaseService
             'note' => $customerInfo['note'],
             'for_relative' => isset($customerInfo['forRelative']),
             'type' => BookingType::OnWebSite,
-            'status' => BookingStatus::AwaitingPayment['key'],
+            'status' => $status,
             'deposit' => 0,
             'payment_type' => $customerInfo['payment'],
             'booking_checkin' => Carbon::parse($roomInfo['condition']['checkin']),
@@ -50,19 +55,14 @@ class BookingService extends BaseService
         ];
         //Lưu thông tin đơn đặt
         $booking = $this->create($bookingData);
+        Cache::forget('cart_' . $user->id);
+        BookingEvent::dispatch($booking, $roomInfo);
+
         if ($customerInfo['payment'] == PaymentType::VNPay || $customerInfo['payment'] == PaymentType::DebitCard) {
             //chuyển hướng sang trang thanh toán vnpay
-            $this->vnPay($booking, $roomInfo['total_amount']);
-        } else {
-            //Cập nhật và xếp phòng cho khách hàng
-            $verifiedUser = $this->hasCompletedBookingOrVerified($user);
-            $status = $verifiedUser ? BookingStatus::Approved['key'] : BookingStatus::AwaitingConfirm['key'];
-            $booking->update([
-                'status' => $status,
-            ]);
-            BookingEvent::dispatch($booking, $roomInfo);
-            Cache::forget('cart_' . $user->id);
+            $this->vnPay($booking, $roomInfo);
         }
+
         return $this->successResponse(
             'Đặt phòng thành công!',
             null,
@@ -98,8 +98,9 @@ class BookingService extends BaseService
         ];
     }
 
-    protected function vnPay(Booking $booking, array $totalAmount)
+    protected function vnPay(Booking $booking, array $roomInfo)
     {
+        Cache::put('booking_' . $booking->id, $roomInfo);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('booking.payment-response', base64_encode($booking->id));
         $vnp_TmnCode = "Z8LH3ZFU";//Mã website tại VNPAY
@@ -108,10 +109,10 @@ class BookingService extends BaseService
         $vnp_TxnRef = $booking->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = $booking->name . ' thanh toán đặt phòng tại V.V.CBooking';
         $vnp_OrderType = 'Thanh toán VNPay';
-        $vnp_Amount = $totalAmount['total_price'] * 100;
+        $vnp_Amount = $roomInfo['total_amount']['total_price'] * 100;
         $vnp_Locale = "VN";
-//        $vnp_BankCode = $booking->payment_type;
-        $vnp_BankCode = "NCB";
+        $vnp_BankCode = $booking->payment_type;
+//        $vnp_BankCode = "NCB";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         $inputData = array(
             "vnp_Version" => "2.1.0",
