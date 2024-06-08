@@ -8,7 +8,7 @@
 </div>
 <!-- .site-mobile-menu -->
 
-<div class="<?php echo e(request()->is('booking-confirm') ? 'sticky-top bg-light' : 'site-navbar-wrap js-site-navbar bg-white'); ?>">
+<div class="<?php echo e(request()->routeIs(config('constants.route_not_include_carousel')) ? 'sticky-top bg-light' : 'site-navbar-wrap js-site-navbar bg-white'); ?>">
 
     <div class="container">
         <div class="site-navbar bg-light">
@@ -75,14 +75,15 @@
                                             </ul>
                                         <?php endif; ?>
                                         <?php if(auth()->guard()->check()): ?>
-                                            <ul class="dropdown arrow-top">
+                                            <ul class="dropdown arrow-top" style="width: max-content">
                                                 <li class="text-secondary text-uppercase text-center border-bottom pb-2">
                                                     <?php echo e(auth()->user()?->customer->name ?? auth()->user()->phone); ?>
 
                                                 </li>
-                                                <li><a href="<?php echo e(route('get-user-info')); ?>">Thông tin cá nhân</a></li>
-                                                <li><a href="<?php echo e(route('change_password')); ?>">Đổi mật khẩu</a></li>
-                                                <li><a href="<?php echo e(route('logout')); ?>">Đăng xuất</a></li>
+                                                <li><a href="<?php echo e(route('get-user-info')); ?>"><i class="fa-solid fa-user-gear"></i> Thông tin cá nhân</a></li>
+                                                <li><a href="<?php echo e(route('change_password')); ?>"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a></li>
+                                                <li><a href="<?php echo e(route('booking.list')); ?>"><i class="fa-solid fa-clipboard-list"></i> Đơn đã đặt</a></li>
+                                                <li><a href="<?php echo e(route('logout')); ?>"><i class="fa-solid fa-power-off"></i> Đăng xuất</a></li>
                                             </ul>
                                         <?php endif; ?>
                                     </li>

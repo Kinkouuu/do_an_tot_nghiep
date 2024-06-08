@@ -275,8 +275,7 @@
 
                                                 <div
                                                     style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="line-height: 100%; text-transform: capitalize">Ngày
-                                                        đặt: <?php echo e($data['booking']['created_at']); ?></p>
+                                                    <p style="line-height: 100%; text-transform: capitalize"> <?php echo e($data['booking']['created_at']); ?></p>
                                                 </div>
 
                                             </td>

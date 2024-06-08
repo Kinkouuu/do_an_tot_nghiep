@@ -7,6 +7,7 @@ use App\Enums\Booking\PaymentType;
 use App\Events\BookingEvent;
 use App\Mail\SendBookingCompletedMail;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class SendBookingNotification
@@ -65,8 +66,8 @@ class SendBookingNotification
                 'id' => base64_encode($booking->id),
                 'created_at' => $booking->created_at->isoFormat('dddd, HH:mm DD/MM/YYYY'),
                 'payment_type' => $paymentType,
-                'booking_checkin' => $booking->booking_checkin->isoFormat('dddd, HH:mm DD/MM/YYYY'),
-                'booking_checkout' => $booking->booking_checkout->isoFormat('dddd, HH:mm DD/MM/YYYY'),
+                'booking_checkin' => Carbon::parse($booking->booking_checkin)->isoFormat('dddd, HH:mm DD/MM/YYYY'),
+                'booking_checkout' => Carbon::parse($booking->booking_checkout)->isoFormat('dddd, HH:mm DD/MM/YYYY'),
                 'adults' => $booking->number_of_adults,
                 'children' => $booking->number_of_children,
                 'deposit' => $booking->deposit,

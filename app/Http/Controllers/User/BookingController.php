@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Enums\Booking\BookingStatus;
 use App\Enums\ResponseStatus;
+use App\Events\BookingEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Services\User\BookingService;
+use App\Services\User\RoomService;
 use App\Services\User\RoomTypeService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,10 +21,12 @@ class BookingController extends Controller
 {
     protected BookingService $bookingService;
     protected RoomTypeService $roomTypeService;
-    public function __construct(BookingService $bookingService, RoomTypeService $roomTypeService)
+    protected RoomService $roomService;
+    public function __construct(BookingService $bookingService, RoomTypeService $roomTypeService, RoomService $roomService)
     {
         $this->bookingService = $bookingService;
         $this->roomTypeService = $roomTypeService;
+        $this->roomService = $roomService;
     }
     /**
      * Display a listing of the resource.
@@ -31,6 +35,10 @@ class BookingController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $bookingOrders = $this->bookingService->getBookingOrders($user);
+        $bookingRooms = $this->roomService->retrieveBookingOrdersRooms($bookingOrders);
+        return view('user.pages.bookings.list');
     }
 
     /**
@@ -74,7 +82,8 @@ class BookingController extends Controller
      */
     public function show(string $bookingId)
     {
-       dd(base64_decode($bookingId));
+       $bookingId = base64_decode($bookingId);
+       dd($bookingId);
     }
 
     /**
@@ -134,13 +143,18 @@ class BookingController extends Controller
 
     public function showPaymentResponse(string $bookingId, Request $request)
     {
+        $user = Auth::user();
+        $booking = $this->bookingService->find(base64_decode($bookingId));
+        $roomInfo = Cache::get('cart_' . $user->id);
         $response = $request->all();
         if($response['vnp_ResponseCode'] == '00')
         {
-            $this->bookingService->update([
-                'status' => BookingStatus::Approved['key'],
-                'deposit' => $response['vnp_Amount']
-            ], base64_decode($bookingId));
+            //Cập nhật trạng thái đơn đặt và xếp phòng cho khách
+            $booking->status = BookingStatus::Approved['key'];
+            $booking->deposit = $response['vnp_Amount'];
+            $booking->save();
+            BookingEvent::dispatch($booking, $roomInfo);
+            Cache::forget('cart_' . $user->id);
             $data = [
                 'status' => ResponseStatus::Success,
                 'title' => 'Thanh toán thành công!',
@@ -148,6 +162,8 @@ class BookingController extends Controller
                 'amount' => $response['vnp_Amount'],
             ];
         } else {
+            // Xóa đơn hàng khỏi DB nếu giao dịch thất bại
+            $booking->forceDelete();
             $data = [
                 'status' => ResponseStatus::Error,
                 'title' => 'Thanh toán thất bại!',

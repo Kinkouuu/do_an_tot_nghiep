@@ -3,7 +3,7 @@
 <div class="site-wrap">
 
     <x-navbar/>
-    @if(!request()->is('booking-confirm'))
+    @if(!request()->routeIs(config('constants.route_not_include_carousel')))
         @include('user.layouts.slide')
     @endif
     @yield('content')

@@ -48,29 +48,25 @@ class BookingService extends BaseService
             'number_of_adults' => $roomInfo['condition']['adults'],
             'number_of_children' => $roomInfo['condition']['children'],
         ];
-        DB::beginTransaction();
-        try {
-            $booking = $this->create($bookingData);
-            if ($customerInfo['payment'] == PaymentType::VNPay || $customerInfo['payment'] == PaymentType::DebitCard) {
-                $this->vnPay($booking, $roomInfo['total_amount']);
-            } else {
-                $verifiedUser = $this->hasCompletedBookingOrVerified($user);
-                $status = $verifiedUser ? BookingStatus::Approved['key'] : BookingStatus::AwaitingConfirm['key'];
-                $booking->update([
-                    'status' => $status,
-                ]);
-            }
+        //Lưu thông tin đơn đặt
+        $booking = $this->create($bookingData);
+        if ($customerInfo['payment'] == PaymentType::VNPay || $customerInfo['payment'] == PaymentType::DebitCard) {
+            //chuyển hướng sang trang thanh toán vnpay
+            $this->vnPay($booking, $roomInfo['total_amount']);
+        } else {
+            //Cập nhật và xếp phòng cho khách hàng
+            $verifiedUser = $this->hasCompletedBookingOrVerified($user);
+            $status = $verifiedUser ? BookingStatus::Approved['key'] : BookingStatus::AwaitingConfirm['key'];
+            $booking->update([
+                'status' => $status,
+            ]);
             BookingEvent::dispatch($booking, $roomInfo);
             Cache::forget('cart_' . $user->id);
-            DB::commit();
-            return $this->successResponse(
-                'Đặt phòng thành công!',
-                'Bạn có thể xem lại đơn đặt tại mục đơn đã đặt',
-                'homepage');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->errorResponse($e->getMessage());
         }
+        return $this->successResponse(
+            'Đặt phòng thành công!',
+            null,
+            'booking.list');
     }
 
     /**
@@ -114,8 +110,8 @@ class BookingService extends BaseService
         $vnp_OrderType = 'Thanh toán VNPay';
         $vnp_Amount = $totalAmount['total_price'] * 100;
         $vnp_Locale = "VN";
-        $vnp_BankCode = $booking->payment_type;
-//        $vnp_BankCode = "NCB";
+//        $vnp_BankCode = $booking->payment_type;
+        $vnp_BankCode = "NCB";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -188,5 +184,10 @@ class BookingService extends BaseService
             ->where('bookings.booking_checkout', '>', $checkIn)
             ->whereNotIn('bookings.status', BookingStatus::getDeActiveBooking())
             ->get();
+    }
+
+    public function getBookingOrders(User $user): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return Booking::with('bookingRooms')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
     }
 }

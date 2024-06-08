@@ -216,7 +216,7 @@
                         </label>
                     </div>
                 </div>
-                <form class="col-md-12 mt-3 border rounded bg-light" method="POST" action="{{ route('booking') }}">
+                <form class="col-md-12 mt-3 border rounded bg-light" method="POST" action="{{ route('booking.booking') }}">
                     @csrf
                     <div class="row">
                         <div class="col-md-12 border-bottom p-3 px-0">

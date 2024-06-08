@@ -17,7 +17,7 @@
 <?php $component = $__componentOriginal08d9d46900ea68d5dc06d8728734a2fd47ca153c; ?>
 <?php unset($__componentOriginal08d9d46900ea68d5dc06d8728734a2fd47ca153c); ?>
 <?php endif; ?>
-    <?php if(!request()->is('booking-confirm')): ?>
+    <?php if(!request()->routeIs(config('constants.route_not_include_carousel'))): ?>
         <?php echo $__env->make('user.layouts.slide', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
     <?php echo $__env->yieldContent('content'); ?>

@@ -35,7 +35,6 @@
                                                     <span class="text-danger">(-<?php echo e($service['discount']); ?>%)</span>
                                                 <?php endif; ?>
                                             </p>
-
                                         </li>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </ul>

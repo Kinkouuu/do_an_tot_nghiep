@@ -230,7 +230,7 @@
                         </label>
                     </div>
                 </div>
-                <form class="col-md-12 mt-3 border rounded bg-light" method="POST" action="<?php echo e(route('booking')); ?>">
+                <form class="col-md-12 mt-3 border rounded bg-light" method="POST" action="<?php echo e(route('booking.booking')); ?>">
                     <?php echo csrf_field(); ?>
                     <div class="row">
                         <div class="col-md-12 border-bottom p-3 px-0">

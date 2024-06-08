@@ -5,6 +5,7 @@ namespace App\Services\User;
 use App\Enums\Booking\BookingStatus;
 use App\Enums\Room\PriceType;
 use App\Models\Booking;
+use App\Models\BookingRoom;
 use App\Models\DeviceRoom;
 use App\Models\Room;
 use App\Services\BaseService;
@@ -124,23 +125,23 @@ class RoomService extends BaseService
         foreach ($rooms as $room)
         {
             $bedAmount = $this->getBedAmount($room);
-            $adult = $bedAmount['single']*config('constants.room_capacity.single.adults')
-                  + $bedAmount['double']*config('constants.room_capacity.double.adults')
-                  + $bedAmount['twin']*config('constants.room_capacity.twin.adults')
-                  + $bedAmount['family']*config('constants.room_capacity.family.adults');
-            $children = $bedAmount['single']*config('constants.room_capacity.single.children')
-                    + $bedAmount['double']*config('constants.room_capacity.double.children')
-                    + $bedAmount['twin']*config('constants.room_capacity.twin.children')
-                    + $bedAmount['family']*config('constants.room_capacity.family.children');
+            $adult = $bedAmount['single_bed']*config('constants.room_capacity.single.adults')
+                  + $bedAmount['double_bed']*config('constants.room_capacity.double.adults')
+                  + $bedAmount['twin_bed']*config('constants.room_capacity.twin.adults')
+                  + $bedAmount['family_bed']*config('constants.room_capacity.family.adults');
+            $children = $bedAmount['single_bed']*config('constants.room_capacity.single.children')
+                    + $bedAmount['double_bed']*config('constants.room_capacity.double.children')
+                    + $bedAmount['twin_bed']*config('constants.room_capacity.twin.children')
+                    + $bedAmount['family_bed']*config('constants.room_capacity.family.children');
             // Chỉ lấy các phòng có sức chứa > 0
             if(($adult + $children) > 0)
             {
                 $data[] = [
                     'room_id' => $room['id'],
-                    'single_bed' => $bedAmount['single'],
-                    'double_bed'=> $bedAmount['double'],
-                    'twin_bed'=> $bedAmount['twin'],
-                    'family_bed' => $bedAmount['family'],
+                    'single_bed' => $bedAmount['single_bed'],
+                    'double_bed'=> $bedAmount['double_bed'],
+                    'twin_bed'=> $bedAmount['twin_bed'],
+                    'family_bed' => $bedAmount['family_bed'],
                     'adult_capacity' => $adult,
                     'children_capacity' => $children
                 ];
@@ -162,7 +163,7 @@ class RoomService extends BaseService
 
     /**
      * Lấy số giường trong mỗi phòng
-     * @param Room $room
+     * @param Room|array $room
      * @return array
      */
     private function getBedAmount(Room|array $room): array
@@ -173,10 +174,10 @@ class RoomService extends BaseService
         $family = DeviceRoom::where('room_id', $room['id'])->where('device_id', 4)->sum('quantity');
 
         return [
-            'single' => $single,
-            'double' => $double,
-            'twin' => $twin,
-            'family' => $family
+            'single_bed' => $single,
+            'double_bed' => $double,
+            'twin_bed' => $twin,
+            'family_bed' => $family
         ];
     }
 
@@ -237,7 +238,7 @@ class RoomService extends BaseService
         return $separateRooms;
     }
 
-    public function syncRoomsInfo(array $separatedRooms, int $bookingHour)
+    public function syncRoomsInfo(array $separatedRooms, ?int $bookingHour = 0)
     {
         $rooms = collect();
         $duplicatedRoom = false;
@@ -249,7 +250,7 @@ class RoomService extends BaseService
              // Lấy phòng có thông tin bị trùng
              if(!$rooms->isEmpty()) {
                  $duplicatedRoom = $rooms->search(function ($item) use ($room, $separatedRoom) {
-                     return $item['room_type'] == $room->roomType->name
+                     return $item['room_type_id'] == $room->roomType->id
                          && $item['single_bed'] ==  $separatedRoom['single_bed']
                          && $item['double_bed'] ==  $separatedRoom['double_bed']
                          && $item['twin_bed'] ==  $separatedRoom['twin_bed']
@@ -258,21 +259,35 @@ class RoomService extends BaseService
              }
             //Thêm phòng mới nếu không bị trùng hoặc danh sách đang rỗng
              if($duplicatedRoom === false || $rooms->isEmpty()) {
-                 $prices = $this->getPrices($room, $bookingHour);
+                if($bookingHour > 0)
+                {
+                    $prices = $this->getPrices($room, $bookingHour);
 
-                 $rooms = $rooms->push([
-                     "room_ids" => [$room->id],
-                     "room_type" => $room->roomType->name,
-                     "room_type_id" => $room->roomType->id,
-                     "single_bed" => $separatedRoom['single_bed'],
-                     "double_bed" => $separatedRoom['double_bed'],
-                     "twin_bed" => $separatedRoom['twin_bed'],
-                     "family_bed" => $separatedRoom['family_bed'],
-                     'price_unit' => $prices['price_unit'],
-                     'total_price_1_room' => $prices['total_price_1_room'],
-                     "adult_capacity" => $separatedRoom['adult_capacity'],
-                     "children_capacity" => $separatedRoom['children_capacity'],
-                 ]);
+                    $rooms = $rooms->push([
+                        "room_ids" => [$room->id],
+                        "room_type" => $room->roomType->name,
+                        "room_type_id" => $room->roomType->id,
+                        "single_bed" => $separatedRoom['single_bed'],
+                        "double_bed" => $separatedRoom['double_bed'],
+                        "twin_bed" => $separatedRoom['twin_bed'],
+                        "family_bed" => $separatedRoom['family_bed'],
+                        'price_unit' => $prices['price_unit'],
+                        'total_price_1_room' => $prices['total_price_1_room'],
+                        "adult_capacity" => $separatedRoom['adult_capacity'],
+                        "children_capacity" => $separatedRoom['children_capacity'],
+                    ]);
+                } else {
+                    $rooms = $rooms->push([
+                        "room_ids" => [$room->id],
+                        "room_type" => $room->roomType->name,
+                        'total_price_1_room' => $separatedRoom['price'],
+                        "room_type_id" => $room->roomType->id,
+                        "single_bed" => $separatedRoom['single_bed'],
+                        "double_bed" => $separatedRoom['double_bed'],
+                        "twin_bed" => $separatedRoom['twin_bed'],
+                        "family_bed" => $separatedRoom['family_bed'],
+                    ]);
+                }
              } else {
                  // Cập nhật lại danh sách nếu như đã có phòng bị trùng thông tin
                  $updatedRooms = $rooms->map(function ($item, $key) use ($duplicatedRoom, $separatedRoom){
@@ -383,5 +398,34 @@ class RoomService extends BaseService
             return $respectiveRoom;
         }
         return null;
+    }
+
+    /** Lấy thông tin phòng theo đơn booking
+     * @param Collection $bookingOrders
+     * @return array
+     */
+    public function retrieveBookingOrdersRooms(Collection $bookingOrders): array
+    {
+        $bookingsDetail = [];
+        foreach ($bookingOrders as $key => $bookingOrder) {
+            $rooms = [];
+            foreach ($bookingOrder->bookingRooms as $bookingRoom) {
+                $room = [
+                    'room_id' => $bookingRoom['id'],
+                    'room_type_id' => $bookingRoom['room_type_id'],
+                    'room_type' => $bookingRoom->roomType->name,
+                    'price' => $bookingRoom->pivot->price,
+                ];
+                $bedAmount = $this->getBedAmount($bookingRoom);
+                $rooms[] = array_merge($room, $bedAmount);
+            }
+            $bookingsDetail[$key] = [
+                'branch' => $bookingOrder->bookingRooms->first()->branch,
+                'booking' => $bookingOrder,
+                'rooms' => $this->syncRoomsInfo($rooms),
+                'total' => $this->getTotalAmount($this->syncRoomsInfo($rooms)),
+            ];
+        }
+        return $bookingsDetail;
     }
 }

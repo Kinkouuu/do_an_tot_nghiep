@@ -92,6 +92,6 @@ class BookingForm extends Component
            'total_amount' => $this->roomBranch['total_amount'],
            'condition' => $this->condition,
        ]);
-        return redirect()->route('booking-confirm');
+        return redirect()->route('booking.confirm');
     }
 }
