@@ -10,7 +10,7 @@
             </div>
             <select class="selectpicker w-75" name="type_service_id" data-live-search="true" data-style="bg-white border border-left-0">
                 <?php $__currentLoopData = $typeServices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $typeService): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option data-tokens="<?php echo e($typeService->name); ?>"
+                    <option data-tokens="<?php echo e($typeService->name); ?>" data-icon="<?php echo e($typeService->icon); ?>"
                         <?php echo e($service->type_service_id == $typeService->id ? 'selected' : ''); ?> value=<?php echo e($typeService->id); ?>>
                         <?php echo e($typeService->name); ?>
 

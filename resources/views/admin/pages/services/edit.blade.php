@@ -12,7 +12,7 @@
             </div>
             <select class="selectpicker w-75" name="type_service_id" data-live-search="true" data-style="bg-white border border-left-0">
                 @foreach($typeServices as $typeService)
-                    <option data-tokens="{{ $typeService->name }}"
+                    <option data-tokens="{{ $typeService->name }}" data-icon="{{ $typeService->icon }}"
                         {{ $service->type_service_id == $typeService->id ? 'selected' : '' }} value={{ $typeService->id }}>
                         {{ $typeService->name }}
                     </option>

@@ -400,7 +400,7 @@ class RoomService extends BaseService
         return null;
     }
 
-    /** Lấy thông tin phòng theo đơn booking
+    /** Lấy thông tin phòng theo danh sách đơn bookings
      * @param Collection $bookingOrders
      * @return array
      */
@@ -408,24 +408,45 @@ class RoomService extends BaseService
     {
         $bookingsDetail = [];
         foreach ($bookingOrders as $key => $bookingOrder) {
-            $rooms = [];
-            foreach ($bookingOrder->bookingRooms as $bookingRoom) {
-                $room = [
-                    'room_id' => $bookingRoom['id'],
-                    'room_type_id' => $bookingRoom['room_type_id'],
-                    'room_type' => $bookingRoom->roomType->name,
-                    'price' => $bookingRoom->pivot->price,
-                ];
-                $bedAmount = $this->getBedAmount($bookingRoom);
-                $rooms[] = array_merge($room, $bedAmount);
-            }
-            $bookingsDetail[$key] = [
-                'branch' => $bookingOrder->bookingRooms->first()->branch,
-                'booking' => $bookingOrder,
-                'rooms' => $this->syncRoomsInfo($rooms),
-                'total' => $this->getTotalAmount($this->syncRoomsInfo($rooms)),
-            ];
+            $bookingsDetail[$key] = $this->retrieveBookingOrderRooms($bookingOrder);
         }
         return $bookingsDetail;
+    }
+
+    /**
+     * Lấy thông tin theo đơn booking
+     * @param Booking $bookingOrder
+     * @return array
+     */
+    public function retrieveBookingOrderRooms(Booking $bookingOrder): array
+    {
+        $rooms = [];
+        $time = Carbon::parse($bookingOrder->booking_checkin)->diffInHours($bookingOrder->booking_checkout);
+        // Làm tròn thêm 1 tiếng nếu dưới 24 giờ
+        if ($time < 24) {
+            $duration = ceil($time / 1) . ' giờ';
+        }
+        // Làm tròn lên 1 ngày nếu trên 24 giờ
+        else {
+            $days = ceil($time / 24);
+            $nights = ($days > 1) ? $days - 1 : $days;
+            $duration = $days . ' ngày ' . $nights . ' đêm';
+        }
+        foreach ($bookingOrder->bookingRooms as $bookingRoom) {
+            $room = [
+                'room_id' => $bookingRoom['id'],
+                'room_type_id' => $bookingRoom['room_type_id'],
+                'room_type' => $bookingRoom->roomType->name,
+                'price' => $bookingRoom->pivot->price,
+            ];
+            $bedAmount = $this->getBedAmount($bookingRoom);
+            $rooms[] = array_merge($room, $bedAmount);
+        }
+        return [
+            'branch' => $bookingOrder->bookingRooms->first()->branch,
+            'booking' => $bookingOrder,
+            'rooms' => $this->syncRoomsInfo($rooms),
+            'total' => array_merge($this->getTotalAmount($this->syncRoomsInfo($rooms)), ['total_time' => $duration]),
+        ];
     }
 }

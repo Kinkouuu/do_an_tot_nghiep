@@ -35,4 +35,16 @@ final class PaymentType extends Enum
             ],
         ];
     }
+
+    public static function getValue(string $type): mixed
+    {
+        $paymentType = self::getPaymentType();
+        foreach ($paymentType as $enumData) {
+            if ($enumData['type'] == $type) {
+                return $enumData['name'];
+            }
+        }
+
+        return null;
+    }
 }

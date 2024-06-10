@@ -56,4 +56,23 @@ final class BookingStatus extends Enum
             self::Completed['key'],
         ];
     }
+
+    public static function getAwaitingBooking()
+    {
+        return[
+            self::AwaitingConfirm['key'],
+            self::AwaitingPayment['key'],
+        ];
+    }
+
+    public static function getValue(string $key): mixed
+    {
+        foreach (self::asArray() as $enumData) {
+            if ($enumData['key'] == $key) {
+                return $enumData['value'];
+            }
+        }
+
+        return null;
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\Branch;
 use App\Models\TypeRoom;
 use App\Models\TypeService;
 use App\Services\BaseService;
+use Illuminate\Support\Collection;
 
 class RoomTypeService extends BaseService
 {
@@ -228,7 +229,7 @@ class RoomTypeService extends BaseService
      * @param array $rooms
      * @return array
      */
-    public function getRoomTypesGlobalInfo(array $rooms): array
+    public function getRoomTypesGlobalInfo(Collection|array $rooms): array
     {
         $data = [];
         foreach ($rooms as $room)

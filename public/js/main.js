@@ -286,7 +286,7 @@ jQuery(document).ready(function($) {
 	var siteCountDown = function() {
 
 		if ( $('#date-countdown').length > 0 ) {
-			$('#date-countdown').countdown('2024/10/10', function(event) {
+			$('#date-countdown').countdown('2024/10/10 17:00:00', function(event) {
 			  var $this = $(this).html(event.strftime(''
 			    + '<span class="countdown-block"><span class="label">%m</span> tháng </span>'
 			    + '<span class="countdown-block"><span class="label">%d</span> ngày </span>'

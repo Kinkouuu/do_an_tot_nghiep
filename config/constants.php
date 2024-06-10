@@ -15,5 +15,5 @@ return [
       'approved' => 'Đơn đặt của bạn đã được xác nhận tự động bởi hệ thống!',
       'refuse'=> 'Thật tiếc quá, đơn đặt của bạn đã bị từ chối với lí do: ',
     ],
-    'route_not_include_carousel' => ['booking.confirm', 'booking.list'],
+    'route_not_include_carousel' => ['booking.confirm', 'booking.list', 'booking.show'],
 ];

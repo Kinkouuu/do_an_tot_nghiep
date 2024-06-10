@@ -37,7 +37,7 @@ abstract class BaseService
     //tìm 1 cột theo id
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     //thêm data vào model

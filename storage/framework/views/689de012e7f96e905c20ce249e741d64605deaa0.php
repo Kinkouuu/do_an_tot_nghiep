@@ -9,8 +9,8 @@ use Illuminate\Support\Carbon;
         </div>
         <div class="col-md-9 d-flex justify-content-around">
             <div class="col-md-5">
-                <h5>Tận hưởng chuyến đi của bạn tại: <span
-                        class="text-danger text-bold"><?php echo e($roomBranch['branch']['name'] . ' - ' . $roomBranch['branch']['city']); ?></span>
+                <h5>Tận hưởng chuyến đi của bạn tại: <br>
+                    <span class="text-danger text-bold"><?php echo e($roomBranch['branch']['name'] . ' - ' . $roomBranch['branch']['city']); ?></span>
                 </h5>
                 <div class="col-md-12">
                     <div class="d-flex align-items-center">

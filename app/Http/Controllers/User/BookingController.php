@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\Booking\BookingStatus;
+use App\Enums\Booking\PaymentType;
 use App\Enums\ResponseStatus;
 use App\Events\BookingChangeStatus;
 use App\Events\BookingEvent;
@@ -11,6 +12,10 @@ use App\Http\Requests\BookingRequest;
 use App\Services\User\BookingService;
 use App\Services\User\RoomService;
 use App\Services\User\RoomTypeService;
+use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -32,14 +37,18 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return Application|Factory|View|\Illuminate\View\View
      */
     public function index()
     {
         $user = Auth::user();
         $bookingOrders = $this->bookingService->getBookingOrders($user);
         $bookingRooms = $this->roomService->retrieveBookingOrdersRooms($bookingOrders);
-        return view('user.pages.bookings.list');
+
+        return view('user.pages.bookings.list', [
+            'page_title' => 'Đơn đã đặt',
+            'booking_rooms' => $bookingRooms,
+        ]);
     }
 
     /**
@@ -78,24 +87,22 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param string $bookingId
+     * @return Application|Factory|\Illuminate\View\View|View
      */
     public function show(string $bookingId)
     {
-       $bookingId = base64_decode($bookingId);
-       dd($bookingId);
-    }
+       $booking = $this->bookingService->find(base64_decode($bookingId));
+       $bookingRooms = $this->roomService->retrieveBookingOrderRooms($booking);
+       $rooms = $this->roomTypeService->getRoomTypesGlobalInfo($bookingRooms['rooms']);
+       return view('user.pages.bookings.detail', [
+           'page_title' => 'Thông tin đơn hàng',
+           'branch' => $bookingRooms['branch'],
+           'booking' => $bookingRooms['booking'],
+           'rooms' => $rooms,
+           'total' => $bookingRooms['total'],
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
+       ]);
     }
 
     /**
@@ -114,11 +121,20 @@ class BookingController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return array
      */
-    public function destroy($id)
+    public function bookingCancel(int $id)
     {
-        //
+        $booking = $this->bookingService->find($id);
+        if($booking && in_array( $booking->status, BookingStatus::getAwaitingBooking()))
+        {
+            return $this->bookingService->cancel($booking);
+        }
+
+        return $this->bookingService->errorResponse(
+            'Đã có lỗi xảy ra',
+             'Vui lòng thử lại sau ít phút',
+        );
     }
 
     public function bookingConfirm()
@@ -134,6 +150,7 @@ class BookingController extends Controller
         $condition = $this->bookingService->retrieveCondition($data['condition']);
 
         return view('user.pages.bookings.booking-confirm', [
+            'page_title' => 'Xác nhận đặt phòng',
             'user' => $user,
             'condition' => $condition,
             'branch' => $data['branch'],
@@ -171,9 +188,22 @@ class BookingController extends Controller
         }
         Cache::forget('booking_' . $booking->id);
         return view('user.pages.bookings.payment-response', [
+            'page_tile' => 'Thanh toán VNPay',
             'data' => $data,
             'booking_id' => $bookingId,
         ]);
+    }
+
+    public function bookingPayment(string $bookingId)
+    {
+        $booking = $this->bookingService->find(base64_decode($bookingId));
+        $roomInfo = Cache::get('booking_' . $booking->id);
+        if ($booking->status == BookingStatus::AwaitingPayment['key'] && $booking->payment != PaymentType::Cash && $roomInfo)
+        {
+            $this->bookingService->vnPay($booking, $roomInfo);
+        }
+
+        return redirect()->back();
     }
 }
 

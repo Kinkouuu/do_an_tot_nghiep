@@ -66,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [BookingController::class, 'index'])->name('list');
         Route::get('/payment-response/{bookingId}', [BookingController::class, 'showPaymentResponse'])->name('payment-response');
         Route::get('/{bookingId}', [BookingController::class, 'show'])->name('show');
+        Route::get('/payment-request/{bookingId}', [BookingController::class, 'bookingPayment'])->name('payment-request');
+        Route::post('/{id}/cancel', [BookingController::class, 'bookingCancel'])->name('cancel');
     });
 });
 

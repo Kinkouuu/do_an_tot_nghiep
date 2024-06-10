@@ -98,7 +98,7 @@ class BookingService extends BaseService
         ];
     }
 
-    protected function vnPay(Booking $booking, array $roomInfo)
+    public function vnPay(Booking $booking, array $roomInfo)
     {
         Cache::put('booking_' . $booking->id, $roomInfo);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -107,7 +107,7 @@ class BookingService extends BaseService
         $vnp_HashSecret = "9HS6QBRILFD1SFL4J4JBRTZ7BPMPTRG6"; //Chuỗi bí mật
 
         $vnp_TxnRef = $booking->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = $booking->name . ' thanh toán đặt phòng tại V.V.CBooking';
+        $vnp_OrderInfo = $booking->name . ' thanh toán đặt phòng tại V.V.C Booking';
         $vnp_OrderType = 'Thanh toán VNPay';
         $vnp_Amount = $roomInfo['total_amount']['total_price'] * 100;
         $vnp_Locale = "VN";
@@ -190,5 +190,17 @@ class BookingService extends BaseService
     public function getBookingOrders(User $user): \Illuminate\Database\Eloquent\Collection|array
     {
         return Booking::with('bookingRooms')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
+     * Người dùng hủy đơn đặt phòng
+     * @param Booking $booking
+     * @return array
+     */
+    public function cancel(Booking $booking): array
+    {
+        $booking->status = BookingStatus::Canceled['key'];
+        $booking->save();
+        return $this->successResponse('Hủy đơn đặt phòng thành công!');
     }
 }
