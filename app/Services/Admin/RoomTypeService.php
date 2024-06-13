@@ -12,14 +12,10 @@ use App\Services\BaseService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use App\Services\User\RoomTypeService as UserRoomTypeService;
 
-class RoomTypeService extends BaseService
+class RoomTypeService extends UserRoomTypeService
 {
-    public function getModel()
-    {
-        return TypeRoom::class;
-    }
-
     /**
      * lấy danh sách các loại phòng đang hoạt động
 

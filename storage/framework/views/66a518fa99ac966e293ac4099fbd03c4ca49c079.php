@@ -8,7 +8,7 @@
             <select class="form-control w-25" name="by">
                 <option value="id" <?php echo e((request()->input('by') == 'id') ? 'selected' : ''); ?>>ID</option>
                 <option value="type_service_id" <?php echo e((request()->input('by') == 'type_service_id') ? 'selected' : ''); ?>>Loại dịch vụ</option>
-                <option value="country" <?php echo e((request()->input('by') == 'status') ? 'selected' : ''); ?>>Trạng Thái</option>
+                <option value="status" <?php echo e((request()->input('by') == 'status') ? 'selected' : ''); ?>>Trạng Thái</option>
                 <option value="name" <?php echo e((request()->input('by') == 'name') ? 'selected' : ''); ?>>Tên</option>
             </select>
             <select class="form-control w-25" name="sort">

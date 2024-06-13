@@ -101,7 +101,6 @@ class BookingController extends Controller
            'booking' => $bookingRooms['booking'],
            'rooms' => $rooms,
            'total' => $bookingRooms['total'],
-
        ]);
     }
 

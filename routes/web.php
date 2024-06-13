@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\BookingController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\RoomController;
@@ -90,7 +91,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('room-type', [RoomTypeController::class, 'index'])->name('room-type.index');
         Route::get('room-type/images/{code}', [RoomTypeController::class, 'getImages'])->name('room-type.images');
         Route::get('room-type/services/{code}', [RoomTypeController::class, 'getServices'])->name('room-type.services');
-
+        //Booking manager
+        Route::resource('booking',AdminBookingController::class);
         /*Middleware MANAGER*/
         Route::middleware('manager')->group(function () {
             //Room type manager

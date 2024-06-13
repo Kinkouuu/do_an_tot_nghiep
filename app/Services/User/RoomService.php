@@ -5,7 +5,6 @@ namespace App\Services\User;
 use App\Enums\Booking\BookingStatus;
 use App\Enums\Room\PriceType;
 use App\Models\Booking;
-use App\Models\BookingRoom;
 use App\Models\DeviceRoom;
 use App\Models\Room;
 use App\Services\BaseService;
@@ -259,8 +258,7 @@ class RoomService extends BaseService
              }
             //Thêm phòng mới nếu không bị trùng hoặc danh sách đang rỗng
              if($duplicatedRoom === false || $rooms->isEmpty()) {
-                if($bookingHour > 0)
-                {
+
                     $prices = $this->getPrices($room, $bookingHour);
 
                     $rooms = $rooms->push([
@@ -272,22 +270,10 @@ class RoomService extends BaseService
                         "twin_bed" => $separatedRoom['twin_bed'],
                         "family_bed" => $separatedRoom['family_bed'],
                         'price_unit' => $prices['price_unit'],
-                        'total_price_1_room' => $prices['total_price_1_room'],
-                        "adult_capacity" => $separatedRoom['adult_capacity'],
-                        "children_capacity" => $separatedRoom['children_capacity'],
+                        'total_price_1_room' => $bookingHour > 0 ? $prices['total_price_1_room'] :  $separatedRoom['price'],
+                        "adult_capacity" => $separatedRoom['adult_capacity'] ?? null,
+                        "children_capacity" => $separatedRoom['children_capacity'] ?? null,
                     ]);
-                } else {
-                    $rooms = $rooms->push([
-                        "room_ids" => [$room->id],
-                        "room_type" => $room->roomType->name,
-                        'total_price_1_room' => $separatedRoom['price'],
-                        "room_type_id" => $room->roomType->id,
-                        "single_bed" => $separatedRoom['single_bed'],
-                        "double_bed" => $separatedRoom['double_bed'],
-                        "twin_bed" => $separatedRoom['twin_bed'],
-                        "family_bed" => $separatedRoom['family_bed'],
-                    ]);
-                }
              } else {
                  // Cập nhật lại danh sách nếu như đã có phòng bị trùng thông tin
                  $updatedRooms = $rooms->map(function ($item, $key) use ($duplicatedRoom, $separatedRoom){
