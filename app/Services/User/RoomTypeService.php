@@ -122,14 +122,14 @@ class RoomTypeService extends BaseService
         ];
     }
 
-    private function getThumbNail(TypeRoom $typeRoom)
+    public function getThumbNail(TypeRoom $typeRoom)
     {
         return $typeRoom->roomImages->filter(function ($item) {
             return ($item['type'] == ImageType::ThumbNail);
         })->pluck('path')->first();
     }
 
-    private function getDetailImg(TypeRoom $typeRoom)
+    public function getDetailImg(TypeRoom $typeRoom)
     {
         return $typeRoom->roomImages->filter(function ($item) {
             return ($item['type'] == ImageType::Detail);
@@ -140,7 +140,7 @@ class RoomTypeService extends BaseService
      * @param TypeRoom $typeRoom
      * @return array
      */
-    private function getRoomPrices(TypeRoom $typeRoom): array
+    public function getRoomPrices(TypeRoom $typeRoom): array
     {
         $roomPrices = [];
         foreach (PriceType::asArray() as $key => $priceType) {
@@ -165,7 +165,7 @@ class RoomTypeService extends BaseService
     /*
      *
      */
-    private function getRoomServices(TypeRoom $typeRoom): array
+    public function getRoomServices(TypeRoom $typeRoom): array
     {
         $provideServiceIds = [];
         $services = [

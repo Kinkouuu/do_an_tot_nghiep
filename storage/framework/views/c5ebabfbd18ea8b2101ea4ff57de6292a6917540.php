@@ -42,6 +42,20 @@
             console.error( error );
         } );
 </script>
+<script>
+    window.addEventListener('show-alert', event => {
+        Swal.fire({
+            title: event.detail.title,
+            text: event.detail.text,
+            icon: event.detail.icon
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Refresh the page
+                location.reload();
+            }
+        })
+    })
+</script>
 <?php echo \Livewire\Livewire::scripts(); ?>
 
 </body>

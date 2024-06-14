@@ -134,7 +134,7 @@ class RoomController extends Controller
      */
     public function getDevices(int $roomID)
     {
-        $room = $this->roomService->getById($roomID);
+        $room = $this->roomService->find($roomID);
         $devices = $this->deviceService->all();
 
         $roomDevices = $this->roomService->getDeviceRoom($room, $devices);

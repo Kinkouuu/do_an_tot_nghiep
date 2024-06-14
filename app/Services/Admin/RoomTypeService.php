@@ -328,7 +328,7 @@ class RoomTypeService extends UserRoomTypeService
         }
     }
 
-    public function deleteRoomService(array $removeServices, TypeRoom $typeRoom)
+    public function deleteRoomService(array $removeServices, TypeRoom $typeRoom): array
     {
         foreach ($removeServices as $item) {
             // Check xem phòng đang có dịch vụ đó ko
@@ -336,8 +336,7 @@ class RoomTypeService extends UserRoomTypeService
                 //Nếu có thì xóa
                 $typeRoom->roomServices()->detach([$item]);
             }
-            return $this->successResponse('Xóa dịch vụ thành công');
         }
+        return $this->successResponse('Xóa dịch vụ thành công');
     }
-
 }

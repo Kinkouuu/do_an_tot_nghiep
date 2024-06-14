@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Enums\Booking\BookingStatus;
 use App\Enums\Room\PriceType;
+use App\Enums\Room\RoomStatus;
 use App\Models\Booking;
 use App\Models\DeviceRoom;
 use App\Models\Room;
@@ -260,9 +261,8 @@ class RoomService extends BaseService
              if($duplicatedRoom === false || $rooms->isEmpty()) {
 
                     $prices = $this->getPrices($room, $bookingHour);
-
                     $rooms = $rooms->push([
-                        "room_ids" => [$room->id],
+                        "room_ids" => [$room->id => $room->name],
                         "room_type" => $room->roomType->name,
                         "room_type_id" => $room->roomType->id,
                         "single_bed" => $separatedRoom['single_bed'],
@@ -278,7 +278,8 @@ class RoomService extends BaseService
                  // Cập nhật lại danh sách nếu như đã có phòng bị trùng thông tin
                  $updatedRooms = $rooms->map(function ($item, $key) use ($duplicatedRoom, $separatedRoom){
                      if ($key == $duplicatedRoom) {
-                         $item['room_ids'][] = $separatedRoom['room_id'];
+                         $room = $this->find($separatedRoom['room_id']);
+                         $item['room_ids'][$room->id] = $room->name;
                      }
                      return $item;
                  });
@@ -357,16 +358,22 @@ class RoomService extends BaseService
      * @param Room $room
      * @param Carbon $checkIn
      * @param Carbon $checkOut
+     * @param bool $isNow
      * @return mixed
      */
-    public function getRespectiveRoom(Room $room, Carbon $checkIn, Carbon $checkOut): mixed
+    public function getRespectiveRoom(Room $room, Carbon $checkIn, Carbon $checkOut, bool $isNow = false): Collection
     {
+        $data = [];
         $bedAmount = $this->getBedAmount($room);
         //Lấy các phòng tương tự với phòng mong muốn
-        $rooms = Room::where('room_type_id', $room->room_type_id)
+        $query = $this->model->query();
+        $query->where('room_type_id', $room->room_type_id)
             ->where('branch_id', $room->branch_id)
-            ->where('id', '!=', $room->id)
-            ->get();
+            ->where('id', '!=', $room->id);
+        if ($isNow) {
+            $query->where('status', RoomStatus::Vacating['key']);
+        }
+        $rooms = $query->get();
         $bookedRoomIds = $this->getBookedRoomIds($checkIn, $checkOut);
 
         // Lấy phòng tương ứng sau khi loại bỏ các phòng đã được đặt trước trong thời gian yêu cầu
@@ -381,9 +388,9 @@ class RoomService extends BaseService
             {
                 continue;
             }
-            return $respectiveRoom;
+            $data[] = $respectiveRoom;
         }
-        return null;
+        return collect($data);
     }
 
     /** Lấy thông tin phòng theo danh sách đơn bookings

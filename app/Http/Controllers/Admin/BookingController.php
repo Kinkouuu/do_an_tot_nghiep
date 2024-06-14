@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Booking\BookingStatus;
+use App\Enums\ResponseStatus;
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Services\Admin\BookingService;
 use App\Services\Admin\RoomTypeService;
 use App\Services\User\RoomService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
@@ -41,7 +47,7 @@ class BookingController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -52,7 +58,7 @@ class BookingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -63,7 +69,7 @@ class BookingController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -105,11 +111,27 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Booking $booking
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function refuseBooking(Booking $booking, Request $request)
     {
-        //
+        $validated =Validator::make($request->all(), [
+            'reason' => ['required', 'max:255', 'string'],
+        ]);
+        if($validated->fails()) {
+            return $this->showAlertAndRedirect([
+                'status' => ResponseStatus::Error,
+                'title'  => 'Vui lòng chọn/nhập lý do.'
+            ]);
+        }
+            $booking->status = BookingStatus::Refuse['key'];
+            $booking->refuse_reason = $request->get('reason');
+            $booking->save();
+            return $this->showAlertAndRedirect([
+                'status' => ResponseStatus::Success,
+                'title' => 'Đã từ chối đơn đặt!',
+            ]);
     }
 }

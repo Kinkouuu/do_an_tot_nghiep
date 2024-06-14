@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="d-flex justify-content-between mt-3 mb-5">
                     <div class="col-2 my-auto text-center">
-                        <a class="btn btn-outline-success" href="">
+                        <a class="btn btn-outline-success" href="{{ route('admin.room.edit', $room['id']) }}">
                             <i class="fa-solid fa-pen-to-square"></i>
                             Thông tin chi tiết
                         </a>

@@ -1,9 +1,29 @@
 <?php $__env->startSection('content'); ?>
-    <h1 class="text-center p-3"> <?php echo e($title); ?>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="d-flex justify-content-between mt-3 mb-5">
+                <div class="col-2 my-auto text-center">
+                    <a class="btn btn-outline-success" href="<?php echo e(route('admin.room.edit', $room['id'])); ?>">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Thông tin chi tiết
+                    </a>
+                </div>
 
-    <br>
-        <strong class="text-secondary text-uppercase">[<?php echo e($room->name . ' - ' . $room->branch->name . '/' . $room->branch->city); ?>]</strong>
-    </h1>
+                <h1 class="text-center p-3"> <?php echo e($title); ?>
+
+                    <br>
+                    <strong class="text-secondary text-uppercase">[<?php echo e($room->name . ' - ' . $room->branch->name . '/' . $room->branch->city); ?>]</strong>
+                </h1>
+                <div class="col-2 my-auto text-center">
+                    <a class="btn btn-outline-success" href="<?php echo e(route('admin.room.devices', ['code' => $room->id])); ?>">
+                        <i class="fa-solid fa-server"></i>
+                       Danh sách thiết bị
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <form class="container col-md-8 text-center justify-content-center"
           action="<?php echo e(route('admin.room.update', $room)); ?>" method="POST">
         <?php echo csrf_field(); ?> <?php echo method_field('PUT'); ?>

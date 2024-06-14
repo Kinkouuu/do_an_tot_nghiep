@@ -93,6 +93,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('room-type/services/{code}', [RoomTypeController::class, 'getServices'])->name('room-type.services');
         //Booking manager
         Route::resource('booking',AdminBookingController::class);
+        Route::prefix('booking')->name('booking.')->group(function () {
+            Route::post('/{booking}/refuse', [AdminBookingController::class, 'refuseBooking'])->name('refuse');
+        });
         /*Middleware MANAGER*/
         Route::middleware('manager')->group(function () {
             //Room type manager
@@ -105,7 +108,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('services/{typeRoom}', [RoomTypeController::class, 'addServices'])->name('services.add');
             });
             //Room manager
-               Route::resource('room',AdminRoomController::class);
+            Route::resource('room',AdminRoomController::class);
             Route::prefix('room')->name('room.')->group(function () {
                 Route::get('{code}/devices', [AdminRoomController::class, 'getDevices'])->name('devices');
             });

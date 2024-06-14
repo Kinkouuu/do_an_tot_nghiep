@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="d-flex justify-content-between mt-3 mb-5">
                     <div class="col-2 my-auto text-center">
-                        <a class="btn btn-outline-success" href="">
+                        <a class="btn btn-outline-success" href="<?php echo e(route('admin.room.edit', $room['id'])); ?>">
                             <i class="fa-solid fa-pen-to-square"></i>
                             Thông tin chi tiết
                         </a>
@@ -41,15 +41,15 @@
                 <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('room.room-device', ['room' => $room, 'room_device' => $room_device])->html();
-} elseif ($_instance->childHasBeenRendered('MgsVPNK')) {
-    $componentId = $_instance->getRenderedChildComponentId('MgsVPNK');
-    $componentTag = $_instance->getRenderedChildComponentTagName('MgsVPNK');
+} elseif ($_instance->childHasBeenRendered('ZKM6fh9')) {
+    $componentId = $_instance->getRenderedChildComponentId('ZKM6fh9');
+    $componentTag = $_instance->getRenderedChildComponentTagName('ZKM6fh9');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('MgsVPNK');
+    $_instance->preserveRenderedChild('ZKM6fh9');
 } else {
     $response = \Livewire\Livewire::mount('room.room-device', ['room' => $room, 'room_device' => $room_device]);
     $html = $response->html();
-    $_instance->logRenderedChild('MgsVPNK', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('ZKM6fh9', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

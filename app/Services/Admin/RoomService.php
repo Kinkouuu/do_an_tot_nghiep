@@ -2,20 +2,19 @@
 
 namespace App\Services\Admin;
 
+use App\Enums\Booking\BookingStatus;
 use App\Enums\RoleAccount;
+use App\Enums\Room\RoomStatus;
+use App\Models\Booking;
 use App\Models\Room;
-use App\Services\BaseService;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Services\User\RoomService as UserRoomService;
 
-class RoomService extends BaseService
+class RoomService extends UserRoomService
 {
-    public function getModel()
-    {
-        return Room::class;
-    }
 
     /** Lấy danh sách phòng
      * @param array|null $request
@@ -84,22 +83,6 @@ class RoomService extends BaseService
     }
 
     /**
-     * Lấy thông tin phòng từ ID
-     * @param int $id
-     * @return mixed
-     */
-    public function getById(int $id): mixed
-    {
-        $room = $this->find($id);
-
-        if(!$room)
-        {
-            abort(404);
-        }
-        return $room;
-    }
-
-    /**
      * @param Room $room
      * @param Collection $devices
      * @return Collection
@@ -141,4 +124,43 @@ class RoomService extends BaseService
         return collect($data)->sortBy('name')->values();
     }
 
+    /**
+     * Đổi phòng tương ứng cho đơn đặt
+     * @param Booking $booking
+     * @param int $roomId
+     * @param int $roomChangeId
+     * @return array
+     */
+    public function changeRoom(Booking $booking, int $roomId, int $roomChangeId): array
+    {
+        $validate = $this->roomIsNowAvailable($booking, $roomChangeId);
+        if ($validate)
+        {
+            $bookingRoom = $booking->bookingRooms()->where('room_id',$roomId)->first();
+            $bookingRoom->pivot->room_id = $roomChangeId;
+            $bookingRoom->pivot->save();
+            return $this->successResponse('Thay đổi phòng thành công!');
+        }
+       return $this->errorResponse('Phòng này đã được đặt trước hoặc đang không thể sử dụng.', 'VUi lòng chọn phòng khác!');
+    }
+
+    /**
+     * Check xem phòng có đang trống hoặc đã có đơn hẹn trước không
+     * @param Booking $booking
+     * @param $roomId
+     * @return bool
+     */
+    public function roomIsNowAvailable(Booking $booking, $roomId): bool
+    {
+        $roomHasBooked = DB::table('bookings')
+            ->leftJoin('booking_room','bookings.id', '=', 'booking_room.booking_id')
+            ->where('booking_room.room_id', $roomId)
+            ->where('bookings.booking_checkin', '<', $booking['booking_checkout'])
+            ->where('bookings.booking_checkout', '>', $booking['booking_checkin'])
+            ->whereNotIn('bookings.status', BookingStatus::getDeActiveBooking())
+            ->get();
+        $roomNotVacating = $this->model->where('id', $roomId)->where('status','!=', RoomStatus::Vacating['key'])->get();
+
+        return $roomHasBooked->isEmpty() && $roomNotVacating->isEmpty();
+    }
 }
