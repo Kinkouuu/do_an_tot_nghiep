@@ -12,7 +12,6 @@ use App\Http\Requests\BookingRequest;
 use App\Services\User\BookingService;
 use App\Services\User\RoomService;
 use App\Services\User\RoomTypeService;
-use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;

@@ -75,7 +75,7 @@ class RoomService extends BaseService
     private function getBookedRoomIds(string|Carbon $checkIn, string|Carbon $checkOut): array
     {
         //* Lấy các phòng đã được đặt trước trong thời gian yêu cầu
-        $bookings = Booking::where('booking_checkin', '<', $checkOut)->where('booking_checkout', '>', $checkIn)
+        $bookings = Booking::whereBetween('booking_checkin', [$checkIn, $checkOut])->orWhereBetween('booking_checkout', [$checkIn, $checkOut])
             ->whereNotIn('status', BookingStatus::getDeActiveBooking())->get();
         $bookedRoomIds = [];
 

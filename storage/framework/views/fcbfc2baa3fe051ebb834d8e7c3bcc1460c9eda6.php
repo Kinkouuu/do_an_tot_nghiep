@@ -54,30 +54,32 @@
                                                         class="text-lowercase text-secondary">x<?php echo e(count($room['room_ids'])); ?></span>
                                                 </h3>
                                             </div>
-                                            <ul class="text-capitalize">
+                                            <ul class="p-0">
                                                 <?php $__currentLoopData = $room['room_ids']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $roomId => $roomName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <li class="d-flex align-items-center justify-content-around">
-                                                        <strong>Phòng: </strong>
-                                                        <?php
+                                                    <li class="p-0">
+                                                    <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('booking.change-room', [
-                                                         'roomId' => $roomId,
-                                                         'booking' => $booking, ])->html();
-} elseif ($_instance->childHasBeenRendered('GiMTYfS')) {
-    $componentId = $_instance->getRenderedChildComponentId('GiMTYfS');
-    $componentTag = $_instance->getRenderedChildComponentTagName('GiMTYfS');
+                                                     'roomId' => $roomId,
+                                                     'booking' => $booking,
+                                                     ])->html();
+} elseif ($_instance->childHasBeenRendered('zmfigOQ')) {
+    $componentId = $_instance->getRenderedChildComponentId('zmfigOQ');
+    $componentTag = $_instance->getRenderedChildComponentTagName('zmfigOQ');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('GiMTYfS');
+    $_instance->preserveRenderedChild('zmfigOQ');
 } else {
     $response = \Livewire\Livewire::mount('booking.change-room', [
-                                                         'roomId' => $roomId,
-                                                         'booking' => $booking, ]);
+                                                     'roomId' => $roomId,
+                                                     'booking' => $booking,
+                                                     ]);
     $html = $response->html();
-    $_instance->logRenderedChild('GiMTYfS', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('zmfigOQ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
                                                     </li>
+
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </ul>
                                         </div>
@@ -445,18 +447,27 @@ echo $html;
                                     </div>
                                 <?php endif; ?>
                                 <?php if(in_array($booking['status'], [BookingStatus::Confirmed['key'], BookingStatus::Approved['key']]) ): ?>
-                                    <div class="col-md-4 m-auto text-center">
-                                        <a class="btn btn-success">
-                                            <i class="fa-solid fa-person-walking-arrow-right"></i>
-                                            Check In
-                                        </a>
+                                    <div class="col-md-8">
+                                        <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('booking.checkin-checkout', [
+                                        'booking' => $booking
+                                    ])->html();
+} elseif ($_instance->childHasBeenRendered('U9hZF6I')) {
+    $componentId = $_instance->getRenderedChildComponentId('U9hZF6I');
+    $componentTag = $_instance->getRenderedChildComponentTagName('U9hZF6I');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('U9hZF6I');
+} else {
+    $response = \Livewire\Livewire::mount('booking.checkin-checkout', [
+                                        'booking' => $booking
+                                    ]);
+    $html = $response->html();
+    $_instance->logRenderedChild('U9hZF6I', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
                                     </div>
-                                        <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-info">
-                                                <i class="fa-solid fa-person-walking-arrow-right fa-flip-horizontal"></i>
-                                                Check Out
-                                            </a>
-                                        </div>
                                 <?php endif; ?>
                                     <?php if($booking['status'] == BookingStatus::Completed['key']): ?>
                                         <div class="col-md-4 m-auto text-center">
@@ -465,7 +476,12 @@ echo $html;
                                                 Xem đánh giá
                                             </a>
                                         </div>
-
+                                        <div class="col-md-4 m-auto text-center">
+                                            <a class="btn btn-success text-white">
+                                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                                In hóa đơn
+                                            </a>
+                                        </div>
                                     <?php endif; ?>
                             </div>
                         </div>

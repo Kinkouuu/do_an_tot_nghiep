@@ -53,14 +53,15 @@
                                                         class="text-lowercase text-secondary">x{{ count($room['room_ids']) }}</span>
                                                 </h3>
                                             </div>
-                                            <ul class="text-capitalize">
+                                            <ul class="p-0">
                                                 @foreach($room['room_ids'] as $roomId => $roomName)
-                                                    <li class="d-flex align-items-center justify-content-around">
-                                                        <strong>Phòng: </strong>
-                                                        @livewire('booking.change-room', [
-                                                         'roomId' => $roomId,
-                                                         'booking' => $booking, ])
+                                                    <li class="p-0">
+                                                    @livewire('booking.change-room', [
+                                                     'roomId' => $roomId,
+                                                     'booking' => $booking,
+                                                     ])
                                                     </li>
+
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -411,18 +412,11 @@
                                     </div>
                                 @endif
                                 @if(in_array($booking['status'], [BookingStatus::Confirmed['key'], BookingStatus::Approved['key']]) )
-                                    <div class="col-md-4 m-auto text-center">
-                                        <a class="btn btn-success">
-                                            <i class="fa-solid fa-person-walking-arrow-right"></i>
-                                            Check In
-                                        </a>
+                                    <div class="col-md-8">
+                                        @livewire('booking.checkin-checkout', [
+                                        'booking' => $booking
+                                    ])
                                     </div>
-                                        <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-info">
-                                                <i class="fa-solid fa-person-walking-arrow-right fa-flip-horizontal"></i>
-                                                Check Out
-                                            </a>
-                                        </div>
                                 @endif
                                     @if($booking['status'] == BookingStatus::Completed['key'])
                                         <div class="col-md-4 m-auto text-center">
@@ -431,7 +425,12 @@
                                                 Xem đánh giá
                                             </a>
                                         </div>
-
+                                        <div class="col-md-4 m-auto text-center">
+                                            <a class="btn btn-success text-white">
+                                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                                In hóa đơn
+                                            </a>
+                                        </div>
                                     @endif
                             </div>
                         </div>

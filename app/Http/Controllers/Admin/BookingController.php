@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Services\Admin\BookingService;
 use App\Services\Admin\RoomTypeService;
 use App\Services\User\RoomService;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -133,5 +134,15 @@ class BookingController extends Controller
                 'status' => ResponseStatus::Success,
                 'title' => 'Đã từ chối đơn đặt!',
             ]);
+    }
+
+    public function checkin(Booking $booking)
+    {
+        $roomIds =  $booking->bookingRooms()->allRelatedIds();
+        $booking->bookingRooms()->updateExistingPivot($roomIds, ['checkin_at' => Carbon::now()]);
+        return $this->showAlertAndRedirect([
+            'status' => ResponseStatus::Success,
+            'title' => 'Bắt đầu checkin...'
+        ]);
     }
 }

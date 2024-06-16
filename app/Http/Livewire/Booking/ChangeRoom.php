@@ -16,20 +16,29 @@ class ChangeRoom extends Component
     {
         parent::__construct($id);
         $this->roomService = app()->make(RoomService::class);
+
     }
 
     public function render()
     {
+        $bookingRoom = $this->booking->bookingRooms()->where('room_id', $this->roomId)->first();
         $room = $this->roomService->find($this->roomId);
-        $respectiveRooms = $this->roomService->getRespectiveRoom(
-            $room,
-            Carbon::parse($this->booking['booking_checkin']),
-            Carbon::parse($this->booking['booking_checkout']),
-            true
-        );
+        $checkinAt = $bookingRoom->pivot->checkin_at ?? null;
+        $checkOutAt = $bookingRoom->pivot->checkout_at ?? null;
+        $respectiveRooms = $checkinAt || $checkOutAt
+            ? []
+            : $this->roomService->getRespectiveRoom(
+                $room,
+                Carbon::parse($this->booking['booking_checkin']),
+                Carbon::parse($this->booking['booking_checkout']),
+                true);
         return view('livewire.booking.change-room', [
             'room' => $room,
-            'respectiveRooms' => $respectiveRooms
+            'respectiveRooms' => $respectiveRooms,
+            'checkin_at' => $checkinAt ? Carbon::parse($checkinAt)->isoFormat('dddd, HH:mm DD/MM/YYYY') : null,
+            'checkout_at' => $checkOutAt ? Carbon::parse($checkOutAt)->isoFormat('dddd, HH:mm DD/MM/YYYY') : null,
+            'early' => Carbon::parse($checkinAt)->diffForHumans($this->booking['booking_checkin']),
+            'lately' => Carbon::parse($checkOutAt)->diffForHumans($this->booking['booking_checkout']),
         ]);
     }
 
