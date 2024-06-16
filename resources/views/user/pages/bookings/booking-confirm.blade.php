@@ -259,7 +259,7 @@
                                         <span class="input-group-text w-100">Họ tên</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="name"
-                                           value="{{ $user->customer?->name ?? old('data.name') }}">
+                                           value="{{ $user->customer?->name ?? old('name') }}">
                                 </div>
                                 @error('country')
                                 <div class="error">{{ $message }}</div>
@@ -269,7 +269,7 @@
                                         <span class="input-group-text w-100">Quốc tịch</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="country"
-                                           value="{{ $user->customer?->country ?? old('data.country') }}">
+                                           value="{{ $user->customer?->country ?? old('country') }}">
                                 </div>
                                 @error('citizen_id')
                                 <div class="error">{{ $message }}</div>
@@ -279,7 +279,7 @@
                                         <span class="input-group-text w-100">Số CCCD</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="citizen_id"
-                                           value="{{ $user->customer?->citizen_id ?? old('data.citizen_id') }}">
+                                           value="{{ $user->customer?->citizen_id ?? old('citizen_id') }}">
                                 </div>
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">

@@ -42,4 +42,15 @@ final class RoomStatus extends Enum
             self::Fixing[$key],
         ];
     }
+
+    public static function getValue(string $key): mixed
+    {
+        foreach (self::asArray() as $enumData) {
+            if ($enumData['key'] == $key) {
+                return $enumData['value'];
+            }
+        }
+
+        return null;
+    }
 }

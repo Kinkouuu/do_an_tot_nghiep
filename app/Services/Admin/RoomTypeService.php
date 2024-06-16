@@ -8,7 +8,6 @@ use App\Enums\Room\RoomTypeStatus;
 use App\Models\RoomImage;
 use App\Models\RoomPrice;
 use App\Models\TypeRoom;
-use App\Services\BaseService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -23,7 +22,7 @@ class RoomTypeService extends UserRoomTypeService
      */
     public function getActiveRoomType(): mixed
     {
-        return TypeRoom::where('status', RoomTypeStatus::Active)->orderBy('name', 'ASC')->get();
+        return $this->model->where('status', RoomTypeStatus::Active)->orderBy('name', 'ASC')->get();
     }
     /**
      * @param array|null $request
@@ -210,7 +209,7 @@ class RoomTypeService extends UserRoomTypeService
     /**
      * @param $files
      * @param TypeRoom $typeRoom
-     * @param int|string|null $imageType
+     * @param string|null $imageType
      * @return array
      */
     public function storeImages($files, TypeRoom $typeRoom, ?string $imageType = ImageType::ThumbNail): array

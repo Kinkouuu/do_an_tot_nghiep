@@ -48,9 +48,21 @@ class RoomService extends BaseService
         $query = $this->model->query();
 
         // lấy danh sách các phòng thuộc branch có địa chỉ tại thành phố yêu cầu
-        $query->whereHas('branch', function ($query) use ($request) {
-            $query->where('city', $request['city']);
-        });
+        if (isset($request['city']))
+        {
+            $query->whereHas('branch', function ($query) use ($request) {
+                $query->where('city', $request['city']);
+            });
+        }
+        if (isset($request['branch']))
+        {
+            $query->where('branch_id', $request['branch']);
+        }
+        // lấy danh sách phòng theo phân loại
+        if(isset($request['room_type']))
+        {
+            $query->where('room_type_id', $request['room_type']);
+        }
         //Loại bỏ các phòng đang được sử dụng trong thời gian yêu cầu
         /** Giải thích
          * Khách A đã đặt phòng  từ 16/05 22:00 đến 18/05 06:00
@@ -115,10 +127,10 @@ class RoomService extends BaseService
     }
 
     /**
-     * @param array $rooms
+     * @param Collection|array $rooms
      * @return array
      */
-    private function calculateCapacity(array $rooms): array
+    public function calculateCapacity(Collection|array $rooms): array
     {
         $data = [];
         //Tính sức chứa tối đa của từng phòng
@@ -137,7 +149,7 @@ class RoomService extends BaseService
             if(($adult + $children) > 0)
             {
                 $data[] = [
-                    'room_id' => $room['id'],
+                    'room' => $room,
                     'single_bed' => $bedAmount['single_bed'],
                     'double_bed'=> $bedAmount['double_bed'],
                     'twin_bed'=> $bedAmount['twin_bed'],
@@ -246,7 +258,7 @@ class RoomService extends BaseService
         // tính tiền thuê từng phòng
          foreach ($separatedRooms as $separatedRoom)
          {
-             $room = $this->find($separatedRoom['room_id']);
+             $room = $this->find($separatedRoom['room']['id']);
              // Lấy phòng có thông tin bị trùng
              if(!$rooms->isEmpty()) {
                  $duplicatedRoom = $rooms->search(function ($item) use ($room, $separatedRoom) {

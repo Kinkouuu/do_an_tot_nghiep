@@ -5,6 +5,7 @@ namespace App\Services\Admin;
 use App\Enums\UserStatus;
 use App\Models\User;
 use App\Services\BaseService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -38,5 +39,14 @@ class UserService extends BaseService
                 'status' => UserStatus::Active
             ]);
         }
+    }
+
+    /**
+     * Lấy danh sách tài khoản người dùng đang active
+     * @return Collection
+     */
+    public function getActiveUserAccount(): Collection
+    {
+        return  $this->model->where('status', UserStatus::Active)->with('customer')->get();
     }
 }

@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\Booking\BookingStatus;
 use App\Enums\ResponseStatus;
+use App\Enums\RoleAccount;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Branch;
 use App\Services\Admin\BookingService;
 use App\Services\Admin\RoomTypeService;
+use App\Services\Admin\UserService;
 use App\Services\User\RoomService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,6 +19,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
@@ -23,12 +27,18 @@ class BookingController extends Controller
     protected BookingService $bookingService;
     protected RoomService $roomService;
     protected RoomTypeService $roomTypeService;
+    protected UserService $userService;
 
-    public function __construct(BookingService $bookingService, RoomService $roomService, RoomTypeService $roomTypeService)
-    {
+    public function __construct(
+        BookingService $bookingService,
+        RoomService $roomService,
+        RoomTypeService $roomTypeService,
+        UserService $userService,
+    ) {
         $this->bookingService = $bookingService;
         $this->roomService = $roomService;
         $this->roomTypeService = $roomTypeService;
+        $this->userService = $userService;
     }
 
     /**
@@ -48,11 +58,38 @@ class BookingController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Application|Factory|\Illuminate\View\View|View
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'branch' => ['required', 'numeric'],
+            'roomType' => ['nullable', 'numeric'],
+            'checkin' => ['required', 'date', 'after:' . Carbon::now()->toDateTimeString()],
+            'checkout' => ['required', 'date', 'after:' . Carbon::now()->addHours(2)->toDateTimeString()],
+        ]);
+        $rooms = [];
+        if ($validator->passes()) {
+            $roomList = $this->roomService->searchByCondition($request->all());
+            $rooms = $this->roomService->calculateCapacity($roomList);
+        }
+        $admin = Auth::guard('admins')->user();
+        $branches = collect();
+        if ($admin->role == RoleAccount::Admin || is_null($admin->branch))
+        {
+            $branches = Branch::all();
+        } else {
+            $branches = $branches->push($admin->branch);
+        }
+        $roomTypes = $this->roomTypeService->getActiveRoomType();
+        $users = $this->userService->getActiveUserAccount();
+        return view('admin.pages.bookings.create', [
+           'title' => 'Tạo đơn đặt phòng',
+           'branches' => $branches,
+           'roomTypes' => $roomTypes,
+           'rooms' => $rooms,
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -63,7 +100,7 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

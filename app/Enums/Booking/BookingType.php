@@ -14,4 +14,12 @@ final class BookingType extends Enum
     const OnWebSite = '0';
     const OnSociety = '1';
     const OffLine = '2';
+
+    public static function createTypeForAdmin(): array
+    {
+        return [
+            self::OnSociety,
+            self::OffLine,
+        ];
+    }
 }

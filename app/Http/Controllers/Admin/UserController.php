@@ -63,12 +63,21 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @return array
      */
-    public function show($id)
+    public function show(int $id): array
     {
-        //
+        $user = $this->userService->find($id);
+
+        return [
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'name' => $user->customer?->name,
+            'country' => $user->customer?->country,
+            'citizen_id' => $user->customer?->citizen_id,
+            'gender' => $user->customer?->gender,
+        ];
     }
 
     /**

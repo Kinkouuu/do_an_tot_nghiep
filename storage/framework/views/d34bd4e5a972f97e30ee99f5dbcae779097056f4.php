@@ -5,14 +5,14 @@
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="row">
-                        <div class="col-md-6 pb-2">
+                        <div class="col-md-6 pb-2" wire:ignore>
                             <label class="text-white">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <span>Bạn muốn đi đâu?</span>
                             </label>
-                            <select class="col-md-10 form-control" name="city">
+                            <select class="col-md-10 form-control selectpicker" name="city" data-live-search="true">
                                 <?php $__currentLoopData = $branchCities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch_city): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option class="text-capitalize "
+                                    <option class="text-capitalize"
                                             <?php echo e(request()->get('city') == $branch_city ? 'selected' : ''); ?>
 
                                             value="<?php echo e($branch_city); ?>"><?php echo e($branch_city); ?></option>
