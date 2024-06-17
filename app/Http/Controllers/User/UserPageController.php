@@ -136,8 +136,8 @@ class UserPageController extends Controller
 
         $validator = Validator::make($request->all(), [
             'city' => ['required', 'string',Rule::in($allBranches->toArray())],
-            'adults' => 'required|numeric|min:1',
-            'children' => ['required', 'numeric', 'min:1', 'lte:' . $request->get('adults') * 2],
+            'adults' => ['required','numeric','min:1'],
+            'children' => ['required', 'numeric', 'min:0', 'lte:' . $request->get('adults') * 2],
             'checkin' => ['required', 'date', 'after:' . Carbon::now()->toDateTimeString()],
             'checkout' => ['required', 'date', 'after:' . Carbon::now()->addHours(2)->toDateTimeString()],
         ]);

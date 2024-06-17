@@ -20,142 +20,150 @@ if (! isset($_instance)) {
                 'branches' => $branches,
                 'roomTypes' => $roomTypes,
             ])->html();
-} elseif ($_instance->childHasBeenRendered('JLkkXUK')) {
-    $componentId = $_instance->getRenderedChildComponentId('JLkkXUK');
-    $componentTag = $_instance->getRenderedChildComponentTagName('JLkkXUK');
+} elseif ($_instance->childHasBeenRendered('g4M5fcr')) {
+    $componentId = $_instance->getRenderedChildComponentId('g4M5fcr');
+    $componentTag = $_instance->getRenderedChildComponentTagName('g4M5fcr');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('JLkkXUK');
+    $_instance->preserveRenderedChild('g4M5fcr');
 } else {
     $response = \Livewire\Livewire::mount('booking.create-form', [
                 'branches' => $branches,
                 'roomTypes' => $roomTypes,
             ]);
     $html = $response->html();
-    $_instance->logRenderedChild('JLkkXUK', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('g4M5fcr', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
             <form action="<?php echo e(route('admin.booking.store')); ?>" method="POST">
                 <?php echo csrf_field(); ?>
-                <input type="hidden" name="checkin" value="<?php echo e(request()->get('checkin')); ?>">
-                <input type="hidden" name="checkout" value="<?php echo e(request()->get('checkout')); ?>">
-                <div class="col-md-12 border p-1 px-0 bg-secondary mb-1">
-                    <h4 class="text-center text-capitalize">Danh sách phòng</h4>
-                </div>
-                <div class="col-md-12 mt-3 table-responsive"  style="max-height: 55vh">
-                    <table class="table table-bordered table-striped table-hover" style="min-width: 100%; width: max-content">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tên phòng</th>
-                            <th scope="col">Loại phòng</th>
-                            <th scope="col">Trạng thái</th>
-                            <th scope="col">Bảng giá</th>
-                            <th scope="col">Số giường</th>
-                            <th scope="col">Sức chứa</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php $__currentLoopData = $rooms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $room): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <input type="hidden" id="checkin" name="checkin" value="<?php echo e(request()->get('checkin')); ?>">
+                <input type="hidden" id="checkout" name="checkout" value="<?php echo e(request()->get('checkout')); ?>">
+                <div class="col-md-12 p-0 border">
+                    <div class="col-md-12 border p-1 px-0 bg-secondary">
+                        <h4 class="text-center text-capitalize">Danh sách phòng</h4>
+                    </div>
+                    <div class="col-md-12 p-0 table-responsive"  style="max-height: 55vh">
+                        <table class="table table-bordered table-striped table-hover" style="min-width: 100%; width: max-content">
+                            <thead class="thead-dark">
                             <tr>
-                                <th scope="row"><?php echo e($room['room']['id']); ?></th>
-                                <td><?php echo e($room['room']['name']); ?></td>
-                                <td><?php echo e($room['room']['roomType']['name']); ?></td>
-                                <td><?php echo e(RoomStatus::getValue($room['room']['status'])); ?></td>
-                                <td>
-                                    <?php $__currentLoopData = $room['room']['roomType']['roomPrices']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $price): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php if($price['type_price'] == PriceType::ListedHourPrice['value']): ?>
-                                            <li>
-                                                <?php echo e(PriceType::ListedHourPrice['text'] . ': '); ?>
-
-                                                <p class="text-danger m-0">
-                                                    <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
-
-                                                    VND/phòng/<?php echo e(PriceType::ListedDayPrice['type']); ?>
-
-                                                </p>
-                                            </li>
-                                        <?php elseif($price['type_price'] == PriceType::ListedDayPrice['value']): ?>
-                                            <li>
-                                                <?php echo e(PriceType::ListedDayPrice['text'] .': '); ?>
-
-                                                <p class="text-danger m-0">
-                                                    <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
-
-                                                    VND/phòng/<?php echo e(PriceType::ListedDayPrice['type']); ?>
-
-                                                </p>
-                                            </li>
-                                        <?php elseif($price['type_price'] == PriceType::First2Hours['value']): ?>
-                                            <li>
-                                                <?php echo e(PriceType::First2Hours['text'] .': '); ?>
-
-                                                <p class="text-danger m-0">
-                                                    <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
-
-                                                    VND/phòng/<?php echo e(PriceType::First2Hours['type']); ?>
-
-                                                </p>
-                                            </li>
-                                        <?php elseif($price['type_price'] == PriceType::EarlyCheckIn['value']): ?>
-                                            <li>
-                                                <?php echo e(PriceType::EarlyCheckIn['text'] .': '); ?>
-
-                                                <p class="text-danger m-0">
-                                                    <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
-
-                                                    VND/phòng/<?php echo e(PriceType::EarlyCheckIn['type']); ?>
-
-                                                </p>
-                                            </li>
-                                        <?php elseif($price['type_price'] == PriceType::LateCheckOut['value']): ?>
-                                            <li>
-                                                <?php echo e(PriceType::LateCheckOut['text'] .': '); ?>
-
-                                                <p class="text-danger m-0">
-                                                    <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
-
-                                                    VND/phòng/ <?php echo e(PriceType::LateCheckOut['type']); ?>
-
-                                                </p>
-                                            </li>
-                                        <?php endif; ?>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <?php if($room['single_bed'] > 0): ?>
-                                            <li>Giường đơn: x <?php echo e($room['single_bed']); ?></li>
-                                        <?php endif; ?>
-
-                                        <?php if($room['double_bed'] > 0): ?>
-                                            <li>Giường đôi: x <?php echo e($room['double_bed']); ?></li>
-                                        <?php endif; ?>
-
-                                        <?php if($room['twin_bed'] > 0): ?>
-                                            <li>Giường cặp: x <?php echo e($room['twin_bed']); ?></li>
-                                        <?php endif; ?>
-
-                                        <?php if($room['family_bed'] > 0): ?>
-                                            <li>Giường gia đình: x <?php echo e($room['family_bed']); ?></li>
-                                        <?php endif; ?>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <p class="m-0"><?php echo e($room['adult_capacity']); ?> người lớn và <?php echo e($room['children_capacity']); ?> trẻ em</p>
-                                </td>
-                                <td>
-                                    <div class="form-check m-0 justify-content-center">
-                                        <input class="form-check-input" name="rooms[]" type="checkbox" value="<?php echo e($room['room']['id']); ?>">
-                                    </div>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">Tên phòng</th>
+                                <th scope="col">Loại phòng</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Bảng giá</th>
+                                <th scope="col">Số giường</th>
+                                <th scope="col">Sức chứa</th>
+                                <th>&nbsp;</th>
                             </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <?php $__currentLoopData = $rooms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $room): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <th scope="row"><?php echo e($room['room']['id']); ?></th>
+                                    <td><?php echo e($room['room']['name']); ?></td>
+                                    <td><?php echo e($room['room']['roomType']['name']); ?></td>
+                                    <td><?php echo e(RoomStatus::getValue($room['room']['status'])); ?></td>
+                                    <td>
+                                        <?php $__currentLoopData = $room['room']['roomType']['roomPrices']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $price): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($price['type_price'] == PriceType::ListedHourPrice['value']): ?>
+                                                <li>
+                                                    <?php echo e(PriceType::ListedHourPrice['text'] . ': '); ?>
+
+                                                    <p class="text-danger m-0">
+                                                        <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
+
+                                                        VND/phòng/<?php echo e(PriceType::ListedDayPrice['type']); ?>
+
+                                                    </p>
+                                                </li>
+                                            <?php elseif($price['type_price'] == PriceType::ListedDayPrice['value']): ?>
+                                                <li>
+                                                    <?php echo e(PriceType::ListedDayPrice['text'] .': '); ?>
+
+                                                    <p class="text-danger m-0">
+                                                        <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
+
+                                                        VND/phòng/<?php echo e(PriceType::ListedDayPrice['type']); ?>
+
+                                                    </p>
+                                                </li>
+                                            <?php elseif($price['type_price'] == PriceType::First2Hours['value']): ?>
+                                                <li>
+                                                    <?php echo e(PriceType::First2Hours['text'] .': '); ?>
+
+                                                    <p class="text-danger m-0">
+                                                        <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
+
+                                                        VND/phòng/<?php echo e(PriceType::First2Hours['type']); ?>
+
+                                                    </p>
+                                                </li>
+                                            <?php elseif($price['type_price'] == PriceType::EarlyCheckIn['value']): ?>
+                                                <li>
+                                                    <?php echo e(PriceType::EarlyCheckIn['text'] .': '); ?>
+
+                                                    <p class="text-danger m-0">
+                                                        <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
+
+                                                        VND/phòng/<?php echo e(PriceType::EarlyCheckIn['type']); ?>
+
+                                                    </p>
+                                                </li>
+                                            <?php elseif($price['type_price'] == PriceType::LateCheckOut['value']): ?>
+                                                <li>
+                                                    <?php echo e(PriceType::LateCheckOut['text'] .': '); ?>
+
+                                                    <p class="text-danger m-0">
+                                                        <?php echo e(number_format($price['price'], 0, ',', '.')); ?>
+
+                                                        VND/phòng/ <?php echo e(PriceType::LateCheckOut['type']); ?>
+
+                                                    </p>
+                                                </li>
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <?php if($room['single_bed'] > 0): ?>
+                                                <li>Giường đơn: x <?php echo e($room['single_bed']); ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if($room['double_bed'] > 0): ?>
+                                                <li>Giường đôi: x <?php echo e($room['double_bed']); ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if($room['twin_bed'] > 0): ?>
+                                                <li>Giường cặp: x <?php echo e($room['twin_bed']); ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if($room['family_bed'] > 0): ?>
+                                                <li>Giường gia đình: x <?php echo e($room['family_bed']); ?></li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p class="m-0"><?php echo e($room['adult_capacity']); ?> người lớn và <?php echo e($room['children_capacity']); ?> trẻ em</p>
+                                    </td>
+                                    <td>
+                                        <div class="form-check m-0 justify-content-center">
+                                            <input class="form-check-input room-check" name="rooms[]" type="checkbox"
+                                                   value="<?php echo e($room['room']['id']); ?>" data-id="<?php echo e($room['room']['id']); ?>">
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 my-2 text-right">
+                        <h2 class="text-success">Tổng
+                            <span id="total-room">0</span> phòng | <span id="total_price">0</span> VND
+                        </h2>
+                    </div>
                 </div>
-                <div class="col-md-12 mt-3">
+                <div class="col-md-12 mt-3 border">
                     <div class="row">
                             <h4 class="col-md-12 bg-secondary p-1 text-center text-capitalize">Thông tin người nhận phòng</h4>
                         <div class="col-md-12 m-auto py-2">
@@ -201,7 +209,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Số điện thoại</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
-                                           name="phone" id="phone" value="<?php echo e(old('phone')); ?>">
+                                           name="phone" id="phone" value="<?php echo e(old('phone')); ?>" required>
                                 </div>
                                 <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -218,7 +226,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Họ tên</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
-                                           name="name" id="name" value="<?php echo e(old('name')); ?>">
+                                           name="name" id="name" value="<?php echo e(old('name')); ?>" required>
                                 </div>
                                 <?php $__errorArgs = ['country'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -235,7 +243,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Quốc tịch</span>
                                     </div>
                                     <input type="text" class=" customer-info form-control col-md-7"
-                                           name="country" id="country" value="<?php echo e(old('country')); ?>">
+                                           name="country" id="country" value="<?php echo e(old('country')); ?>" required>
                                 </div>
                                 <?php $__errorArgs = ['citizen_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -252,7 +260,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Số CCCD</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
-                                           name="citizen_id" id="citizen_id" value="<?php echo e(old('citizen_id')); ?>">
+                                           name="citizen_id" id="citizen_id" value="<?php echo e(old('citizen_id')); ?>" required>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
@@ -273,7 +281,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Đã thanh toán (VND)</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="deposit" min="0"
-                                           value="<?php echo e(old('deposit')); ?>">
+                                           value="<?php echo e(old('deposit')); ?>" required>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
@@ -338,7 +346,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Số người lớn</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="adults" min="0"
-                                           value="<?php echo e(old('adults')); ?>">
+                                           value="<?php echo e(old('adults')); ?>" required>
                                 </div>
                                 <?php $__errorArgs = ['children'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -355,7 +363,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Số trẻ em</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="children"
-                                           value="<?php echo e(old('children')); ?>">
+                                           value="<?php echo e(old('children')); ?>" required>
                                 </div>
                                 <?php $__errorArgs = ['deposit'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -382,17 +390,17 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="input-group-prepend col-md-2 p-0">
                                         <span class="input-group-text w-100">Ghi chú</span>
                                     </div>
-                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10">
+                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10" maxlength="50">
                                         <?php echo e(old('note')); ?>
 
                                 </textarea>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 text-center border-top py-4">
-                            <button type="submit" id="submit-btn" class="btn btn-success">Đặt phòng</button>
-                        </div>
                     </div>
+                </div>
+                <div class="col-md-12 text-center py-4">
+                    <button type="submit" id="submit-btn" class="btn btn-success" disabled>Đặt phòng</button>
                 </div>
             </form>
         </div>
@@ -402,6 +410,56 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->startPush('script'); ?>
     <script>
         $(document).ready(function() {
+            const checkin = $('#checkin').val();
+            const checkout = $('#checkout').val();
+            let total_room = 0;
+            let total_price = 0;
+            // handle sự kiện chọn phòng
+            $('.room-check').on('change', function() {
+                const roomId = $(this).data('id'); // Lấy room_id từ data-room-id của checkbox
+                const isChecked = $(this).is(':checked'); // Kiểm tra trạng thái của checkbox
+                // Gửi AJAX request
+                $.ajax({
+                    url: '<?php echo e(route("admin.booking.choose-room")); ?>', // URL để cập nhật trạng thái
+                    type: 'POST',
+                    data: {
+                        room_id: roomId,
+                        check_in: checkin,
+                        check_out: checkout,
+                        _token: '<?php echo e(csrf_token()); ?>' // Token CSRF (nếu cần)
+                    },
+                    success: function(response) {
+                        if (isChecked)
+                        {
+                            total_room++;
+                            total_price += response.total_price_1_room;
+                        } else {
+                            total_room--;
+                            total_price -= response.total_price_1_room
+                        }
+                        $("#total-room").text(total_room.toString());
+                        $("#total_price").text(total_price.toLocaleString());
+                        if (total_room > 0)
+                        {
+                            $("#submit-btn").removeAttr("disabled");
+                        } else {
+                            $("#submit-btn").attr("disabled", true);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Xử lý lỗi (nếu có)
+                        const event = new CustomEvent('show-alert', {
+                            detail: {
+                                icon: status,
+                                title: error,
+                                text: 'Vui lòng load lại trang.'
+                            }
+                        });
+                        window.dispatchEvent(event);
+                    }
+                });
+            });
+            // handle sự kiện chọn user customer
             $('#userSelect').change(function() {
                 const id = $(this).val();
                 if (id === '') {
@@ -435,7 +493,7 @@ unset($__errorArgs, $__bag); ?>
         });
 
         function resetForm() {
-            // Lấy tất cả các input và select trong form
+            // Lấy tất cả các phần tử class chứa thông tin khách hàng
             var formElements = $('.customer-info');
 
             // Duyệt qua từng phần tử và reset giá trị

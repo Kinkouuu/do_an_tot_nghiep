@@ -6,6 +6,7 @@ use App\Enums\Booking\BookingStatus;
 use App\Enums\ResponseStatus;
 use App\Enums\RoleAccount;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminBookingRequest;
 use App\Models\Booking;
 use App\Models\Branch;
 use App\Services\Admin\BookingService;
@@ -95,7 +96,7 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param AdminBookingRequest $request
      * @return Response
      */
     public function store(Request $request)
@@ -173,13 +174,15 @@ class BookingController extends Controller
             ]);
     }
 
-    public function checkin(Booking $booking)
+    /**
+     * Tính giá của các phòng đã chọn
+     * @param Request $request
+     * @return array
+     */
+    public function chooseRoom(Request $request)
     {
-        $roomIds =  $booking->bookingRooms()->allRelatedIds();
-        $booking->bookingRooms()->updateExistingPivot($roomIds, ['checkin_at' => Carbon::now()]);
-        return $this->showAlertAndRedirect([
-            'status' => ResponseStatus::Success,
-            'title' => 'Bắt đầu checkin...'
-        ]);
+        $room = $this->roomService->find($request->get('room_id'));
+        $bookingHour = Carbon::parse($request->get('check_out'))->diffInHours($request->get('check_in'));
+        return $this->roomService->getPrices($room, $bookingHour);
     }
 }

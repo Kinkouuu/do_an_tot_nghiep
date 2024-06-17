@@ -20,110 +20,118 @@
             ])
             <form action="{{ route('admin.booking.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="checkin" value="{{ request()->get('checkin') }}">
-                <input type="hidden" name="checkout" value="{{ request()->get('checkout') }}">
-                <div class="col-md-12 border p-1 px-0 bg-secondary mb-1">
-                    <h4 class="text-center text-capitalize">Danh sách phòng</h4>
-                </div>
-                <div class="col-md-12 mt-3 table-responsive"  style="max-height: 55vh">
-                    <table class="table table-bordered table-striped table-hover" style="min-width: 100%; width: max-content">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tên phòng</th>
-                            <th scope="col">Loại phòng</th>
-                            <th scope="col">Trạng thái</th>
-                            <th scope="col">Bảng giá</th>
-                            <th scope="col">Số giường</th>
-                            <th scope="col">Sức chứa</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($rooms as $room)
+                <input type="hidden" id="checkin" name="checkin" value="{{ request()->get('checkin') }}">
+                <input type="hidden" id="checkout" name="checkout" value="{{ request()->get('checkout') }}">
+                <div class="col-md-12 p-0 border">
+                    <div class="col-md-12 border p-1 px-0 bg-secondary">
+                        <h4 class="text-center text-capitalize">Danh sách phòng</h4>
+                    </div>
+                    <div class="col-md-12 p-0 table-responsive"  style="max-height: 55vh">
+                        <table class="table table-bordered table-striped table-hover" style="min-width: 100%; width: max-content">
+                            <thead class="thead-dark">
                             <tr>
-                                <th scope="row">{{ $room['room']['id'] }}</th>
-                                <td>{{ $room['room']['name'] }}</td>
-                                <td>{{ $room['room']['roomType']['name'] }}</td>
-                                <td>{{ RoomStatus::getValue($room['room']['status']) }}</td>
-                                <td>
-                                    @foreach($room['room']['roomType']['roomPrices'] as $price)
-                                        @if($price['type_price'] == PriceType::ListedHourPrice['value'])
-                                            <li>
-                                                {{ PriceType::ListedHourPrice['text'] . ': ' }}
-                                                <p class="text-danger m-0">
-                                                    {{ number_format($price['price'], 0, ',', '.') }}
-                                                    VND/phòng/{{ PriceType::ListedDayPrice['type'] }}
-                                                </p>
-                                            </li>
-                                        @elseif($price['type_price'] == PriceType::ListedDayPrice['value'])
-                                            <li>
-                                                {{ PriceType::ListedDayPrice['text'] .': ' }}
-                                                <p class="text-danger m-0">
-                                                    {{ number_format($price['price'], 0, ',', '.') }}
-                                                    VND/phòng/{{PriceType::ListedDayPrice['type']}}
-                                                </p>
-                                            </li>
-                                        @elseif($price['type_price'] == PriceType::First2Hours['value'])
-                                            <li>
-                                                {{ PriceType::First2Hours['text'] .': '}}
-                                                <p class="text-danger m-0">
-                                                    {{ number_format($price['price'], 0, ',', '.') }}
-                                                    VND/phòng/{{ PriceType::First2Hours['type']}}
-                                                </p>
-                                            </li>
-                                        @elseif($price['type_price'] == PriceType::EarlyCheckIn['value'])
-                                            <li>
-                                                {{ PriceType::EarlyCheckIn['text'] .': '}}
-                                                <p class="text-danger m-0">
-                                                    {{ number_format($price['price'], 0, ',', '.') }}
-                                                    VND/phòng/{{ PriceType::EarlyCheckIn['type']}}
-                                                </p>
-                                            </li>
-                                        @elseif($price['type_price'] == PriceType::LateCheckOut['value'])
-                                            <li>
-                                                {{ PriceType::LateCheckOut['text'] .': '}}
-                                                <p class="text-danger m-0">
-                                                    {{ number_format($price['price'], 0, ',', '.') }}
-                                                    VND/phòng/ {{ PriceType::LateCheckOut['type']}}
-                                                </p>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </td>
-                                <td>
-                                    <ul>
-                                        @if($room['single_bed'] > 0)
-                                            <li>Giường đơn: x {{ $room['single_bed'] }}</li>
-                                        @endif
-
-                                        @if($room['double_bed'] > 0)
-                                            <li>Giường đôi: x {{ $room['double_bed'] }}</li>
-                                        @endif
-
-                                        @if($room['twin_bed'] > 0)
-                                            <li>Giường cặp: x {{ $room['twin_bed'] }}</li>
-                                        @endif
-
-                                        @if($room['family_bed'] > 0)
-                                            <li>Giường gia đình: x {{ $room['family_bed'] }}</li>
-                                        @endif
-                                    </ul>
-                                </td>
-                                <td>
-                                    <p class="m-0">{{ $room['adult_capacity'] }} người lớn và {{ $room['children_capacity'] }} trẻ em</p>
-                                </td>
-                                <td>
-                                    <div class="form-check m-0 justify-content-center">
-                                        <input class="form-check-input" name="rooms[]" type="checkbox" value="{{ $room['room']['id'] }}">
-                                    </div>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">Tên phòng</th>
+                                <th scope="col">Loại phòng</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Bảng giá</th>
+                                <th scope="col">Số giường</th>
+                                <th scope="col">Sức chứa</th>
+                                <th>&nbsp;</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach($rooms as $room)
+                                <tr>
+                                    <th scope="row">{{ $room['room']['id'] }}</th>
+                                    <td>{{ $room['room']['name'] }}</td>
+                                    <td>{{ $room['room']['roomType']['name'] }}</td>
+                                    <td>{{ RoomStatus::getValue($room['room']['status']) }}</td>
+                                    <td>
+                                        @foreach($room['room']['roomType']['roomPrices'] as $price)
+                                            @if($price['type_price'] == PriceType::ListedHourPrice['value'])
+                                                <li>
+                                                    {{ PriceType::ListedHourPrice['text'] . ': ' }}
+                                                    <p class="text-danger m-0">
+                                                        {{ number_format($price['price'], 0, ',', '.') }}
+                                                        VND/phòng/{{ PriceType::ListedDayPrice['type'] }}
+                                                    </p>
+                                                </li>
+                                            @elseif($price['type_price'] == PriceType::ListedDayPrice['value'])
+                                                <li>
+                                                    {{ PriceType::ListedDayPrice['text'] .': ' }}
+                                                    <p class="text-danger m-0">
+                                                        {{ number_format($price['price'], 0, ',', '.') }}
+                                                        VND/phòng/{{PriceType::ListedDayPrice['type']}}
+                                                    </p>
+                                                </li>
+                                            @elseif($price['type_price'] == PriceType::First2Hours['value'])
+                                                <li>
+                                                    {{ PriceType::First2Hours['text'] .': '}}
+                                                    <p class="text-danger m-0">
+                                                        {{ number_format($price['price'], 0, ',', '.') }}
+                                                        VND/phòng/{{ PriceType::First2Hours['type']}}
+                                                    </p>
+                                                </li>
+                                            @elseif($price['type_price'] == PriceType::EarlyCheckIn['value'])
+                                                <li>
+                                                    {{ PriceType::EarlyCheckIn['text'] .': '}}
+                                                    <p class="text-danger m-0">
+                                                        {{ number_format($price['price'], 0, ',', '.') }}
+                                                        VND/phòng/{{ PriceType::EarlyCheckIn['type']}}
+                                                    </p>
+                                                </li>
+                                            @elseif($price['type_price'] == PriceType::LateCheckOut['value'])
+                                                <li>
+                                                    {{ PriceType::LateCheckOut['text'] .': '}}
+                                                    <p class="text-danger m-0">
+                                                        {{ number_format($price['price'], 0, ',', '.') }}
+                                                        VND/phòng/ {{ PriceType::LateCheckOut['type']}}
+                                                    </p>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @if($room['single_bed'] > 0)
+                                                <li>Giường đơn: x {{ $room['single_bed'] }}</li>
+                                            @endif
+
+                                            @if($room['double_bed'] > 0)
+                                                <li>Giường đôi: x {{ $room['double_bed'] }}</li>
+                                            @endif
+
+                                            @if($room['twin_bed'] > 0)
+                                                <li>Giường cặp: x {{ $room['twin_bed'] }}</li>
+                                            @endif
+
+                                            @if($room['family_bed'] > 0)
+                                                <li>Giường gia đình: x {{ $room['family_bed'] }}</li>
+                                            @endif
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p class="m-0">{{ $room['adult_capacity'] }} người lớn và {{ $room['children_capacity'] }} trẻ em</p>
+                                    </td>
+                                    <td>
+                                        <div class="form-check m-0 justify-content-center">
+                                            <input class="form-check-input room-check" name="rooms[]" type="checkbox"
+                                                   value="{{ $room['room']['id'] }}" data-id="{{ $room['room']['id'] }}">
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 my-2 text-right">
+                        <h2 class="text-success">Tổng
+                            <span id="total-room">0</span> phòng | <span id="total_price">0</span> VND
+                        </h2>
+                    </div>
                 </div>
-                <div class="col-md-12 mt-3">
+                <div class="col-md-12 mt-3 border">
                     <div class="row">
                             <h4 class="col-md-12 bg-secondary p-1 text-center text-capitalize">Thông tin người nhận phòng</h4>
                         <div class="col-md-12 m-auto py-2">
@@ -154,7 +162,7 @@
                                         <span class="input-group-text w-100">Số điện thoại</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
-                                           name="phone" id="phone" value="{{ old('phone') }}">
+                                           name="phone" id="phone" value="{{ old('phone') }}" required>
                                 </div>
                                 @error('name')
                                 <div class="error">{{ $message }}</div>
@@ -164,7 +172,7 @@
                                         <span class="input-group-text w-100">Họ tên</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
-                                           name="name" id="name" value="{{ old('name') }}">
+                                           name="name" id="name" value="{{ old('name') }}" required>
                                 </div>
                                 @error('country')
                                 <div class="error">{{ $message }}</div>
@@ -174,7 +182,7 @@
                                         <span class="input-group-text w-100">Quốc tịch</span>
                                     </div>
                                     <input type="text" class=" customer-info form-control col-md-7"
-                                           name="country" id="country" value="{{ old('country') }}">
+                                           name="country" id="country" value="{{ old('country') }}" required>
                                 </div>
                                 @error('citizen_id')
                                 <div class="error">{{ $message }}</div>
@@ -184,7 +192,7 @@
                                         <span class="input-group-text w-100">Số CCCD</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
-                                           name="citizen_id" id="citizen_id" value="{{ old('citizen_id') }}">
+                                           name="citizen_id" id="citizen_id" value="{{ old('citizen_id') }}" required>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
@@ -204,7 +212,7 @@
                                         <span class="input-group-text w-100">Đã thanh toán (VND)</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="deposit" min="0"
-                                           value="{{ old('deposit') }}">
+                                           value="{{ old('deposit') }}" required>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
@@ -261,7 +269,7 @@
                                         <span class="input-group-text w-100">Số người lớn</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="adults" min="0"
-                                           value="{{ old('adults') }}">
+                                           value="{{ old('adults') }}" required>
                                 </div>
                                 @error('children')
                                 <div class="error">{{ $message }}</div>
@@ -271,7 +279,7 @@
                                         <span class="input-group-text w-100">Số trẻ em</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="children"
-                                           value="{{ old('children') }}">
+                                           value="{{ old('children') }}" required>
                                 </div>
                                 @error('deposit')
                                 <div class="error">{{ $message }}</div>
@@ -284,16 +292,16 @@
                                     <div class="input-group-prepend col-md-2 p-0">
                                         <span class="input-group-text w-100">Ghi chú</span>
                                     </div>
-                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10">
+                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10" maxlength="50">
                                         {{ old('note') }}
                                 </textarea>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 text-center border-top py-4">
-                            <button type="submit" id="submit-btn" class="btn btn-success">Đặt phòng</button>
-                        </div>
                     </div>
+                </div>
+                <div class="col-md-12 text-center py-4">
+                    <button type="submit" id="submit-btn" class="btn btn-success" disabled>Đặt phòng</button>
                 </div>
             </form>
         </div>
@@ -303,6 +311,56 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            const checkin = $('#checkin').val();
+            const checkout = $('#checkout').val();
+            let total_room = 0;
+            let total_price = 0;
+            // handle sự kiện chọn phòng
+            $('.room-check').on('change', function() {
+                const roomId = $(this).data('id'); // Lấy room_id từ data-room-id của checkbox
+                const isChecked = $(this).is(':checked'); // Kiểm tra trạng thái của checkbox
+                // Gửi AJAX request
+                $.ajax({
+                    url: '{{ route("admin.booking.choose-room") }}', // URL để cập nhật trạng thái
+                    type: 'POST',
+                    data: {
+                        room_id: roomId,
+                        check_in: checkin,
+                        check_out: checkout,
+                        _token: '{{ csrf_token() }}' // Token CSRF (nếu cần)
+                    },
+                    success: function(response) {
+                        if (isChecked)
+                        {
+                            total_room++;
+                            total_price += response.total_price_1_room;
+                        } else {
+                            total_room--;
+                            total_price -= response.total_price_1_room
+                        }
+                        $("#total-room").text(total_room.toString());
+                        $("#total_price").text(total_price.toLocaleString());
+                        if (total_room > 0)
+                        {
+                            $("#submit-btn").removeAttr("disabled");
+                        } else {
+                            $("#submit-btn").attr("disabled", true);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Xử lý lỗi (nếu có)
+                        const event = new CustomEvent('show-alert', {
+                            detail: {
+                                icon: status,
+                                title: error,
+                                text: 'Vui lòng load lại trang.'
+                            }
+                        });
+                        window.dispatchEvent(event);
+                    }
+                });
+            });
+            // handle sự kiện chọn user customer
             $('#userSelect').change(function() {
                 const id = $(this).val();
                 if (id === '') {

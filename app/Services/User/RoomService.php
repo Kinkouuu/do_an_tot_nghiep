@@ -290,7 +290,7 @@ class RoomService extends BaseService
                  // Cập nhật lại danh sách nếu như đã có phòng bị trùng thông tin
                  $updatedRooms = $rooms->map(function ($item, $key) use ($duplicatedRoom, $separatedRoom){
                      if ($key == $duplicatedRoom) {
-                         $room = $this->find($separatedRoom['room_id']);
+                         $room = $this->find($separatedRoom['room']['id']);
                          $item['room_ids'][$room->id] = $room->name;
                      }
                      return $item;
@@ -439,7 +439,7 @@ class RoomService extends BaseService
         }
         foreach ($bookingOrder->bookingRooms as $bookingRoom) {
             $room = [
-                'room_id' => $bookingRoom['id'],
+                'room' => $bookingRoom,
                 'room_type_id' => $bookingRoom['room_type_id'],
                 'room_type' => $bookingRoom->roomType->name,
                 'price' => $bookingRoom->pivot->price,

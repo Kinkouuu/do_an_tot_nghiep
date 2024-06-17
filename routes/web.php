@@ -95,7 +95,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('booking',AdminBookingController::class);
         Route::prefix('booking')->name('booking.')->group(function () {
             Route::post('/{booking}/refuse', [AdminBookingController::class, 'refuseBooking'])->name('refuse');
-            Route::get('/{booking}/checkin', [AdminBookingController::class, 'checkin'])->name('checkin');
+            Route::post('/choose-room', [AdminBookingController::class, 'chooseRoom'])->name('choose-room');
+            Route::post('/store', [AdminBookingController::class, 'store'])->name('store');
         });
         /*Middleware MANAGER*/
         Route::middleware('manager')->group(function () {
