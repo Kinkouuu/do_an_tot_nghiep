@@ -84,15 +84,15 @@
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('room.room-status', ['roomId' => $room['id']])->html();
-} elseif ($_instance->childHasBeenRendered('oC6oBbW')) {
-    $componentId = $_instance->getRenderedChildComponentId('oC6oBbW');
-    $componentTag = $_instance->getRenderedChildComponentTagName('oC6oBbW');
+} elseif ($_instance->childHasBeenRendered('NVO7sMW')) {
+    $componentId = $_instance->getRenderedChildComponentId('NVO7sMW');
+    $componentTag = $_instance->getRenderedChildComponentTagName('NVO7sMW');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('oC6oBbW');
+    $_instance->preserveRenderedChild('NVO7sMW');
 } else {
     $response = \Livewire\Livewire::mount('room.room-status', ['roomId' => $room['id']]);
     $html = $response->html();
-    $_instance->logRenderedChild('oC6oBbW', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('NVO7sMW', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

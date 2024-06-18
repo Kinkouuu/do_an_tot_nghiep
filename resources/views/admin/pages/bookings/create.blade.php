@@ -289,7 +289,7 @@
                                         <span class="input-group-text w-100">Số trẻ em</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="children"
-                                           value="{{ old('children') ?? 0}}" required>
+                                           value="{{ old('children') ?? 0 }}" required>
                                 </div>
 
 

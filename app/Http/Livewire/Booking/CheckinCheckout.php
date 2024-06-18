@@ -3,12 +3,14 @@
 namespace App\Http\Livewire\Booking;
 
 use App\Enums\Booking\BookingStatus;
-use App\Enums\ResponseStatus;
+use App\Enums\Room\RoomStatus;
+use App\Services\Admin\RoomService;
 use Carbon\Carbon;
 use Livewire\Component;
 
 class CheckinCheckout extends Component
 {
+    protected RoomService $roomService;
     public $booking;
     public $inRooms = [];
     public $checkInRooms;
@@ -16,6 +18,12 @@ class CheckinCheckout extends Component
     public $outRooms = [];
     public $checkOutRooms;
     public $selectAllOutRooms = false;
+
+    public function __construct($id = null)
+    {
+        $this->roomService = app()->make(RoomService::class);
+        parent::__construct($id);
+    }
 
     public function render()
     {
@@ -43,7 +51,7 @@ class CheckinCheckout extends Component
         {
             $this->inRooms = [];
         } else {
-            $this->inRooms = $this->checkInRooms->pluck('id');
+            $this->inRooms = $this->checkInRooms->pluck('id')->toArray();
         }
         $this->selectAllInRooms = !$this->selectAllInRooms;
     }
@@ -58,7 +66,7 @@ class CheckinCheckout extends Component
         {
             $this->outRooms = [];
         } else {
-            $this->outRooms = $this->checkOutRooms->pluck('id');
+            $this->outRooms = $this->checkOutRooms->pluck('id')->toArray();
         }
         $this->selectAllOutRooms = !$this->selectAllOutRooms;
     }
@@ -70,10 +78,11 @@ class CheckinCheckout extends Component
     public function checkin(): void
     {
         $this->booking->bookingRooms()->updateExistingPivot($this->inRooms, ['checkin_at' => Carbon::now()]);
+        $response = $this->roomService->changeStatus($this->inRooms, RoomStatus::Using);
         $this->dispatchBrowserEvent('show-alert', [
-            'title' => 'Check in thành công',
-            'text' => null,
-            'icon' => ResponseStatus::Success,
+            'title' => 'Đang check in....',
+            'text' => $response['title'],
+            'icon' => $response['status'],
         ]);
     }
 
@@ -84,10 +93,11 @@ class CheckinCheckout extends Component
     public function checkout(): void
     {
         $this->booking->bookingRooms()->updateExistingPivot($this->outRooms, ['checkout_at' => Carbon::now()]);
+        $response = $this->roomService->changeStatus($this->outRooms, RoomStatus::Cleaning);
         $this->dispatchBrowserEvent('show-alert', [
-            'title' => 'Check out thành công',
-            'text' => null,
-            'icon' => ResponseStatus::Success,
+            'title' => 'Đang check out...',
+            'text' => $response['title'],
+            'icon' => $response['status'],
         ]);
     }
 }
