@@ -20,18 +20,18 @@ if (! isset($_instance)) {
                 'branches' => $branches,
                 'roomTypes' => $roomTypes,
             ])->html();
-} elseif ($_instance->childHasBeenRendered('g4M5fcr')) {
-    $componentId = $_instance->getRenderedChildComponentId('g4M5fcr');
-    $componentTag = $_instance->getRenderedChildComponentTagName('g4M5fcr');
+} elseif ($_instance->childHasBeenRendered('dSvBjlp')) {
+    $componentId = $_instance->getRenderedChildComponentId('dSvBjlp');
+    $componentTag = $_instance->getRenderedChildComponentTagName('dSvBjlp');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('g4M5fcr');
+    $_instance->preserveRenderedChild('dSvBjlp');
 } else {
     $response = \Livewire\Livewire::mount('booking.create-form', [
                 'branches' => $branches,
                 'roomTypes' => $roomTypes,
             ]);
     $html = $response->html();
-    $_instance->logRenderedChild('g4M5fcr', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('dSvBjlp', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -43,8 +43,9 @@ echo $html;
                     <div class="col-md-12 border p-1 px-0 bg-secondary">
                         <h4 class="text-center text-capitalize">Danh sách phòng</h4>
                     </div>
-                    <div class="col-md-12 p-0 table-responsive"  style="max-height: 55vh">
-                        <table class="table table-bordered table-striped table-hover" style="min-width: 100%; width: max-content">
+                    <div class="col-md-12 p-0 table-responsive" style="max-height: 55vh">
+                        <table class="table table-bordered table-striped table-hover"
+                               style="min-width: 100%; width: max-content">
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
@@ -144,12 +145,14 @@ echo $html;
                                         </ul>
                                     </td>
                                     <td>
-                                        <p class="m-0"><?php echo e($room['adult_capacity']); ?> người lớn và <?php echo e($room['children_capacity']); ?> trẻ em</p>
+                                        <p class="m-0"><?php echo e($room['adult_capacity']); ?> người lớn
+                                            và <?php echo e($room['children_capacity']); ?> trẻ em</p>
                                     </td>
                                     <td>
                                         <div class="form-check m-0 justify-content-center">
                                             <input class="form-check-input room-check" name="rooms[]" type="checkbox"
-                                                   value="<?php echo e($room['room']['id']); ?>" data-id="<?php echo e($room['room']['id']); ?>">
+                                                   value="<?php echo e($room['room']['id']); ?>"
+                                                   data-id="<?php echo e($room['room']['id']); ?>">
                                         </div>
                                     </td>
                                 </tr>
@@ -165,28 +168,20 @@ echo $html;
                 </div>
                 <div class="col-md-12 mt-3 border">
                     <div class="row">
-                            <h4 class="col-md-12 bg-secondary p-1 text-center text-capitalize">Thông tin người nhận phòng</h4>
+                        <h4 class="col-md-12 bg-secondary p-1 text-center text-capitalize">Thông tin người nhận
+                            phòng</h4>
                         <div class="col-md-12 m-auto py-2">
                             <div class="row">
-                                <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Khách hàng</span>
                                     </div>
                                     <select class="form-control selectpicker" name="user_id" data-live-search="true"
-                                             id="userSelect" data-style="bg-white border border-left-0">
+                                            id="userSelect" data-style="bg-white border border-left-0">
                                         <option value="">Khách vãng lai</option>
                                         <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option <?php echo e(old('user_id') == $user['id'] ? 'selected' : ''); ?> value=<?php echo e($user['id']); ?>>
+                                            <option
+                                                <?php echo e(old('user_id') == $user['id'] ? 'selected' : ''); ?> value=<?php echo e($user['id']); ?>>
                                                 <?php echo e($user->customer?->name); ?>:
                                                 <?php echo e($user['phone']); ?>
 
@@ -194,68 +189,72 @@ unset($__errorArgs, $__bag); ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
-                                <?php $__errorArgs = ['phone'];
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
+                                    <div class="error"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Số điện thoại</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
                                            name="phone" id="phone" value="<?php echo e(old('phone')); ?>" required>
                                 </div>
-                                <?php $__errorArgs = ['name'];
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
+                                    <div class="error"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Họ tên</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
                                            name="name" id="name" value="<?php echo e(old('name')); ?>" required>
                                 </div>
-                                <?php $__errorArgs = ['country'];
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <?php $__errorArgs = ['country'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
+                                    <div class="error"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Quốc tịch</span>
                                     </div>
                                     <input type="text" class=" customer-info form-control col-md-7"
                                            name="country" id="country" value="<?php echo e(old('country')); ?>" required>
                                 </div>
-                                <?php $__errorArgs = ['citizen_id'];
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <?php $__errorArgs = ['citizen_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
+                                    <div class="error"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Số CCCD</span>
                                     </div>
@@ -277,11 +276,21 @@ unset($__errorArgs, $__bag); ?>
                                     </select>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
+                                    <?php $__errorArgs = ['deposit'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <div class="error"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Đã thanh toán (VND)</span>
                                     </div>
-                                    <input type="number" class="form-control col-md-7" name="deposit" min="0"
-                                           value="<?php echo e(old('deposit')); ?>" required>
+                                    <input type="number" class="form-control col-md-7" name="deposit" id="deposit"
+                                           min="0" value="<?php echo e(old('deposit') ?? 0); ?>" required>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
@@ -323,30 +332,31 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <select class="form-select" name="for_relative"
                                             data-style="bg-white border border-left-0">
-                                            <option <?php echo e(old('for_relative') == "0" ? 'selected' : ''); ?> value="0">
-                                                Chính chủ
-                                            </option>
+                                        <option <?php echo e(old('for_relative') == "0" ? 'selected' : ''); ?> value="0">
+                                            Chính chủ
+                                        </option>
                                         <option <?php echo e(old('for_relative') == "0" ? 'selected' : ''); ?> value="1">
                                             Người thân
                                         </option>
                                     </select>
                                 </div>
-                                <?php $__errorArgs = ['adults'];
+
+                                <div class="col-md-6 input-group mb-3">
+                                    <?php $__errorArgs = ['adults'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
+                                    <div class="error"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Số người lớn</span>
                                     </div>
-                                    <input type="number" class="form-control col-md-7" name="adults" min="0"
-                                           value="<?php echo e(old('adults')); ?>" required>
+                                    <input type="number" class="form-control col-md-7" name="adults" min="1"
+                                           value="<?php echo e(old('adults') ?? 1); ?>" required>
                                 </div>
                                 <?php $__errorArgs = ['children'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -363,34 +373,25 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Số trẻ em</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="children"
-                                           value="<?php echo e(old('children')); ?>" required>
+                                           value="<?php echo e(old('children') ?? 0); ?>" required>
                                 </div>
-                                <?php $__errorArgs = ['deposit'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
 
-                                <?php $__errorArgs = ['note'];
+
+                                <div class="col-md-12 input-group mb-3">
+                                    <?php $__errorArgs = ['note'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="error"><?php echo e($message); ?></div>
-                                <?php unset($message);
+                                    <div class="error"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-2 p-0">
                                         <span class="input-group-text w-100">Ghi chú</span>
                                     </div>
-                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10" maxlength="50">
+                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10">
                                         <?php echo e(old('note')); ?>
 
                                 </textarea>
@@ -409,13 +410,13 @@ unset($__errorArgs, $__bag); ?>
 
 <?php $__env->startPush('script'); ?>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const checkin = $('#checkin').val();
             const checkout = $('#checkout').val();
             let total_room = 0;
             let total_price = 0;
             // handle sự kiện chọn phòng
-            $('.room-check').on('change', function() {
+            $('.room-check').on('change', function () {
                 const roomId = $(this).data('id'); // Lấy room_id từ data-room-id của checkbox
                 const isChecked = $(this).is(':checked'); // Kiểm tra trạng thái của checkbox
                 // Gửi AJAX request
@@ -428,9 +429,8 @@ unset($__errorArgs, $__bag); ?>
                         check_out: checkout,
                         _token: '<?php echo e(csrf_token()); ?>' // Token CSRF (nếu cần)
                     },
-                    success: function(response) {
-                        if (isChecked)
-                        {
+                    success: function (response) {
+                        if (isChecked) {
                             total_room++;
                             total_price += response.total_price_1_room;
                         } else {
@@ -439,14 +439,14 @@ unset($__errorArgs, $__bag); ?>
                         }
                         $("#total-room").text(total_room.toString());
                         $("#total_price").text(total_price.toLocaleString());
-                        if (total_room > 0)
-                        {
+                        if (total_room > 0) {
                             $("#submit-btn").removeAttr("disabled");
+                            $('#deposit').attr("max", total_price);
                         } else {
                             $("#submit-btn").attr("disabled", true);
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         // Xử lý lỗi (nếu có)
                         const event = new CustomEvent('show-alert', {
                             detail: {
@@ -460,7 +460,7 @@ unset($__errorArgs, $__bag); ?>
                 });
             });
             // handle sự kiện chọn user customer
-            $('#userSelect').change(function() {
+            $('#userSelect').change(function () {
                 const id = $(this).val();
                 if (id === '') {
                     // Reset các trường input của form khi id là null
@@ -472,16 +472,15 @@ unset($__errorArgs, $__bag); ?>
                         data: {
                             _token: '<?php echo e(csrf_token()); ?>',
                         },
-                        success: function(response) {
+                        success: function (response) {
                             // Xử lý response từ server
                             $('#name').val(response.name);
                             $('#phone').val(response.phone);
                             $('#country').val(response.country);
                             $('#citizen_id').val(response.citizen_id);
                             $('#gender').val(response.gender);
-                            console.log(response);
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             // Xử lý lỗi nếu có
                             console.error(error);
                             // Reset các trường input của form khi có lỗi
@@ -497,8 +496,8 @@ unset($__errorArgs, $__bag); ?>
             var formElements = $('.customer-info');
 
             // Duyệt qua từng phần tử và reset giá trị
-            formElements.each(function() {
-                    $(this).val('');
+            formElements.each(function () {
+                $(this).val('');
             });
         }
     </script>

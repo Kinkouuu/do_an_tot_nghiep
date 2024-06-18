@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Services\Admin;
+use App\Enums\Booking\BookingStatus;
 use App\Enums\Booking\BookingType;
 use App\Enums\Booking\PaymentType;
 use App\Enums\RoleAccount;
 use App\Services\User\BookingService as UserBookingService;
 use App\Services\User\RoomService as UserRoomService;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Ramsey\Collection\Collection;
 
 class BookingService extends UserBookingService
 {
@@ -63,5 +66,48 @@ class BookingService extends UserBookingService
         }
 
         return $this->search($request, collect($data));
+    }
+
+    /**
+     * Xử lý thêm đơn đặt và xếp phòng
+     * @param array $request
+     * @param array $roomPrices
+     * @return array
+     */
+    public function createBooking(array $request, array $roomPrices): array
+    {
+        $bookingData = [
+            'user_id' => $request['user_id'],
+            'phone' => $request['phone'],
+            'name' => $request['name'],
+            'country' => $request['country'],
+            'citizen_id' => $request['citizen_id'],
+            'gender' => $request['gender'],
+            'deposit' => $request['deposit'],
+            'payment_type' => $request['payment'],
+            'for_relative' => $request['for_relative'],
+            'number_of_adults' => $request['adults'],
+            'number_of_children' => $request['children'],
+            'type' => $request['type'],
+            'booking_checkin' => $request['checkin'],
+            'booking_checkout' => $request['checkout'],
+            'status' => BookingStatus::Approved['key'],
+        ];
+
+        DB::beginTransaction();
+        try {
+            //Lưu thông tin đơn đặt
+            $booking = $this->create($bookingData);
+            foreach ($roomPrices as $roomPrice) {
+                $booking->bookingRooms()->attach($roomPrice['room']['id'], [
+                    'price' => $roomPrice['price']['total_price_1_room']
+                ]);
+            }
+            DB::commit();
+            return $this->successResponse('Thêm đơn đặt phòng thành công!', null, 'admin.booking.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }

@@ -34,10 +34,16 @@ abstract class BaseService
         return $this->model->orderBy('id', 'DESC')->paginate($number);
     }
 
-    //tìm 1 cột theo id
+    //tìm theo id
     public function find($id)
     {
         return $this->model->findOrFail($id);
+    }
+
+    //Tìm theo danh sách ids
+    public function getByIds($ids)
+    {
+        return $this->model->whereIn('id', $ids);
     }
 
     //thêm data vào model

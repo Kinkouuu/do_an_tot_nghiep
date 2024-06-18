@@ -7,6 +7,7 @@ use App\Enums\RoleAccount;
 use App\Enums\Room\RoomStatus;
 use App\Models\Booking;
 use App\Models\Room;
+use Carbon\Carbon;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -162,5 +163,24 @@ class RoomService extends UserRoomService
         $roomNotVacating = $this->model->where('id', $roomId)->where('status','!=', RoomStatus::Vacating['key'])->get();
 
         return $roomHasBooked->isEmpty() && $roomNotVacating->isEmpty();
+    }
+
+    /**
+     * Lấy các phòng đã được đặt trước trong khoảng thời gian trùng lặp
+     * @param array $roomIds
+     * @param Carbon $checkIn
+     * @param Carbon $checkOut
+     * @return mixed
+     */
+    public function roomsHasBooked(array $roomIds, Carbon $checkIn, Carbon $checkOut): mixed
+    {
+        return $this->model
+            ->whereHas('roomBookings', function ($query) use ($checkIn, $checkOut) {
+                $query->whereBetween('bookings.booking_checkin', [$checkIn, $checkOut])
+                    ->orWhereBetween('bookings.booking_checkout', [$checkIn, $checkOut])
+                    ->whereNotIn('bookings.status', BookingStatus::getDeActiveBooking());
+            })
+            ->whereIn('id', $roomIds)
+            ->get();
     }
 }

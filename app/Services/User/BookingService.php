@@ -186,7 +186,6 @@ class BookingService extends BaseService
             ->whereNotIn('bookings.status', BookingStatus::getDeActiveBooking())
             ->get();
     }
-
     public function getBookingOrders(User $user): \Illuminate\Database\Eloquent\Collection|array
     {
         return Booking::with('bookingRooms')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();

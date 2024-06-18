@@ -10,9 +10,9 @@ use App\Http\Requests\Admin\AdminBookingRequest;
 use App\Models\Booking;
 use App\Models\Branch;
 use App\Services\Admin\BookingService;
+use App\Services\Admin\RoomService;
 use App\Services\Admin\RoomTypeService;
 use App\Services\Admin\UserService;
-use App\Services\User\RoomService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -97,11 +97,37 @@ class BookingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param AdminBookingRequest $request
-     * @return Response
+     * @return RedirectResponse|void
      */
-    public function store(Request $request)
+    public function store(AdminBookingRequest $request)
     {
-        dd($request->all());
+        $checkIn = Carbon::parse($request['checkin']);
+        $checkOut = Carbon::parse($request['checkout']);
+
+        //Check phòng có đơn đặt chưa
+        $roomsBooked = $this->roomService->roomsHasBooked($request['rooms'], $checkIn, $checkOut);
+        if ($roomsBooked->isNotEmpty()) {
+            return $this->showAlertAndRedirect([
+                'status' => ResponseStatus::Error,
+                'title' => 'Phòng ' . $roomsBooked->first()->name . ' đã có đơn đặt phòng đặt trước!',
+                'message' => 'Vui lòng chọn lại phòng khác',
+            ]);
+        } else {
+            $roomPrices = [];
+            $bookingHour = $checkOut->diffInHours($checkIn);
+            foreach ($request['rooms'] as $roomId) {
+                $room = $this->roomService->find($roomId);
+                $prices = $this->roomService->getPrices($room, $bookingHour);
+                $roomPrices[] = [
+                    'room' => $room,
+                    'price' => $prices,
+                ];
+            }
+        }
+
+        // Tạo booking
+        $response = $this->bookingService->createBooking($request->except('token'), $roomPrices);
+        return $this->showAlertAndRedirect($response);
     }
 
     /**

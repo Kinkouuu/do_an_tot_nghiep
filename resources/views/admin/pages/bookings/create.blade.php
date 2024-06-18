@@ -26,8 +26,9 @@
                     <div class="col-md-12 border p-1 px-0 bg-secondary">
                         <h4 class="text-center text-capitalize">Danh sách phòng</h4>
                     </div>
-                    <div class="col-md-12 p-0 table-responsive"  style="max-height: 55vh">
-                        <table class="table table-bordered table-striped table-hover" style="min-width: 100%; width: max-content">
+                    <div class="col-md-12 p-0 table-responsive" style="max-height: 55vh">
+                        <table class="table table-bordered table-striped table-hover"
+                               style="min-width: 100%; width: max-content">
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
@@ -112,12 +113,14 @@
                                         </ul>
                                     </td>
                                     <td>
-                                        <p class="m-0">{{ $room['adult_capacity'] }} người lớn và {{ $room['children_capacity'] }} trẻ em</p>
+                                        <p class="m-0">{{ $room['adult_capacity'] }} người lớn
+                                            và {{ $room['children_capacity'] }} trẻ em</p>
                                     </td>
                                     <td>
                                         <div class="form-check m-0 justify-content-center">
                                             <input class="form-check-input room-check" name="rooms[]" type="checkbox"
-                                                   value="{{ $room['room']['id'] }}" data-id="{{ $room['room']['id'] }}">
+                                                   value="{{ $room['room']['id'] }}"
+                                                   data-id="{{ $room['room']['id'] }}">
                                         </div>
                                     </td>
                                 </tr>
@@ -133,61 +136,64 @@
                 </div>
                 <div class="col-md-12 mt-3 border">
                     <div class="row">
-                            <h4 class="col-md-12 bg-secondary p-1 text-center text-capitalize">Thông tin người nhận phòng</h4>
+                        <h4 class="col-md-12 bg-secondary p-1 text-center text-capitalize">Thông tin người nhận
+                            phòng</h4>
                         <div class="col-md-12 m-auto py-2">
                             <div class="row">
-                                @error('email')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Khách hàng</span>
                                     </div>
                                     <select class="form-control selectpicker" name="user_id" data-live-search="true"
-                                             id="userSelect" data-style="bg-white border border-left-0">
+                                            id="userSelect" data-style="bg-white border border-left-0">
                                         <option value="">Khách vãng lai</option>
                                         @foreach($users as $user)
-                                            <option {{ old('user_id') == $user['id'] ? 'selected' : '' }} value={{ $user['id'] }}>
+                                            <option
+                                                {{ old('user_id') == $user['id'] ? 'selected' : '' }} value={{ $user['id'] }}>
                                                 {{ $user->customer?->name }}:
                                                 {{ $user['phone'] }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('phone')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
+
                                 <div class="col-md-6 input-group mb-3">
+                                    @error('phone')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Số điện thoại</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
                                            name="phone" id="phone" value="{{ old('phone') }}" required>
                                 </div>
-                                @error('name')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
+
                                 <div class="col-md-6 input-group mb-3">
+                                    @error('name')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Họ tên</span>
                                     </div>
                                     <input type="text" class="customer-info form-control col-md-7"
                                            name="name" id="name" value="{{ old('name') }}" required>
                                 </div>
-                                @error('country')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
+
                                 <div class="col-md-6 input-group mb-3">
+                                    @error('country')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Quốc tịch</span>
                                     </div>
                                     <input type="text" class=" customer-info form-control col-md-7"
                                            name="country" id="country" value="{{ old('country') }}" required>
                                 </div>
-                                @error('citizen_id')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
+
                                 <div class="col-md-6 input-group mb-3">
+                                    @error('citizen_id')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Số CCCD</span>
                                     </div>
@@ -208,11 +214,14 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
+                                    @error('deposit')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Đã thanh toán (VND)</span>
                                     </div>
-                                    <input type="number" class="form-control col-md-7" name="deposit" min="0"
-                                           value="{{ old('deposit') }}" required>
+                                    <input type="number" class="form-control col-md-7" name="deposit" id="deposit"
+                                           min="0" value="{{ old('deposit') ?? 0 }}" required>
                                 </div>
                                 <div class="col-md-6 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
@@ -253,23 +262,24 @@
                                     </div>
                                     <select class="form-select" name="for_relative"
                                             data-style="bg-white border border-left-0">
-                                            <option {{ old('for_relative') == "0" ? 'selected' : '' }} value="0">
-                                                Chính chủ
-                                            </option>
+                                        <option {{ old('for_relative') == "0" ? 'selected' : '' }} value="0">
+                                            Chính chủ
+                                        </option>
                                         <option {{ old('for_relative') == "0" ? 'selected' : '' }} value="1">
                                             Người thân
                                         </option>
                                     </select>
                                 </div>
-                                @error('adults')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
+
                                 <div class="col-md-6 input-group mb-3">
+                                    @error('adults')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                     <div class="input-group-prepend col-md-5 p-0">
                                         <span class="input-group-text w-100">Số người lớn</span>
                                     </div>
-                                    <input type="number" class="form-control col-md-7" name="adults" min="0"
-                                           value="{{ old('adults') }}" required>
+                                    <input type="number" class="form-control col-md-7" name="adults" min="1"
+                                           value="{{ old('adults') ?? 1 }}" required>
                                 </div>
                                 @error('children')
                                 <div class="error">{{ $message }}</div>
@@ -279,20 +289,18 @@
                                         <span class="input-group-text w-100">Số trẻ em</span>
                                     </div>
                                     <input type="number" class="form-control col-md-7" name="children"
-                                           value="{{ old('children') }}" required>
+                                           value="{{ old('children') ?? 0}}" required>
                                 </div>
-                                @error('deposit')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
 
-                                @error('note')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
+
                                 <div class="col-md-12 input-group mb-3">
+                                    @error('note')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                     <div class="input-group-prepend col-md-2 p-0">
                                         <span class="input-group-text w-100">Ghi chú</span>
                                     </div>
-                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10" maxlength="50">
+                                    <textarea name="note" cols="1" rows="2" class="form-control col-md-10">
                                         {{ old('note') }}
                                 </textarea>
                                 </div>
@@ -310,13 +318,13 @@
 
 @push('script')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const checkin = $('#checkin').val();
             const checkout = $('#checkout').val();
             let total_room = 0;
             let total_price = 0;
             // handle sự kiện chọn phòng
-            $('.room-check').on('change', function() {
+            $('.room-check').on('change', function () {
                 const roomId = $(this).data('id'); // Lấy room_id từ data-room-id của checkbox
                 const isChecked = $(this).is(':checked'); // Kiểm tra trạng thái của checkbox
                 // Gửi AJAX request
@@ -329,9 +337,8 @@
                         check_out: checkout,
                         _token: '{{ csrf_token() }}' // Token CSRF (nếu cần)
                     },
-                    success: function(response) {
-                        if (isChecked)
-                        {
+                    success: function (response) {
+                        if (isChecked) {
                             total_room++;
                             total_price += response.total_price_1_room;
                         } else {
@@ -340,14 +347,14 @@
                         }
                         $("#total-room").text(total_room.toString());
                         $("#total_price").text(total_price.toLocaleString());
-                        if (total_room > 0)
-                        {
+                        if (total_room > 0) {
                             $("#submit-btn").removeAttr("disabled");
+                            $('#deposit').attr("max", total_price);
                         } else {
                             $("#submit-btn").attr("disabled", true);
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         // Xử lý lỗi (nếu có)
                         const event = new CustomEvent('show-alert', {
                             detail: {
@@ -361,7 +368,7 @@
                 });
             });
             // handle sự kiện chọn user customer
-            $('#userSelect').change(function() {
+            $('#userSelect').change(function () {
                 const id = $(this).val();
                 if (id === '') {
                     // Reset các trường input của form khi id là null
@@ -373,16 +380,15 @@
                         data: {
                             _token: '{{ csrf_token() }}',
                         },
-                        success: function(response) {
+                        success: function (response) {
                             // Xử lý response từ server
                             $('#name').val(response.name);
                             $('#phone').val(response.phone);
                             $('#country').val(response.country);
                             $('#citizen_id').val(response.citizen_id);
                             $('#gender').val(response.gender);
-                            console.log(response);
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             // Xử lý lỗi nếu có
                             console.error(error);
                             // Reset các trường input của form khi có lỗi
@@ -398,8 +404,8 @@
             var formElements = $('.customer-info');
 
             // Duyệt qua từng phần tử và reset giá trị
-            formElements.each(function() {
-                    $(this).val('');
+            formElements.each(function () {
+                $(this).val('');
             });
         }
     </script>

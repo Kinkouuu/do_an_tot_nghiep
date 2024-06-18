@@ -96,7 +96,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('booking')->name('booking.')->group(function () {
             Route::post('/{booking}/refuse', [AdminBookingController::class, 'refuseBooking'])->name('refuse');
             Route::post('/choose-room', [AdminBookingController::class, 'chooseRoom'])->name('choose-room');
-            Route::post('/store', [AdminBookingController::class, 'store'])->name('store');
         });
         /*Middleware MANAGER*/
         Route::middleware('manager')->group(function () {
