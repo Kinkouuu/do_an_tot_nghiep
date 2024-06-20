@@ -15,6 +15,8 @@ class BookingRoom extends Model
       'room_id',
       'checkin_at',
       'checkout_at',
+      'early_fee',
+      'lately_fee',
       'price',
     ];
 }

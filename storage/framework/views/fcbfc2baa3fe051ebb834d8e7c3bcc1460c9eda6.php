@@ -19,12 +19,21 @@
                             <?php echo e($branch['name'] . ' - ' . $branch['city']); ?>
 
                         </h5>
+                        <?php if(isset($booking['bookingCreator']['name'])): ?>
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-headset"></i>
+                                    <p class="m-0 px-2">Người tạo: </p>
+                                    <p class="text-info text-capitalize m-2"><?php echo e($booking['bookingCreator']['name']); ?></p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                         <div class="col-md-12">
                             <div class="d-flex align-items-center">
                                 <i class="fa-solid fa-location-arrow"></i>
                                 <p class="m-0 px-2">Địa chỉ: </p>
+                                <p class="text-info m-2"><?php echo e($branch['address'] . ', ' . $branch['city']); ?></p>
                             </div>
-                            <p class="text-info m-0"><?php echo e($branch['address'] . ', ' . $branch['city']); ?></p>
                         </div>
                         <div class="col-md-12">
                             <div class="d-flex align-items-center">
@@ -63,18 +72,18 @@ if (! isset($_instance)) {
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ])->html();
-} elseif ($_instance->childHasBeenRendered('jQlqNgq')) {
-    $componentId = $_instance->getRenderedChildComponentId('jQlqNgq');
-    $componentTag = $_instance->getRenderedChildComponentTagName('jQlqNgq');
+} elseif ($_instance->childHasBeenRendered('y8qcIUW')) {
+    $componentId = $_instance->getRenderedChildComponentId('y8qcIUW');
+    $componentTag = $_instance->getRenderedChildComponentTagName('y8qcIUW');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('jQlqNgq');
+    $_instance->preserveRenderedChild('y8qcIUW');
 } else {
     $response = \Livewire\Livewire::mount('booking.change-room', [
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ]);
     $html = $response->html();
-    $_instance->logRenderedChild('jQlqNgq', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('y8qcIUW', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -451,17 +460,17 @@ if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ])->html();
-} elseif ($_instance->childHasBeenRendered('zyCiMFv')) {
-    $componentId = $_instance->getRenderedChildComponentId('zyCiMFv');
-    $componentTag = $_instance->getRenderedChildComponentTagName('zyCiMFv');
+} elseif ($_instance->childHasBeenRendered('In5n7vX')) {
+    $componentId = $_instance->getRenderedChildComponentId('In5n7vX');
+    $componentTag = $_instance->getRenderedChildComponentTagName('In5n7vX');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('zyCiMFv');
+    $_instance->preserveRenderedChild('In5n7vX');
 } else {
     $response = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ]);
     $html = $response->html();
-    $_instance->logRenderedChild('zyCiMFv', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('In5n7vX', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

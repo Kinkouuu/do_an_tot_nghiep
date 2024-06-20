@@ -218,18 +218,26 @@ class BookingController extends Controller
     /**
      * Hoàn thành đơn hàng
      * @param Booking $booking
+     * @param Request $request
      * @throws Throwable
      */
-    public function completeBooking(Booking $booking)
+    public function completeBooking(Booking $booking, Request $request)
     {
-        $booking->status = BookingStatus::Completed['key'];
-        $booking->save();
-
-        $this->createInvoice($booking);
+        if ($booking->status != BookingStatus::Completed['key'])
+        {
+            $booking->status = BookingStatus::Completed['key'];
+            $booking->paid = $request->get('paid')*1000;
+            $booking->cashier = Auth::guard('admins')->user()->id;
+            $booking->save();
+            return $this->createInvoice($booking);
+        }else{
+           return $this->createInvoice($booking);
+        }
     }
 
     /**
      * @param Booking $booking
+     * @return null
      * @throws Throwable
      */
     public function createInvoice(Booking $booking)
@@ -253,6 +261,6 @@ class BookingController extends Controller
         $dompdf->render();
 
         // Output PDF
-        $dompdf->stream("invoice.pdf", array("Attachment" => false));
+        return $dompdf->stream("invoice.pdf", array("Attachment" => false));
     }
 }

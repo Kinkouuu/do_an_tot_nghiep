@@ -27,14 +27,17 @@ class Booking extends Model
         'number_of_adults',
         'number_of_children',
         'deposit',
+        'paid',
         'note',
         'reason',
+        'creator',
+        'cashier',
     ];
 
     public function bookingRooms(): BelongsToMany
     {
         return $this->belongsToMany(Room::class, 'booking_room', 'booking_id', 'room_id')
-            ->withPivot('checkin_at', 'checkout_at', 'price');
+            ->withPivot('checkin_at', 'checkout_at', 'early_fee', 'lately_fee', 'price');
     }
 
     public function user(): BelongsTo
@@ -42,6 +45,23 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Nhân viên tạo đơn
+     * @return BelongsTo
+     */
+    public function bookingCreator(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'creator', 'id');
+    }
+
+    /**
+     * Nhân viên thu ngân
+     * @return BelongsTo
+     */
+    public function bookingCashier(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'cashier', 'id');
+    }
     public static function getColumnsFilter(): array
     {
         return [

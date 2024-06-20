@@ -57,7 +57,7 @@
                         <span style="font-weight: lighter">(<?php echo e(base64_encode($booking['booking_id'])); ?>)</span>
                     </th>
                     <td class="text-capitalize"><?php echo e($booking['branch_name']); ?></td>
-                    <?php if($booking['user']['customer']): ?>
+                    <?php if(isset($booking['user']['customer'])): ?>
                         <td class="text-capitalize">
                             <a style="text-decoration: underline" class="text-info" href="<?php echo e(route('admin.users.edit', $booking['user']['id'])); ?>"><?php echo e($booking['user']['customer']['name']); ?></a>
                         </td>

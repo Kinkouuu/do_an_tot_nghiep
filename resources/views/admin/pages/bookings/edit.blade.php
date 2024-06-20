@@ -18,12 +18,21 @@
                         <h5 class="text-center text-danger font-italic font-weight-bold mt-2">
                             {{ $branch['name'] . ' - ' . $branch['city']}}
                         </h5>
+                        @if(isset($booking['bookingCreator']['name']))
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-headset"></i>
+                                    <p class="m-0 px-2">Người tạo: </p>
+                                    <p class="text-info text-capitalize m-2">{{ $booking['bookingCreator']['name'] }}</p>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-md-12">
                             <div class="d-flex align-items-center">
                                 <i class="fa-solid fa-location-arrow"></i>
                                 <p class="m-0 px-2">Địa chỉ: </p>
+                                <p class="text-info m-2">{{ $branch['address'] . ', ' . $branch['city'] }}</p>
                             </div>
-                            <p class="text-info m-0">{{ $branch['address'] . ', ' . $branch['city'] }}</p>
                         </div>
                         <div class="col-md-12">
                             <div class="d-flex align-items-center">

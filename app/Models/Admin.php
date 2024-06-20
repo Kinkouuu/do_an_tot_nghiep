@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -22,7 +23,9 @@ class Admin extends Authenticatable
         'phone',
         'citizen_id',
         'gender',
-        'branch_id'
+        'branch_id',
+        'creator',
+        'cashier',
     ];
 
     public static function getColumnsFilter(): array
@@ -41,5 +44,15 @@ class Admin extends Authenticatable
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function creatorBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'creator', 'id');
+    }
+
+    public function cashierBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'cashier', 'id');
     }
 }

@@ -294,6 +294,7 @@ class BookingService extends BaseService
                 'total_fee' => $totalFee,
                 'total_room' => count($rooms),
                 'total_cost' => $totalPrice + $totalFee,
+                'total_refund' => max($booking['deposit'] + $booking['paid'] - $totalPrice - $totalFee, 0),
             ],
         ];
     }

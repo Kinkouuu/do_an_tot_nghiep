@@ -91,6 +91,7 @@ class BookingService extends UserBookingService
             'booking_checkin' => $request['checkin'],
             'booking_checkout' => $request['checkout'],
             'status' => BookingStatus::Approved['key'],
+            'creator' => \Auth::guard('admins')->user()->id,
         ];
 
         DB::beginTransaction();

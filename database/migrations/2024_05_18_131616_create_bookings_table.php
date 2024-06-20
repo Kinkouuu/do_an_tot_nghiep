@@ -20,6 +20,8 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('creator')->nullable();
+            $table->unsignedBigInteger('cashier')->nullable();
             $table->string('name');
             $table->string('phone');
             $table->string('country');
@@ -33,12 +35,15 @@ return new class extends Migration
             $table->enum('status', array_column(BookingStatus::asArray(), 'key'))->default(BookingStatus::AwaitingConfirm['key']);
             $table->integer('number_of_adults')->default(0);
             $table->integer('number_of_children')->default(0);
-            $table->integer('deposit')->default(0);
+            $table->integer('deposit')->default(0)->comment('số tiền cọc khi đặt phòng');
+            $table->integer('paid')->default(0)->comment('số tiền khách đưa khi thanh toán');
             $table->text('note')->nullable();
             $table->text('refuse_reason')->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('creator')->references('id')->on('admins')->nullOnDelete();
+            $table->foreign('cashier')->references('id')->on('admins')->nullOnDelete();
 
         });
     }
