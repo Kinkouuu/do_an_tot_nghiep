@@ -3,9 +3,9 @@
         <div class="row">
             <div class="d-flex justify-content-between mt-3 mb-5">
                 <div class="col-2 my-auto text-center">
-                    <a class="btn btn-outline-success" href="<?php echo e(route('admin.room.edit', $room['id'])); ?>">
+                    <a class="btn btn-outline-success" href="<?php echo e(route('admin.room-type.edit', $room['roomType']['id'])); ?>">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        Thông tin chi tiết
+                        Xem giá phòng
                     </a>
                 </div>
 

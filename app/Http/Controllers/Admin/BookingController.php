@@ -14,14 +14,16 @@ use App\Services\Admin\RoomService;
 use App\Services\Admin\RoomTypeService;
 use App\Services\Admin\UserService;
 use Carbon\Carbon;
+use DOMDocument;
+use Dompdf\Dompdf;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class BookingController extends Controller
 {
@@ -133,12 +135,13 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
      */
-    public function show($id)
+    public function show(Booking $booking)
     {
-        //
+        $bookingData = $this->bookingService->getBookingInvoice($booking);
+        return view('admin.pages.bookings.show', [
+            'booking' => $bookingData,
+        ]);
     }
 
     /**
@@ -210,5 +213,48 @@ class BookingController extends Controller
         $room = $this->roomService->find($request->get('room_id'));
         $bookingHour = Carbon::parse($request->get('check_out'))->diffInHours($request->get('check_in'));
         return $this->roomService->getPrices($room, $bookingHour);
+    }
+
+    /**
+     * Hoàn thành đơn hàng
+     * @param Booking $booking
+     * @throws Throwable
+     */
+    public function completeBooking(Booking $booking)
+    {
+        $booking->status = BookingStatus::Completed['key'];
+        $booking->save();
+
+        $this->createInvoice($booking);
+    }
+
+    /**
+     * @param Booking $booking
+     * @throws Throwable
+     */
+    public function createInvoice(Booking $booking)
+    {
+        $bookingData = $this->bookingService->getBookingInvoice($booking);
+        // Render view và lấy nội dung HTML
+        $html = view('admin.pages.bookings.show')->with('booking', $bookingData)->render();
+        // Tạo đối tượng DOMDocument và tìm phần tử cần in
+        $doc = new DomDocument('1.0', 'UTF-8');
+
+        @$doc->loadHTML($html);
+        $element = $doc->getElementById('invoice');
+        // Khởi tạo đối tượng dompdf
+        $dompdf = new Dompdf([
+            'isRemoteEnabled' => true,
+        ]);
+        // Đổ dữ liệu HTML của element vào dompdf
+        $dompdf->loadHtml($element->C14N(), 'UTF-8');
+        // (Tùy chọn) Cấu hình thêm các thiết lập cho PDF
+        $dompdf->setPaper('A3');
+
+        // Render PDF
+        $dompdf->render();
+
+        // Output PDF
+        $dompdf->stream("invoice.pdf", array("Attachment" => false));
     }
 }

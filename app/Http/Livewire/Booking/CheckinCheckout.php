@@ -29,12 +29,6 @@ class CheckinCheckout extends Component
     {
         $this->checkInRooms = $this->booking->bookingRooms()->whereNull('booking_room.checkin_at')->get();
         $this->checkOutRooms = $this->booking->bookingRooms()->whereNotNull('booking_room.checkin_at')->whereNull('booking_room.checkout_at')->get();
-        //Hoàn thành đơn đặt khi đã checkout tất cả các phòng
-        if ($this->checkInRooms->isEmpty() && $this->checkOutRooms->isEmpty())
-        {
-            $this->booking->status = BookingStatus::Completed['key'];
-            $this->booking->save();
-        }
         return view('livewire.booking.checkin-checkout', [
             'check_in_rooms' => $this->checkInRooms,
             'check_out_rooms' => $this->checkOutRooms,

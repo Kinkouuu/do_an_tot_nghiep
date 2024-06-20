@@ -16,4 +16,9 @@ return [
       'refuse'=> 'Thật tiếc quá, đơn đặt của bạn đã bị từ chối với lí do: ',
     ],
     'route_not_include_carousel' => ['booking.confirm', 'booking.list', 'booking.show'],
+    'convert_time' => [
+      'day' => 60 * 60 * 24,
+      'hour' => 60 * 60,
+      'min' => 60
+    ],
 ];

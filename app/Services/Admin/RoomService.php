@@ -192,14 +192,14 @@ class RoomService extends UserRoomService
      */
     public function changeStatus(array $roomIds, array $status): array
     {
-//        DB::beginTransaction();
-//        try {
+        DB::beginTransaction();
+        try {
             $this->model->whereIn('id', $roomIds)
                 ->update(['status' => $status['key']]);
-//            DB::commit();
+            DB::commit();
             return $this->successResponse('Cập nhật trạng thái phòng thành công!');
-//        } catch (\Exception $exception) {
-//            return $this->successResponse('Đã có lỗi xảy ra!');
-//        }
+        } catch (\Exception $exception) {
+            return $this->successResponse('Đã có lỗi xảy ra!');
+        }
     }
 }

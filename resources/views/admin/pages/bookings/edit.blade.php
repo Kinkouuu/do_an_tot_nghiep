@@ -157,11 +157,9 @@
                                                         Thành tiền:
                                                     </h5>
                                                     <p class="text-info text-center" style="font-size: large">
-                                                        {{ number_format($room['total_price_1_room'], 0, ',', '.')}}
-                                                        VND/phòng
-                                                        <span class="text-secondary">SL: x{{count($room['room_ids'])}}</span>
+                                                        {{ number_format(count($room['room_ids']) * $room['total_price_1_room'], 0, ',', '.')}}
+                                                        VND / {{count($room['room_ids'])}} phòng
                                                     </p>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -420,15 +418,15 @@
                                 @endif
                                     @if($booking['status'] == BookingStatus::Completed['key'])
                                         <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-warning text-white">
-                                                <i class="fa-regular fa-star-half-stroke"></i>
-                                                Xem đánh giá
+                                            <a class="btn btn-success text-white" href="{{ route('admin.booking.show', $booking) }}">
+                                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                                Xem hóa đơn
                                             </a>
                                         </div>
                                         <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-success text-white">
-                                                <i class="fa-solid fa-file-invoice-dollar"></i>
-                                                In hóa đơn
+                                            <a class="btn btn-warning text-white">
+                                                <i class="fa-regular fa-star-half-stroke"></i>
+                                                Xem đánh giá
                                             </a>
                                         </div>
                                     @endif

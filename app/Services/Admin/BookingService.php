@@ -9,7 +9,6 @@ use App\Services\User\BookingService as UserBookingService;
 use App\Services\User\RoomService as UserRoomService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use Ramsey\Collection\Collection;
 
 class BookingService extends UserBookingService
 {

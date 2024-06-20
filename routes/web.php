@@ -96,6 +96,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('booking')->name('booking.')->group(function () {
             Route::post('/{booking}/refuse', [AdminBookingController::class, 'refuseBooking'])->name('refuse');
             Route::post('/choose-room', [AdminBookingController::class, 'chooseRoom'])->name('choose-room');
+            Route::get('/{booking}/complete', [AdminBookingController::class, 'completeBooking'])->name('complete');
+            Route::get('/{booking}/print-invoice', [AdminBookingController::class, 'createInvoice'])->name('invoice-create');
         });
         /*Middleware MANAGER*/
         Route::middleware('manager')->group(function () {

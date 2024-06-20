@@ -91,4 +91,13 @@
                 </div>
             </form>
     @endif
+
+    @if($check_in_rooms->isEmpty() && $check_out_rooms->isEmpty())
+            <div class="col-md-6 m-auto text-center">
+                <a class="btn btn-success text-white" href="{{ route('admin.booking.show', $booking) }}">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    In hóa đơn
+                </a>
+            </div>
+    @endif
 </div>

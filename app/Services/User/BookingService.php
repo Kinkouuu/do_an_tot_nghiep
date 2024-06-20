@@ -5,8 +5,10 @@ namespace App\Services\User;
 use App\Enums\Booking\BookingStatus;
 use App\Enums\Booking\BookingType;
 use App\Enums\Booking\PaymentType;
+use App\Enums\Room\PriceType;
 use App\Events\BookingEvent;
 use App\Models\Booking;
+use App\Models\Room;
 use App\Models\User;
 use App\Services\BaseService;
 use Carbon\Carbon;
@@ -77,17 +79,7 @@ class BookingService extends BaseService
     {
         $checkIn = Carbon::parse($condition['checkin']);
         $checkout = Carbon::parse($condition['checkout']);
-        $time = $checkout->diffInHours($checkIn);
-        // Làm tròn thêm 1 tiếng nếu dưới 24 giờ
-        if ($time < 24) {
-            $duration = ceil($time / 1) . ' giờ';
-        }
-        // Làm tròn lên 1 ngày nếu trên 24 giờ
-        else {
-            $days = ceil($time / 24);
-            $nights = ($days > 1) ? $days - 1 : $days;
-            $duration = $days . ' ngày ' . $nights . ' đêm';
-        }
+        $duration = $this->calculateTripDuration($checkIn, $checkout);
 
         return [
             'checkin' => $checkIn,
@@ -201,5 +193,94 @@ class BookingService extends BaseService
         $booking->status = BookingStatus::Canceled['key'];
         $booking->save();
         return $this->successResponse('Hủy đơn đặt phòng thành công!');
+    }
+
+    /**
+     * Convert thời gian đặt phòng thành ngày và đêm
+     * @param Carbon $checkIn
+     * @param Carbon $checkOut
+     * @return string
+     */
+    protected function calculateTripDuration(Carbon $checkIn, Carbon $checkOut): string
+    {
+        $time = $checkOut->diffInHours($checkIn);
+        // Làm tròn thêm 1 tiếng nếu dưới 24 giờ
+        if ($time < 24) {
+            $duration = ceil($time / 1) . ' giờ';
+        }
+        // Làm tròn lên 1 ngày nếu trên 24 giờ
+        else {
+            $days = ceil($time / 24);
+            $nights = ($days > 1) ? $days - 1 : $days;
+            $duration = $days . ' ngày ' . $nights . ' đêm';
+        }
+
+        return $duration;
+    }
+
+    /**
+     * Tính phí check in sớm và check out muộn
+     * @param Room $room
+     * @param Carbon $checkIn
+     * @param Carbon $checkOut
+     * @return array[]
+     */
+    public function calculateEarlyOrLateFee(Room $room, Carbon $checkIn, Carbon $checkOut): array
+    {
+        //Tính thời gian sớm/muộn (đơn vị giờ)
+        $early = (strtotime($checkIn) - strtotime($room->pivot->checkin_at)) / config('constants.convert_time.hour');
+        $earlyPrice = $room->roomType->roomPrices->where('type_price', PriceType::EarlyCheckIn['value'])->first()->price;
+
+        $lately = (strtotime($room->pivot->checkout_at) - strtotime($checkOut)) / config('constants.convert_time.hour');
+        $latelyPrice = $room->roomType->roomPrices->where('type_price', PriceType::LateCheckOut['value'])->first()->price;
+
+        return [
+            'early_time' => $early,
+            'early_price' => $earlyPrice,
+            'early_fee' => $early > 0 ? round($early) * $earlyPrice : 0,
+            'lately_time' => $lately,
+            'lately_price' => $latelyPrice,
+            'lately_fee' => $lately > 0 ? round($lately) * $latelyPrice : 0,
+        ];
+    }
+
+    /**
+     * In thông tin hóa đơn
+     * @param Booking $booking
+     * @return array
+     */
+    public function getBookingInvoice(Booking $booking): array
+    {
+        $bookingCheckIn = Carbon::parse($booking->booking_checkin);
+        $bookingCheckOut = Carbon::parse($booking->booking_checkout);
+        $duration = $this->calculateTripDuration($bookingCheckIn, $bookingCheckOut);
+        $rooms = [];
+        foreach ($booking->bookingRooms as $bookingRoom) {
+            $fee = $this->calculateEarlyOrLateFee($bookingRoom, $bookingCheckIn, $bookingCheckOut);
+            $room = array_merge($fee, [
+                'room_id' => $bookingRoom->id,
+                'room_name' => $bookingRoom->name,
+                'room_type_id' => $bookingRoom->roomType->id,
+                'room_type' => $bookingRoom->roomType->name,
+                'price' => $bookingRoom->pivot->price,
+                'checkin_at' => $bookingRoom->pivot->checkin_at,
+                'checkout_at' => $bookingRoom->pivot->checkout_at,
+            ]);
+            $rooms[] = $room;
+        }
+        $totalFee = array_sum(array_column($rooms, 'early_fee')) + array_sum(array_column($rooms, 'lately_fee'));
+        $totalPrice = array_sum(array_column($rooms, 'price'));
+        return [
+            'branch' => $booking->bookingRooms->first()->branch,
+            'booking' => $booking,
+            'rooms' => collect($rooms)->sortBy('room_name'),
+            'total' =>[
+                'total_time' => $duration,
+                'total_price' => $totalPrice,
+                'total_fee' => $totalFee,
+                'total_room' => count($rooms),
+                'total_cost' => $totalPrice + $totalFee,
+            ],
+        ];
     }
 }

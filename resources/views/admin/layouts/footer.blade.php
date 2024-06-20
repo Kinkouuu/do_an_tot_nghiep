@@ -39,7 +39,6 @@
             language: 'vi'
         } )
         .catch( error => {
-            console.error( error );
         } );
 </script>
 <script>

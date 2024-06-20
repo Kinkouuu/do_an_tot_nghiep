@@ -63,18 +63,18 @@ if (! isset($_instance)) {
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ])->html();
-} elseif ($_instance->childHasBeenRendered('zmfigOQ')) {
-    $componentId = $_instance->getRenderedChildComponentId('zmfigOQ');
-    $componentTag = $_instance->getRenderedChildComponentTagName('zmfigOQ');
+} elseif ($_instance->childHasBeenRendered('jQlqNgq')) {
+    $componentId = $_instance->getRenderedChildComponentId('jQlqNgq');
+    $componentTag = $_instance->getRenderedChildComponentTagName('jQlqNgq');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('zmfigOQ');
+    $_instance->preserveRenderedChild('jQlqNgq');
 } else {
     $response = \Livewire\Livewire::mount('booking.change-room', [
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ]);
     $html = $response->html();
-    $_instance->logRenderedChild('zmfigOQ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('jQlqNgq', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -186,12 +186,10 @@ echo $html;
                                                         Thành tiền:
                                                     </h5>
                                                     <p class="text-info text-center" style="font-size: large">
-                                                        <?php echo e(number_format($room['total_price_1_room'], 0, ',', '.')); ?>
+                                                        <?php echo e(number_format(count($room['room_ids']) * $room['total_price_1_room'], 0, ',', '.')); ?>
 
-                                                        VND/phòng
-                                                        <span class="text-secondary">SL: x<?php echo e(count($room['room_ids'])); ?></span>
+                                                        VND / <?php echo e(count($room['room_ids'])); ?> phòng
                                                     </p>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -453,17 +451,17 @@ if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ])->html();
-} elseif ($_instance->childHasBeenRendered('U9hZF6I')) {
-    $componentId = $_instance->getRenderedChildComponentId('U9hZF6I');
-    $componentTag = $_instance->getRenderedChildComponentTagName('U9hZF6I');
+} elseif ($_instance->childHasBeenRendered('zyCiMFv')) {
+    $componentId = $_instance->getRenderedChildComponentId('zyCiMFv');
+    $componentTag = $_instance->getRenderedChildComponentTagName('zyCiMFv');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('U9hZF6I');
+    $_instance->preserveRenderedChild('zyCiMFv');
 } else {
     $response = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ]);
     $html = $response->html();
-    $_instance->logRenderedChild('U9hZF6I', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('zyCiMFv', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -471,15 +469,15 @@ echo $html;
                                 <?php endif; ?>
                                     <?php if($booking['status'] == BookingStatus::Completed['key']): ?>
                                         <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-warning text-white">
-                                                <i class="fa-regular fa-star-half-stroke"></i>
-                                                Xem đánh giá
+                                            <a class="btn btn-success text-white" href="<?php echo e(route('admin.booking.show', $booking)); ?>">
+                                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                                Xem hóa đơn
                                             </a>
                                         </div>
                                         <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-success text-white">
-                                                <i class="fa-solid fa-file-invoice-dollar"></i>
-                                                In hóa đơn
+                                            <a class="btn btn-warning text-white">
+                                                <i class="fa-regular fa-star-half-stroke"></i>
+                                                Xem đánh giá
                                             </a>
                                         </div>
                                     <?php endif; ?>
