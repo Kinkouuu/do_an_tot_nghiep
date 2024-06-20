@@ -20,18 +20,18 @@ if (! isset($_instance)) {
                 'branches' => $branches,
                 'roomTypes' => $roomTypes,
             ])->html();
-} elseif ($_instance->childHasBeenRendered('dSvBjlp')) {
-    $componentId = $_instance->getRenderedChildComponentId('dSvBjlp');
-    $componentTag = $_instance->getRenderedChildComponentTagName('dSvBjlp');
+} elseif ($_instance->childHasBeenRendered('YbdY2uR')) {
+    $componentId = $_instance->getRenderedChildComponentId('YbdY2uR');
+    $componentTag = $_instance->getRenderedChildComponentTagName('YbdY2uR');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('dSvBjlp');
+    $_instance->preserveRenderedChild('YbdY2uR');
 } else {
     $response = \Livewire\Livewire::mount('booking.create-form', [
                 'branches' => $branches,
                 'roomTypes' => $roomTypes,
             ]);
     $html = $response->html();
-    $_instance->logRenderedChild('dSvBjlp', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('YbdY2uR', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
