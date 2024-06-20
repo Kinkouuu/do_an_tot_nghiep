@@ -225,22 +225,36 @@ class BookingService extends BaseService
      * @param Carbon $checkOut
      * @return array[]
      */
-    public function calculateEarlyOrLateFee(Room $room, Carbon $checkIn, Carbon $checkOut): array
+    public function calculateEarlyOrLateFee(Room $room, Booking $booking): array
     {
         //Tính thời gian sớm/muộn (đơn vị giờ)
-        $early = (strtotime($checkIn) - strtotime($room->pivot->checkin_at)) / config('constants.convert_time.hour');
-        $earlyPrice = $room->roomType->roomPrices->where('type_price', PriceType::EarlyCheckIn['value'])->first()->price;
+        $earlyTime = (strtotime($booking->booking_checkin) - strtotime($room->pivot->checkin_at)) / config('constants.convert_time.hour');
+        $earlyFee = $booking->bookingRooms()->where('room_id', $room->id)->first()->pivot->early_fee;
+        if (is_null($earlyFee))
+        {
+            $earlyPrice = $room->roomType->roomPrices->where('type_price', PriceType::EarlyCheckIn['value'])->first()->price;
+            $earlyFee = $earlyTime > 0 ? round($earlyTime) * $earlyPrice : 0;
+            $booking->bookingRooms()->updateExistingPivot($room->id, [
+                'early_fee' => $earlyFee,
+                'updated_at' => Carbon::now()
+            ]);
+        }
 
-        $lately = (strtotime($room->pivot->checkout_at) - strtotime($checkOut)) / config('constants.convert_time.hour');
-        $latelyPrice = $room->roomType->roomPrices->where('type_price', PriceType::LateCheckOut['value'])->first()->price;
-
+        $latelyTime = (strtotime($room->pivot->checkout_at) - strtotime($booking->booking_checkout)) / config('constants.convert_time.hour');
+        $latelyFee = $booking->bookingRooms()->where('room_id', $room->id)->first()->pivot->lately_fee;
+        if (is_null($latelyFee)) {
+            $latelyPrice = $room->roomType->roomPrices->where('type_price', PriceType::LateCheckOut['value'])->first()->price;
+            $latelyFee = $latelyTime > 0 ? round($latelyTime) * $latelyPrice : 0;
+            $booking->bookingRooms()->updateExistingPivot($room->id, [
+                'lately_fee' => $latelyFee,
+                'updated_at' => Carbon::now()
+            ]);
+        }
         return [
-            'early_time' => $early,
-            'early_price' => $earlyPrice,
-            'early_fee' => $early > 0 ? round($early) * $earlyPrice : 0,
-            'lately_time' => $lately,
-            'lately_price' => $latelyPrice,
-            'lately_fee' => $lately > 0 ? round($lately) * $latelyPrice : 0,
+            'early_time' => round($earlyTime, 1),
+            'early_fee' => $earlyFee,
+            'lately_time' => round($latelyTime,1),
+            'lately_fee' => $latelyFee,
         ];
     }
 
@@ -256,7 +270,7 @@ class BookingService extends BaseService
         $duration = $this->calculateTripDuration($bookingCheckIn, $bookingCheckOut);
         $rooms = [];
         foreach ($booking->bookingRooms as $bookingRoom) {
-            $fee = $this->calculateEarlyOrLateFee($bookingRoom, $bookingCheckIn, $bookingCheckOut);
+            $fee = $this->calculateEarlyOrLateFee($bookingRoom, $booking);
             $room = array_merge($fee, [
                 'room_id' => $bookingRoom->id,
                 'room_name' => $bookingRoom->name,

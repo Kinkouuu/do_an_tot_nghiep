@@ -20,6 +20,8 @@ return new class extends Migration
             $table->timestamp('checkin_at')->nullable();
             $table->timestamp('checkout_at')->nullable();
             $table->integer('price');
+            $table->integer('early_fee')->nullable();   
+            $table->integer('lately_fee')->nullable();
             $table->timestamps();
 
             $table->foreign('booking_id')->references('id')->on('bookings')->cascadeOnDelete();

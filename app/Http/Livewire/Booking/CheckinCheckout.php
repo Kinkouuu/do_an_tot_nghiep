@@ -2,15 +2,16 @@
 
 namespace App\Http\Livewire\Booking;
 
-use App\Enums\Booking\BookingStatus;
 use App\Enums\Room\RoomStatus;
 use App\Services\Admin\RoomService;
+use App\Services\Admin\BookingService;
 use Carbon\Carbon;
 use Livewire\Component;
 
 class CheckinCheckout extends Component
 {
     protected RoomService $roomService;
+    protected BookingService $bookingService;
     public $booking;
     public $inRooms = [];
     public $checkInRooms;
@@ -22,6 +23,7 @@ class CheckinCheckout extends Component
     public function __construct($id = null)
     {
         $this->roomService = app()->make(RoomService::class);
+        $this->bookingService = app()->make(BookingService::class);
         parent::__construct($id);
     }
 
@@ -72,6 +74,7 @@ class CheckinCheckout extends Component
     public function checkin(): void
     {
         $this->booking->bookingRooms()->updateExistingPivot($this->inRooms, ['checkin_at' => Carbon::now()]);
+
         $response = $this->roomService->changeStatus($this->inRooms, RoomStatus::Using);
         $this->dispatchBrowserEvent('show-alert', [
             'title' => 'Đang check in....',

@@ -243,9 +243,7 @@ class BookingController extends Controller
         @$doc->loadHTML($html);
         $element = $doc->getElementById('invoice');
         // Khởi tạo đối tượng dompdf
-        $dompdf = new Dompdf([
-            'isRemoteEnabled' => true,
-        ]);
+        $dompdf = new Dompdf();
         // Đổ dữ liệu HTML của element vào dompdf
         $dompdf->loadHtml($element->C14N(), 'UTF-8');
         // (Tùy chọn) Cấu hình thêm các thiết lập cho PDF

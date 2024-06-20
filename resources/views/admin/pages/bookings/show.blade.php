@@ -36,11 +36,11 @@
                                 <span style="text-transform: capitalize"> {{ $booking['booking']['created_at']->isoFormat('dddd, HH:mm DD/MM/YYYY') }}</span>
                             </p>
                             <p style="text-transform: capitalize; margin: 0">
-                                <strong>Ngày nhận phòng: </strong>
+                                <strong>Ngày hẹn nhận phòng: </strong>
                                 <span style="text-transform: capitalize"> {{ Carbon::parse($booking['booking']['booking_checkin'])->isoFormat('dddd, HH:mm DD/MM/YYYY') }}</span>
                             </p>
                             <p style="text-transform: capitalize; margin: 0">
-                                <strong>Ngày trả phòng: </strong>
+                                <strong>Ngày hẹn trả phòng: </strong>
                                 <span style="text-transform: capitalize"> {{ Carbon::parse($booking['booking']['booking_checkout'])->isoFormat('dddd, HH:mm DD/MM/YYYY') }}</span>
                             </p>
                             <p style="text-transform: capitalize; margin: 0">
