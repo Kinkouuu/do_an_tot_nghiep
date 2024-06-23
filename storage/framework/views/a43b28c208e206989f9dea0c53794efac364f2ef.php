@@ -230,7 +230,7 @@
                                                             Tôi muốn hủy đơn
                                                         </button>
                                                     <?php elseif($bookingRoom['booking']['status'] == BookingStatus::Completed['key']): ?>
-                                                        <a class="btn btn-success text-white mb-1" href="">
+                                                        <a class="btn btn-warning text-white mb-1" href="<?php echo e(route('feedback.show', base64_encode($bookingRoom['booking']['id']))); ?>">
                                                             <i class="fa-solid fa-star"></i>
                                                             Đánh giá phòng
                                                         </a>

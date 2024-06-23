@@ -2912,3 +2912,11 @@ a:hover {
     transform: translateY(-50%);
     color: #999;
 }
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    color: whitesmoke;
+}
+.star.hovered {
+    color: orange;
+}

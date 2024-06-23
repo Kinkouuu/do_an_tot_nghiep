@@ -182,5 +182,7 @@ return [
         'account_name'          => 'Tên tài khoản đăng nhập',
         'account'               => 'Số điện thoại đăng nhập',
         'note'                  => 'Ghi chú',
+        'feedback.*.point'      => 'Điểm đánh giá',
+        'feedback.*.comment'    => 'Nội dung đánh giá',
     ],
 ];

@@ -220,7 +220,7 @@
                                                             Tôi muốn hủy đơn
                                                         </button>
                                                     @elseif($bookingRoom['booking']['status'] == BookingStatus::Completed['key'])
-                                                        <a class="btn btn-success text-white mb-1" href="">
+                                                        <a class="btn btn-warning text-white mb-1" href="{{ route('feedback.show', base64_encode($bookingRoom['booking']['id'])) }}">
                                                             <i class="fa-solid fa-star"></i>
                                                             Đánh giá phòng
                                                         </a>

@@ -18,17 +18,25 @@
                             <h3 class="text-light"
                                 style="font-size: xxx-large; font-style: oblique"><?php echo e($branch['name']); ?></h3>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <p><i class="fa-solid fa-phone-volume"></i>
-                                        <strong>Hotline:</strong>
-                                        <?php echo e($branch['phone']); ?>
+                                <div class="col-md-12 d-flex">
+                                   <div class="col-md-6">
+                                       <p><i class="fa-solid fa-phone-volume"></i>
+                                           <strong>Hotline:</strong>
+                                           <?php echo e($branch['phone']); ?>
 
-                                    </p>
-                                    <p><i class="fa-solid fa-map-location-dot"></i>
-                                        <strong>Địa chỉ:</strong>
-                                        <?php echo e($branch['address']); ?>, <?php echo e($branch['city']); ?>
+                                       </p>
+                                       <p><i class="fa-solid fa-map-location-dot"></i>
+                                           <strong>Địa chỉ:</strong>
+                                           <?php echo e($branch['address']); ?>, <?php echo e($branch['city']); ?>
 
-                                    </p>
+                                       </p>
+                                   </div>
+                                    <div class="col-md-6 text-right">
+                                        <a class="btn btn-outline-warning text-light" href="<?php echo e(route('feedback.show', base64_encode($booking['id']))); ?>">
+                                            <i class="fa-regular fa-star-half-stroke"></i>
+                                            Đánh giá chuyến đi
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

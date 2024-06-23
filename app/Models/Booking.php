@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
@@ -61,6 +62,11 @@ class Booking extends Model
     public function bookingCashier(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'cashier', 'id');
+    }
+
+    public function feedBack(): HasMany
+    {
+        return $this->hasMany(FeedBack::class);
     }
     public static function getColumnsFilter(): array
     {

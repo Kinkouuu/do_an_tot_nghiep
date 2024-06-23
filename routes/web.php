@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
@@ -69,6 +70,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{bookingId}', [BookingController::class, 'show'])->name('show');
         Route::get('/payment-request/{bookingId}', [BookingController::class, 'bookingPayment'])->name('payment-request');
         Route::post('/{id}/cancel', [BookingController::class, 'bookingCancel'])->name('cancel');
+    });
+
+    Route::prefix('feedback')->name('feedback.')->group(function () {
+        Route::get('/{bookingId}', [FeedBackController::class, 'show'])->name('show');
+        Route::post('/{bookingId}', [FeedBackController::class, 'store'])->name('store');
     });
 });
 

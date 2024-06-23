@@ -141,7 +141,7 @@
                                     </tr>
                                     <tr>
                                         <th colspan="6" scope="row" style="text-align: left">Số tiền khách đưa: </th>
-                                        @if($booking['booking']['status'] == BookingStatus::Completed['key'] || $booking['total']['total_refund'] == 0)
+                                        @if($booking['booking']['status'] == BookingStatus::Completed['key'])
                                             <td style="color: #117a8b">
                                                 <strong> {{ number_format($booking['booking']['paid'], 0, ',' , '.') }} VND</strong>
                                             </td>

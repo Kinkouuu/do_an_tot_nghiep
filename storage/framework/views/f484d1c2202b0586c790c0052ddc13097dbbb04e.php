@@ -287,7 +287,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Họ tên</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="name"
-                                           value="<?php echo e($user->customer?->name ?? old('data.name')); ?>">
+                                           value="<?php echo e($user->customer?->name ?? old('name')); ?>">
                                 </div>
                                 <?php $__errorArgs = ['country'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -304,7 +304,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Quốc tịch</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="country"
-                                           value="<?php echo e($user->customer?->country ?? old('data.country')); ?>">
+                                           value="<?php echo e($user->customer?->country ?? old('country')); ?>">
                                 </div>
                                 <?php $__errorArgs = ['citizen_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -321,7 +321,7 @@ unset($__errorArgs, $__bag); ?>
                                         <span class="input-group-text w-100">Số CCCD</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="citizen_id"
-                                           value="<?php echo e($user->customer?->citizen_id ?? old('data.citizen_id')); ?>">
+                                           value="<?php echo e($user->customer?->citizen_id ?? old('citizen_id')); ?>">
                                 </div>
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
