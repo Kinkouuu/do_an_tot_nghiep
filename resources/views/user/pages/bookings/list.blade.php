@@ -129,6 +129,17 @@
                                                                     <span class="text-danger">{{ number_format($bookingRoom['total']['total_price'] - $bookingRoom['booking']['deposit'], 0, ',', '.')  }} VND</span>
                                                                 </strong>
                                                             </p>
+
+                                                            @if($bookingRoom['booking']['status'] == BookingStatus::AwaitingPayment['key']
+                                                                && $bookingRoom['booking']['payment_type'] != PaymentType::Cash)
+                                                                <h5>
+                                                                    <span class="text-danger">
+                                                                        Hệ thống sẽ tự động hủy lúc
+                                                                        <strong>{{ Carbon::parse($bookingRoom['booking']['created_at'])->addMinutes(15)->isoFormat('HH:mm DD/MM/YYYY') }}</strong>
+                                                                        nếu bạn chưa hoàn thành thanh toán
+                                                                    </span>
+                                                                </h5>
+                                                                @endif
                                                         </div>
                                                     </div>
                                                 </div>

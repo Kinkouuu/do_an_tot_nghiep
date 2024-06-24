@@ -29,11 +29,16 @@
                                            {{ $branch['address'] }}, {{ $branch['city'] }}
                                        </p>
                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <a class="btn btn-outline-warning text-light" href="{{ route('feedback.show', base64_encode($booking['id'])) }}">
-                                            <i class="fa-regular fa-star-half-stroke"></i>
-                                            Đánh giá chuyến đi
-                                        </a>
+                                    <div class="col-md-6 text-left">
+                                        <!-- -->
+                                        @if($booking['payment_type'] != PaymentType::Cash
+                                            && $booking['status'] == BookingStatus::AwaitingPayment['key'])
+                                            <p class="text-danger bg-white p-2">
+                                                *Lưu ý: Hệ thống sẽ tự động hủy đơn lúc <br>
+                                                <strong>{{ $booking->created_at->addMinutes(15) }}</strong>
+                                                nếu bạn vẫn chưa hoàn thành thanh toán
+                                            </p>
+                                            @endif
                                     </div>
                                 </div>
                             </div>
@@ -277,14 +282,14 @@
                     <div class="col-md-12">
                         <div class="row justify-content-around">
                             @if(in_array($booking['status'], BookingStatus::getAwaitingBooking()))
-                                <button class="col-md-5 btn btn-outline-danger">
+                                <button id="cancel-booking" class="col-md-5 btn btn-outline-danger" value="{{ $booking['id'] }}">
                                     <i class="fa-solid fa-ban"></i>
                                     Hủy đơn
                                 </button>
                             @endif
 
                             @if($booking['status'] == BookingStatus::AwaitingPayment['key'])
-                                <a class="col-md-5 btn btn-outline-warning" href="{{ route('booking.payment-request', base64_encode($bookingRoom['booking']['id'])) }}">
+                                <a class="col-md-5 btn btn-outline-warning" href="{{ route('booking.payment-request', base64_encode($booking['id'])) }}">
                                     <i class="fa-solid fa-wallet"></i>
                                     Thanh toán ngay
                                 </a>
@@ -304,4 +309,53 @@
     </div>
 @endsection
 
+@push('script')
+
+    <script>
+        $(document).ready(function() {
+            $('#cancel-booking').click(function() {
+                const id = $(this).val();
+                const url = '{{ route("booking.cancel", ':id') }}'.replace(':id', id);
+                Swal.fire({
+                    title: 'Bạn chắc chắn muốn hủy?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Hủy đơn',
+                    cancelButtonText: 'Tiếp tục đặt phòng'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    title: response['title'],
+                                    text: response['message'],
+                                    icon: response['status']
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Refresh the page
+                                        location.reload();
+                                    }
+                                })
+                            },
+                            error: function (response) {
+                                Swal.fire({
+                                    title: response['title'],
+                                    text: response['message'],
+                                    icon: response['status']
+                                })
+                            }
+                        });
+                    }
+                })
+            });
+        });
+    </script>
+@endpush
 

@@ -7,6 +7,7 @@ use App\Enums\Booking\BookingType;
 use App\Enums\Booking\PaymentType;
 use App\Enums\Room\PriceType;
 use App\Events\BookingEvent;
+use App\Jobs\AutoCancelBooking;
 use App\Models\Booking;
 use App\Models\Room;
 use App\Models\User;
@@ -61,6 +62,8 @@ class BookingService extends BaseService
         BookingEvent::dispatch($booking, $roomInfo);
 
         if ($customerInfo['payment'] == PaymentType::VNPay || $customerInfo['payment'] == PaymentType::DebitCard) {
+            AutoCancelBooking::dispatch($booking, $roomInfo)->delay(now()->addMinutes(15));
+
             //chuyển hướng sang trang thanh toán vnpay
             $this->vnPay($booking, $roomInfo);
         }
@@ -92,7 +95,7 @@ class BookingService extends BaseService
 
     public function vnPay(Booking $booking, array $roomInfo)
     {
-        Cache::put('booking_' . $booking->id, $roomInfo);
+        Cache::put('booking_' . $booking->id, $roomInfo, 15);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('booking.payment-response', base64_encode($booking->id));
         $vnp_TmnCode = "Z8LH3ZFU";//Mã website tại VNPAY

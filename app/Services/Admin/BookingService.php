@@ -7,6 +7,7 @@ use App\Enums\Booking\PaymentType;
 use App\Enums\RoleAccount;
 use App\Services\User\BookingService as UserBookingService;
 use App\Services\User\RoomService as UserRoomService;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -109,5 +110,12 @@ class BookingService extends UserBookingService
             DB::rollBack();
             return $this->errorResponse($e->getMessage());
         }
+    }
+
+    public function getAwaitingBookingOneHourBefore()
+    {
+        return $this->model->where('status', BookingStatus::AwaitingConfirm['key'])
+            ->where('created_at', '<=', Carbon::now()->subHour())
+            ->get();
     }
 }
