@@ -109,7 +109,7 @@
                         <a type="button" class="btn btn-primary mb-1" href="{{ route('admin.booking.edit', $booking['booking_id']) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
-                        @if($booking['status'] = BookingStatus::Completed['key'])
+                        @if($booking['status'] == BookingStatus::Completed['key'])
                             <a type="button" class="btn btn-info mb-1" href="{{ route('admin.booking.show', $booking['booking_id']) }}">
                                 <i class="fa-solid fa-file-invoice-dollar"></i>
                             </a>

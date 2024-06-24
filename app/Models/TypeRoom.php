@@ -44,4 +44,13 @@ class TypeRoom extends Model
     {
         return $this->belongsToMany(Service::class, 'room_type_service', 'room_type_id', 'service_id')->withPivot('discount');
     }
+
+    /**
+     * Get room type's feed back
+     * @return HasMany
+     */
+    public function feedBacks(): HasMany
+    {
+        return $this->hasMany(FeedBack::class, 'room_type_id');
+    }
 }

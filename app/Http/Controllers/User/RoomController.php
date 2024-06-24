@@ -25,10 +25,12 @@ class RoomController extends Controller
         }
 
         $roomTypeInfo = $this->roomTypeService->getRoomTypeGlobalInfo($roomType);
+        $feedBacks = $this->roomTypeService->getRatingAndFeedBacks($roomType);
 
         return view('user.pages.rooms.room-type-detail', [
             'page_title' => $roomType->name . ' room',
             'room_type' => $roomTypeInfo,
+            'feedBacks' => $feedBacks
         ]);
     }
 }

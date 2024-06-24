@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminBookingRequest;
 use App\Models\Booking;
 use App\Models\Branch;
-use App\Models\FeedBack;
 use App\Services\Admin\BookingService;
 use App\Services\Admin\RoomService;
 use App\Services\Admin\RoomTypeService;
@@ -168,13 +167,18 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Booking $booking
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function approve(Booking $booking)
     {
-        //
+        $booking->status = BookingStatus::Confirmed['key'];
+        $booking->save();
+        return $this->showAlertAndRedirect([
+            'status' => ResponseStatus::Success,
+            'title'=> 'Đã xác minh đơn đặt phòng!',
+            'nextUrl' => 'admin.booking.index' ,
+        ]);
     }
 
     /**

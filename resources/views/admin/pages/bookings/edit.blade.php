@@ -412,7 +412,7 @@
                                 @endif
                                 @if($booking['status'] == BookingStatus::AwaitingConfirm['key'])
                                     <div class="col-md-4 m-auto text-center">
-                                        <a class="btn btn-primary">
+                                        <a class="btn btn-primary" href="{{ route('admin.booking.approve', $booking) }}">
                                             <i class="fa-regular fa-circle-check"></i>
                                             Xác nhận
                                         </a>

@@ -204,14 +204,13 @@ class RoomService extends BaseService
         $separateRooms = [];
         while ($adults > 0 || $children > 0)
         {
-            $total = $adults + $children;
                // Tìm phòng có sức chứa phù hợp nhất cho người lớn
             $adultRoom = $roomCapacity->sortByDesc('adult_capacity')->first(function ($item) use ($adults) {
                    return $adults >= $item['adult_capacity'];
             });
                // Tìm phòng có sức chứa phù hợp nhất cho trẻ em
-            $childrenRoom = $roomCapacity->sortByDesc('children_capacity')->first(function ($item) use ($total, $children) {
-                   return $children >= $item['children_capacity'] && $total <= $item['adult_capacity'] +  $item['children_capacity'];
+            $childrenRoom = $roomCapacity->sortByDesc('children_capacity')->first(function ($item) use ($children) {
+                   return $children >= $item['children_capacity'];
             });
 
             // Ưu tiên xếp người lớn vào các phòng phù hợp

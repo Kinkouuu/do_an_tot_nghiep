@@ -246,4 +246,20 @@ class RoomTypeService extends BaseService
         }
         return $data;
     }
+
+    /**
+     * Tính đánh giá trung bình và một vài feedback
+     * @param TypeRoom $roomType
+     * @return array
+     */
+    public function getRatingAndFeedBacks(TypeRoom $roomType): array
+    {
+        $feedBacks = $roomType->feedBacks;
+
+        return [
+            'feed_backs' => $feedBacks->shuffle(5)->sortBy('rate_stars'),
+            'number' => $feedBacks->countBy('rate_stars')->toArray(),
+            'avg' => round($feedBacks->avg('rate_stars'), 1),
+        ];
+    }
 }

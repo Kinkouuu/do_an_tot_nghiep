@@ -24,10 +24,10 @@ class BookingService extends UserBookingService
         $data = [];
         $user = auth()->guard('admins')->user();
         if ($user->role == RoleAccount::Admin || is_null($user->branch_id)) {
-            $bookings = $this->model->with('bookingRooms')->get();
+            $bookings = $this->model->with('bookingRooms')->orderBy('id', 'DESC')->get();
         } else {
             $bookings =$this->model->whereHas('bookingRooms', function($query) use ($user) {
-                $query->where('branch_id', $user->branch_id);
+                $query->where('branch_id', $user->branch_id)->orderBy('id', 'DESC');
             })->get();
         }
         foreach ($bookings as $booking)

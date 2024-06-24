@@ -101,6 +101,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         //Booking manager
         Route::resource('booking',AdminBookingController::class);
         Route::prefix('booking')->name('booking.')->group(function () {
+            Route::get('/{booking}/approve', [AdminBookingController::class, 'approve'])->name('approve');
             Route::post('/{booking}/refuse', [AdminBookingController::class, 'refuseBooking'])->name('refuse');
             Route::post('/choose-room', [AdminBookingController::class, 'chooseRoom'])->name('choose-room');
             Route::post('/{booking}/complete', [AdminBookingController::class, 'completeBooking'])->name('complete');

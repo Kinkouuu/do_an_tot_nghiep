@@ -72,18 +72,18 @@ if (! isset($_instance)) {
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ])->html();
-} elseif ($_instance->childHasBeenRendered('oPwhxob')) {
-    $componentId = $_instance->getRenderedChildComponentId('oPwhxob');
-    $componentTag = $_instance->getRenderedChildComponentTagName('oPwhxob');
+} elseif ($_instance->childHasBeenRendered('1iDpJBc')) {
+    $componentId = $_instance->getRenderedChildComponentId('1iDpJBc');
+    $componentTag = $_instance->getRenderedChildComponentTagName('1iDpJBc');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('oPwhxob');
+    $_instance->preserveRenderedChild('1iDpJBc');
 } else {
     $response = \Livewire\Livewire::mount('booking.change-room', [
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ]);
     $html = $response->html();
-    $_instance->logRenderedChild('oPwhxob', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('1iDpJBc', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -447,7 +447,7 @@ echo $html;
                                 <?php endif; ?>
                                 <?php if($booking['status'] == BookingStatus::AwaitingConfirm['key']): ?>
                                     <div class="col-md-4 m-auto text-center">
-                                        <a class="btn btn-primary">
+                                        <a class="btn btn-primary" href="<?php echo e(route('admin.booking.approve', $booking)); ?>">
                                             <i class="fa-regular fa-circle-check"></i>
                                             Xác nhận
                                         </a>
@@ -460,17 +460,17 @@ if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ])->html();
-} elseif ($_instance->childHasBeenRendered('blAFlvR')) {
-    $componentId = $_instance->getRenderedChildComponentId('blAFlvR');
-    $componentTag = $_instance->getRenderedChildComponentTagName('blAFlvR');
+} elseif ($_instance->childHasBeenRendered('nOTK3Un')) {
+    $componentId = $_instance->getRenderedChildComponentId('nOTK3Un');
+    $componentTag = $_instance->getRenderedChildComponentTagName('nOTK3Un');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('blAFlvR');
+    $_instance->preserveRenderedChild('nOTK3Un');
 } else {
     $response = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ]);
     $html = $response->html();
-    $_instance->logRenderedChild('blAFlvR', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('nOTK3Un', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

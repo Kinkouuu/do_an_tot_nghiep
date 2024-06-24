@@ -43,7 +43,8 @@ class SeperatedRooms
         $bookingHour = $bookingCheckOut->diffInHours($bookingCheckIn) - 2;
         Log::info('Start separate room for booking ' . $booking->id);
         foreach ($rooms as $room) {
-            foreach ($room['room_ids'] as $roomId) {
+            foreach ($room['room_ids'] as $key=>$roomName) {
+                $roomId = $key;
                 $bookedRoom = $this->bookingService->roomHasBooked($roomId, $bookingCheckIn, $bookingCheckOut);
                 if ($bookedRoom->isEmpty()) {
                     Log::info('Separate room ' . $roomId . ' for booking ' . $booking->id);
