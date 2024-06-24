@@ -64,7 +64,7 @@ class Booking extends Model
         return $this->belongsTo(Admin::class, 'cashier', 'id');
     }
 
-    public function feedBack(): HasMany
+    public function feedBacks(): HasMany
     {
         return $this->hasMany(FeedBack::class);
     }

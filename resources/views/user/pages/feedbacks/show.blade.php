@@ -66,14 +66,28 @@
                                                 <div class="col-md-8 pl-5">
                                                     <div class="d-flex align-items-center">
                                                         @for($i=1; $i<=5; $i++)
-                                                            <span class="star {{ $feedBack['rate_stars'] >= $i ? 'hovered' : '' }}">★</span>
+                                                            <span
+                                                                class="star {{ $feedBack['rate_stars'] >= $i ? 'hovered' : '' }}">★</span>
                                                         @endfor
                                                         <span class="ml-2"> {{ $feedBack['rate_stars'] }} / 5 </span>
                                                         <span class="mr-0 ml-auto">{{ $feedBack['created_at'] }}</span>
                                                     </div>
                                                     <textarea class="form-control" disabled maxlength="255" cols="1"
-                                                              rows="5">{{ $feedBack['comment'] }}
+                                                              rows="3">{{ $feedBack['comment'] }}
                                                     </textarea>
+                                                    @if($feedBack['reply'])
+                                                        <div class="d-flex justify-content-between">
+                                                            <p class="text-capitalize my-1">
+                                                                <i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i>
+                                                                {{ $feedBack->admin->name }} đã phản hồi
+                                                                lúc {{ $feedBack['reply_at'] }}
+                                                            </p>
+                                                            <span class="text-danger"
+                                                                  id="error-{{ $feedBack['id'] }}"></span>
+                                                        </div>
+                                                        <div
+                                                            class="form-control w-75 ml-auto mr-0">{{ $feedBack['reply'] }}</div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

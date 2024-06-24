@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminBookingRequest;
 use App\Models\Booking;
 use App\Models\Branch;
+use App\Models\FeedBack;
 use App\Services\Admin\BookingService;
 use App\Services\Admin\RoomService;
 use App\Services\Admin\RoomTypeService;

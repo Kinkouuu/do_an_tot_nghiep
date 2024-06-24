@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('room_type_id');
             $table->float('rate_stars');
             $table->text('comment');
-            $table->text('rely')->nullable();
+            $table->text('reply')->nullable();
             $table->timestamp('reply_at')->nullable();
             $table->timestamps();
 

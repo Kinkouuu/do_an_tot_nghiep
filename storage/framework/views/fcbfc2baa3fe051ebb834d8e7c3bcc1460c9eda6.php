@@ -72,18 +72,18 @@ if (! isset($_instance)) {
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ])->html();
-} elseif ($_instance->childHasBeenRendered('y8qcIUW')) {
-    $componentId = $_instance->getRenderedChildComponentId('y8qcIUW');
-    $componentTag = $_instance->getRenderedChildComponentTagName('y8qcIUW');
+} elseif ($_instance->childHasBeenRendered('oPwhxob')) {
+    $componentId = $_instance->getRenderedChildComponentId('oPwhxob');
+    $componentTag = $_instance->getRenderedChildComponentTagName('oPwhxob');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('y8qcIUW');
+    $_instance->preserveRenderedChild('oPwhxob');
 } else {
     $response = \Livewire\Livewire::mount('booking.change-room', [
                                                      'roomId' => $roomId,
                                                      'booking' => $booking,
                                                      ]);
     $html = $response->html();
-    $_instance->logRenderedChild('y8qcIUW', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('oPwhxob', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -460,17 +460,17 @@ if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ])->html();
-} elseif ($_instance->childHasBeenRendered('In5n7vX')) {
-    $componentId = $_instance->getRenderedChildComponentId('In5n7vX');
-    $componentTag = $_instance->getRenderedChildComponentTagName('In5n7vX');
+} elseif ($_instance->childHasBeenRendered('blAFlvR')) {
+    $componentId = $_instance->getRenderedChildComponentId('blAFlvR');
+    $componentTag = $_instance->getRenderedChildComponentTagName('blAFlvR');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('In5n7vX');
+    $_instance->preserveRenderedChild('blAFlvR');
 } else {
     $response = \Livewire\Livewire::mount('booking.checkin-checkout', [
                                         'booking' => $booking
                                     ]);
     $html = $response->html();
-    $_instance->logRenderedChild('In5n7vX', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('blAFlvR', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -484,7 +484,7 @@ echo $html;
                                             </a>
                                         </div>
                                         <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-warning text-white">
+                                            <a class="btn btn-warning text-white" href="<?php echo e(route('admin.feedback.feed-back', $booking)); ?>">
                                                 <i class="fa-regular fa-star-half-stroke"></i>
                                                 Xem đánh giá
                                             </a>

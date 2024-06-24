@@ -433,7 +433,7 @@
                                             </a>
                                         </div>
                                         <div class="col-md-4 m-auto text-center">
-                                            <a class="btn btn-warning text-white">
+                                            <a class="btn btn-warning text-white" href="{{ route('admin.feedback.feed-back', $booking) }}">
                                                 <i class="fa-regular fa-star-half-stroke"></i>
                                                 Xem đánh giá
                                             </a>

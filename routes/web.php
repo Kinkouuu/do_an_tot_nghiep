@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DeviceController;
 use App\Http\Controllers\Admin\RoomController as AdminRoomController;
@@ -8,12 +9,12 @@ use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\BookingController;
-use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\CustomerController;
+use App\Http\Controllers\User\FeedBackController;
+use App\Http\Controllers\Admin\FeedBackController as AdminFeedBackController;
 use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\UserPageController;
 use Illuminate\Support\Facades\Route;
@@ -104,6 +105,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/choose-room', [AdminBookingController::class, 'chooseRoom'])->name('choose-room');
             Route::post('/{booking}/complete', [AdminBookingController::class, 'completeBooking'])->name('complete');
             Route::get('/{booking}/print-invoice', [AdminBookingController::class, 'createInvoice'])->name('invoice-create');
+        });
+        Route::prefix('feedback')->name('feedback.')->group(function () {
+            Route::get('/{booking}', [AdminFeedBackController::class, 'showFeedBack'])->name('feed-back');
+            Route::post('/{feedbackId}/reply', [AdminFeedBackController::class, 'replyFeedBack'])->name('reply');
         });
         /*Middleware MANAGER*/
         Route::middleware('manager')->group(function () {

@@ -66,15 +66,30 @@
                                                 <div class="col-md-8 pl-5">
                                                     <div class="d-flex align-items-center">
                                                         <?php for($i=1; $i<=5; $i++): ?>
-                                                            <span class="star <?php echo e($feedBack['rate_stars'] >= $i ? 'hovered' : ''); ?>">★</span>
+                                                            <span
+                                                                class="star <?php echo e($feedBack['rate_stars'] >= $i ? 'hovered' : ''); ?>">★</span>
                                                         <?php endfor; ?>
                                                         <span class="ml-2"> <?php echo e($feedBack['rate_stars']); ?> / 5 </span>
                                                         <span class="mr-0 ml-auto"><?php echo e($feedBack['created_at']); ?></span>
                                                     </div>
                                                     <textarea class="form-control" disabled maxlength="255" cols="1"
-                                                              rows="5"><?php echo e($feedBack['comment']); ?>
+                                                              rows="3"><?php echo e($feedBack['comment']); ?>
 
                                                     </textarea>
+                                                    <?php if($feedBack['reply']): ?>
+                                                        <div class="d-flex justify-content-between">
+                                                            <p class="text-capitalize my-1">
+                                                                <i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i>
+                                                                <?php echo e($feedBack->admin->name); ?> đã phản hồi
+                                                                lúc <?php echo e($feedBack['reply_at']); ?>
+
+                                                            </p>
+                                                            <span class="text-danger"
+                                                                  id="error-<?php echo e($feedBack['id']); ?>"></span>
+                                                        </div>
+                                                        <div
+                                                            class="form-control w-75 ml-auto mr-0"><?php echo e($feedBack['reply']); ?></div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>

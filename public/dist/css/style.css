@@ -50,3 +50,12 @@
     box-shadow: none;
     border-color: #007bff;
 }
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    color: whitesmoke;
+}
+.star.hovered {
+    color: orange;
+}
+

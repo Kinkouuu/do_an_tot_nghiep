@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Enums\ResponseStatus;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\FeedBackRequest;
 use App\Models\FeedBack;
 use App\Services\User\BookingService;
@@ -52,7 +53,7 @@ class FeedBackController extends Controller
      * @param FeedBackRequest $request
      * @return RedirectResponse
      */
-    public function store(string $bookingId, FeedBackRequest $request)
+    public function store(FeedBackRequest $request, string $bookingId)
     {
         DB::beginTransaction();;
         try {
@@ -66,7 +67,6 @@ class FeedBackController extends Controller
             return $this->showAlertAndRedirect([
                 'status' => ResponseStatus::Success,
                 'title' => 'Đánh giá chuyến đi thành công!',
-                'nextUrl' => 'feedback.show', $bookingId,
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -93,14 +93,14 @@ class FeedBackController extends Controller
      * Display the specified resource.
      *
      * @param string $bookingId
-     * @return Application|Factory|View|\Illuminate\View\View|void
+     * @return Application|Factory|\Illuminate\View\View|View
      */
     public function show(string $bookingId)
     {
         $booking = $this->bookingService->find(base64_decode($bookingId));
         $bookingRooms = $this->roomService->retrieveBookingOrderRooms($booking);
         $rooms = $this->roomTypeService->getRoomTypesGlobalInfo($bookingRooms['rooms']);
-        $feedBacks = $booking->feedBack;
+        $feedBacks = $booking->feedBacks;
         if($feedBacks->isEmpty()) {
             return view('user.pages.feedbacks.create', [
                 'page_title' => 'Đánh giá chuyến đi',
@@ -149,6 +149,5 @@ class FeedBackController extends Controller
      */
     public function destroy(FeedBack $feedBack)
     {
-        //
     }
 }
