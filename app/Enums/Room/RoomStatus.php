@@ -15,9 +15,9 @@ final class RoomStatus extends Enum
         'key' => '0',
         'value' => 'Đang trống'
     ];
-    const Booking = [
+    const UnUsed = [
         'key' => '1',
-        'value' => 'Đã được đặt trước'
+        'value' => 'Ngừng hoạt động'
     ];
     const Using  = [
         'key' => '2',

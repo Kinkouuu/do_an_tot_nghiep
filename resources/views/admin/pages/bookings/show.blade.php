@@ -148,7 +148,7 @@
                                         @else
                                             <td class="d-flex justify-content-center align-items-center w-100 text-info">
                                                 <input class="form-control input-bottom text-center text-info w-25" name="paid"
-                                                       type="number" id="paid" min="0" value="0" data-cost="{{$booking['total']['total_cost']}}">
+                                                       type="number" id="paid" min="0" value="0" data-cost="{{$booking['total']['total_cost'] - $booking['booking']['deposit']}}">
                                                 <span>.000 VND</span>
                                             </td>
                                         @endif

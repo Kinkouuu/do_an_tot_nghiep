@@ -174,6 +174,7 @@ class BookingController extends Controller
     {
         $booking->status = BookingStatus::Confirmed['key'];
         $booking->save();
+        $this->userService->verifyUser($booking->user);
         return $this->showAlertAndRedirect([
             'status' => ResponseStatus::Success,
             'title'=> 'Đã xác minh đơn đặt phòng!',
@@ -234,6 +235,12 @@ class BookingController extends Controller
             $booking->paid = $request->get('paid')*1000;
             $booking->cashier = Auth::guard('admins')->user()->id;
             $booking->save();
+
+            if (is_null($booking->user->verified_at))
+            {
+                $booking->user->verified_at = Carbon::now();
+                $booking->user->save();
+            }
             return $this->createInvoice($booking);
         }else{
            return $this->createInvoice($booking);

@@ -75,7 +75,7 @@ class RoomService extends BaseService
             $query->whereBetween('checkin_at', [$checkIn, $checkOut])
                 ->orWhereBetween('checkout_at', [$checkIn, $checkOut]);
         })->get();
-
+        $query->where('status', '!=', RoomStatus::UnUsed['key']);
         return $query->get();
     }
 

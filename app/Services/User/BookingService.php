@@ -56,14 +56,13 @@ class BookingService extends BaseService
             'number_of_adults' => $roomInfo['condition']['adults'],
             'number_of_children' => $roomInfo['condition']['children'],
         ];
+        \Log::info('User ' . $user->id . ' completed confirm info booking');
         //Lưu thông tin đơn đặt
         $booking = $this->create($bookingData);
         Cache::forget('cart_' . $user->id);
         BookingEvent::dispatch($booking, $roomInfo);
 
         if ($customerInfo['payment'] == PaymentType::VNPay || $customerInfo['payment'] == PaymentType::DebitCard) {
-            AutoCancelBooking::dispatch($booking, $roomInfo)->delay(now()->addMinutes(15));
-
             //chuyển hướng sang trang thanh toán vnpay
             $this->vnPay($booking, $roomInfo);
         }
@@ -95,7 +94,7 @@ class BookingService extends BaseService
 
     public function vnPay(Booking $booking, array $roomInfo)
     {
-        Cache::put('booking_' . $booking->id, $roomInfo, 15);
+        Cache::put('booking_' . $booking->id, $roomInfo);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('booking.payment-response', base64_encode($booking->id));
         $vnp_TmnCode = "Z8LH3ZFU";//Mã website tại VNPAY

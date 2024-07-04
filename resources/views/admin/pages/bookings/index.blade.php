@@ -11,20 +11,39 @@
         <div class="col-md-4 d-flex align-items-center">
             <h4 class="text-right m-0 text-bold text-uppercase">{{$title}}</h4>
         </div>
-        <form class="col-md-5 d-flex justify-content-around align-items-center" method="GET">
-            <span class="mr-2">Sắp xếp theo: </span>
-            <select class="form-control w-25" name="by">
-                @foreach(BookingFilterColumns::asArray() as $bookingFilter)
-                    <option value="{{$bookingFilter['key']}}" {{ (request()->input('by') == $bookingFilter['key']) ? 'selected' : '' }}>{{ $bookingFilter['value'] }}</option>
-                @endforeach
-            </select>
-            <select class="form-control w-25" name="sort">
-                <option value="0" {{ (request()->input('sort') == '0') ? 'selected' : '' }}>Tăng dần</option>
-                <option value="1" {{ (request()->input('sort') == '1') ? 'selected' : '' }}> Giảm dần</option>
-            </select>
-            <button type="submit" class="btn btn-info">
-                <i class="fa-solid fa-filter"></i>
-            </button>
+        <form class="col-md-8 d-flex justify-content-around align-items-center" method="GET">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-between align-items-center">
+                    <span class="mr-2">Sắp xếp theo: </span>
+                    <select class="form-control w-25" name="by">
+                        @foreach(BookingFilterColumns::asArray() as $bookingFilter)
+                            <option value="{{$bookingFilter['key']}}" {{ (request()->input('by') == $bookingFilter['key']) ? 'selected' : '' }}>{{ $bookingFilter['value'] }}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-control w-25" name="sort">
+                        <option value="0" {{ (request()->input('sort') == '0') ? 'selected' : '' }}>Tăng dần</option>
+                        <option value="1" {{ (request()->input('sort') == '1') ? 'selected' : '' }}> Giảm dần</option>
+                    </select>
+                    <button type="submit" class="btn btn-info">
+                        <i class="fa-solid fa-filter"></i>
+                    </button>
+                </div>
+                <div class="col-md-12 d-flex justify-content-between align-items-center">
+                    <div class="d-flex">
+                        <span class="mr-2">Trạng thái: </span>
+                        @foreach(BookingStatus::asArray() as $key=>$status)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="status[]"
+                                       value="{{ $status['key'] }}" id="defaultCheck{{$key}}"
+                                    {{ request()->get('status') === null || in_array($status['key'], request()->get('status')) ? 'checked' : ''  }}>
+                                <label class="form-check-label" for="defaultCheck{{$key}}">
+                                    {{ $status['value'] }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
     <div class="table-responsive" style="min-height: 75vh">

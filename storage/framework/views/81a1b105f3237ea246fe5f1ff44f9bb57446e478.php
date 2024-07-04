@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="container-fluid d-flex py-3 col-md-12">
-        <div class="col-md-3 d-flex align-items-center">
-            <h4 class="text-right m-0 text-bold text-uppercase"><?php echo e($title); ?></h4>
+        <div class="col-md-3 d-flex align-items-center p-0">
+            <h4 class=" px-0 m-0 text-bold text-uppercase"><?php echo e($title); ?></h4>
         </div>
         <form class="col-md-9 d-flex">
             <div class="col-md-6 d-flex justify-content-around align-items-center" method="GET">
@@ -83,15 +83,15 @@
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('status.change-status', ['item' => $user])->html();
-} elseif ($_instance->childHasBeenRendered('tERAom2')) {
-    $componentId = $_instance->getRenderedChildComponentId('tERAom2');
-    $componentTag = $_instance->getRenderedChildComponentTagName('tERAom2');
+} elseif ($_instance->childHasBeenRendered('ajaelfX')) {
+    $componentId = $_instance->getRenderedChildComponentId('ajaelfX');
+    $componentTag = $_instance->getRenderedChildComponentTagName('ajaelfX');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('tERAom2');
+    $_instance->preserveRenderedChild('ajaelfX');
 } else {
     $response = \Livewire\Livewire::mount('status.change-status', ['item' => $user]);
     $html = $response->html();
-    $_instance->logRenderedChild('tERAom2', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('ajaelfX', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -101,7 +101,7 @@ echo $html;
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                 </td>
-            </tr>
+            </tr>ư
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </tbody>
     </table>

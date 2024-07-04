@@ -11,20 +11,40 @@
         <div class="col-md-4 d-flex align-items-center">
             <h4 class="text-right m-0 text-bold text-uppercase"><?php echo e($title); ?></h4>
         </div>
-        <form class="col-md-5 d-flex justify-content-around align-items-center" method="GET">
-            <span class="mr-2">Sắp xếp theo: </span>
-            <select class="form-control w-25" name="by">
-                <?php $__currentLoopData = BookingFilterColumns::asArray(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bookingFilter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($bookingFilter['key']); ?>" <?php echo e((request()->input('by') == $bookingFilter['key']) ? 'selected' : ''); ?>><?php echo e($bookingFilter['value']); ?></option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </select>
-            <select class="form-control w-25" name="sort">
-                <option value="0" <?php echo e((request()->input('sort') == '0') ? 'selected' : ''); ?>>Tăng dần</option>
-                <option value="1" <?php echo e((request()->input('sort') == '1') ? 'selected' : ''); ?>> Giảm dần</option>
-            </select>
-            <button type="submit" class="btn btn-info">
-                <i class="fa-solid fa-filter"></i>
-            </button>
+        <form class="col-md-8 d-flex justify-content-around align-items-center" method="GET">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-between align-items-center">
+                    <span class="mr-2">Sắp xếp theo: </span>
+                    <select class="form-control w-25" name="by">
+                        <?php $__currentLoopData = BookingFilterColumns::asArray(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bookingFilter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($bookingFilter['key']); ?>" <?php echo e((request()->input('by') == $bookingFilter['key']) ? 'selected' : ''); ?>><?php echo e($bookingFilter['value']); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </select>
+                    <select class="form-control w-25" name="sort">
+                        <option value="0" <?php echo e((request()->input('sort') == '0') ? 'selected' : ''); ?>>Tăng dần</option>
+                        <option value="1" <?php echo e((request()->input('sort') == '1') ? 'selected' : ''); ?>> Giảm dần</option>
+                    </select>
+                    <button type="submit" class="btn btn-info">
+                        <i class="fa-solid fa-filter"></i>
+                    </button>
+                </div>
+                <div class="col-md-12 d-flex justify-content-between align-items-center">
+                    <div class="d-flex">
+                        <span class="mr-2">Trạng thái: </span>
+                        <?php $__currentLoopData = BookingStatus::asArray(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$status): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="status[]"
+                                       value="<?php echo e($status['key']); ?>" id="defaultCheck<?php echo e($key); ?>"
+                                    <?php echo e(request()->get('status') === null || in_array($status['key'], request()->get('status')) ? 'checked' : ''); ?>>
+                                <label class="form-check-label" for="defaultCheck<?php echo e($key); ?>">
+                                    <?php echo e($status['value']); ?>
+
+                                </label>
+                            </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
     <div class="table-responsive" style="min-height: 75vh">

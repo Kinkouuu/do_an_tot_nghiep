@@ -112,10 +112,10 @@ class BookingService extends UserBookingService
         }
     }
 
-    public function getAwaitingBookingOneHourBefore()
+    public function getByStatusAndCreatedAtBefore(string $status, Carbon $time)
     {
-        return $this->model->where('status', BookingStatus::AwaitingConfirm['key'])
-            ->where('created_at', '<=', Carbon::now()->subHour())
+        return $this->model->where('status', $status)
+            ->where('created_at', '<=', $time)
             ->get();
     }
 }

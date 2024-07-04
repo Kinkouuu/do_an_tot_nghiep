@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AutoApproveBooking;
+use App\Jobs\AutoCancelBooking;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,7 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+         $schedule->command(AutoApproveBooking::class)->hourly();
+         $schedule->command(AutoCancelBooking::class)->everyFifteenMinutes();
     }
 
     /**

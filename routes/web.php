@@ -17,7 +17,6 @@ use App\Http\Controllers\User\FeedBackController;
 use App\Http\Controllers\Admin\FeedBackController as AdminFeedBackController;
 use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\UserPageController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +143,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('{typeRoom}/edit', [RoomTypeController::class, 'update'])->name('update');
             });
         });
-
     });
 });

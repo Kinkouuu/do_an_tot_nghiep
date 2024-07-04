@@ -141,7 +141,7 @@ class BookingController extends Controller
         $data = Cache::get('cart_' . $user->id);
         if(!$data)
         {
-            return redirect()->route('homepage');
+            return redirect()->route('booking.list');
         }
 
         $rooms = $this->roomTypeService->getRoomTypesGlobalInfo($data['rooms']);

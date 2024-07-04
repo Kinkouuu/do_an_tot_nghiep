@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class BookingChangeStatus
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    public User $user;
 
     public Booking $booking;
     public array $roomInfo;
@@ -19,8 +21,9 @@ class BookingChangeStatus
      *
      * @return void
      */
-    public function __construct(Booking $booking, array $roomInfo)
+    public function __construct(User $user, Booking $booking, array $roomInfo)
     {
+        $this->user = \Auth::user() ?? $user;
         $this->booking = $booking;
         $this->roomInfo = $roomInfo;
     }

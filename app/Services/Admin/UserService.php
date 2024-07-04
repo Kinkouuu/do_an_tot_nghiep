@@ -5,6 +5,7 @@ namespace App\Services\Admin;
 use App\Enums\UserStatus;
 use App\Models\User;
 use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -48,5 +49,11 @@ class UserService extends BaseService
     public function getActiveUserAccount(): Collection
     {
         return  $this->model->where('status', UserStatus::Active)->with('customer')->get();
+    }
+
+    public function verifyUser(User $user)
+    {
+        $user->verified_at = Carbon::now();
+        $user->save();
     }
 }

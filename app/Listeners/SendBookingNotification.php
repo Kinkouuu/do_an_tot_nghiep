@@ -31,7 +31,7 @@ class SendBookingNotification
      */
     public function handle(BookingEvent|BookingChangeStatus $event)
     {
-        $email = Auth::user()->email;
+        $email = Auth::user()->email ?? $event->user;
         $booking = $event->booking;
         $roomInfo = $event->roomInfo;
         if($booking->status == BookingStatus::AwaitingPayment['key'])

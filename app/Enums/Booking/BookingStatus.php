@@ -13,27 +13,27 @@ final class BookingStatus extends Enum
 {
     const AwaitingPayment = [
         'key' => '0',
-        'value' => 'Đang chờ thanh toán',
+        'value' => 'Chờ thanh toán',
     ];
     const AwaitingConfirm = [
         'key' => '1',
-        'value' => 'Đang chờ xác nhận',
+        'value' => 'Chờ xác nhận',
     ];
     const Confirmed = [
         'key' => '2',
-        'value' => 'Đã được xác nhận bởi quản trị viên',
+        'value' => 'Đã xác nhận',
     ];
     const Approved = [
         'key' => '3',
-        'value' => 'Đã được hệ thống tự động xác nhận',
+        'value' => 'Hệ thống tự động xác nhận',
     ];
     const Canceled = [
         'key' => '4',
-        'value' => 'Đơn đã bị hủy',
+        'value' => 'Đã bị hủy',
     ];
     const Refuse = [
         'key' => '5',
-        'value' => 'Đơn đặt bị từ chối',
+        'value' => 'Bị từ chối',
     ];
     const Completed = [
       'key' => '6',
