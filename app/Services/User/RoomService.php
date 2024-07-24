@@ -249,7 +249,7 @@ class RoomService extends BaseService
         return $separateRooms;
     }
 
-    public function syncRoomsInfo(array $separatedRooms, ?int $bookingHour = 0)
+    public function syncRoomsInfo(array $separatedRooms, ?int $bookingHour = 0): Collection
     {
         $rooms = collect();
         $duplicatedRoom = false;

@@ -36,7 +36,7 @@ final class RoomStatus extends Enum
     {
         return [
             self::Vacating[$key],
-            self::Booking[$key],
+            self::UnUsed[$key],
             self::Using[$key],
             self::Cleaning[$key],
             self::Fixing[$key],

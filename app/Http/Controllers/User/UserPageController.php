@@ -40,7 +40,7 @@ class UserPageController extends Controller
     }
 
     /**
-     * @return Application|Factory|View|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -55,7 +55,7 @@ class UserPageController extends Controller
     }
 
     /**
-     * @return Application|Factory|View|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function introduce()
     {
@@ -66,7 +66,7 @@ class UserPageController extends Controller
     }
 
     /**
-     * @return Application|Factory|View|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function contact()
     {
@@ -79,7 +79,7 @@ class UserPageController extends Controller
     }
 
     /**
-     * @return Application|Factory|View|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function login()
     {
@@ -87,7 +87,7 @@ class UserPageController extends Controller
     }
 
     /**
-     * @return Application|Factory|View|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function signup()
     {
@@ -95,7 +95,7 @@ class UserPageController extends Controller
     }
 
     /**
-     * @return Application|Factory|View|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function verifyCode()
     {
@@ -160,6 +160,43 @@ class UserPageController extends Controller
             'time' => $time,
             'roomBranches' => $allocateRooms,
             'condition' => $data,
+        ]);
+    }
+
+    public function searchOption(Request $request)
+    {
+        $branchId = base64_decode($request->get('branch'));
+        $branch = $this->branchService->find($branchId);
+
+        $validator = Validator::make($request->all(), [
+            'adults' => ['required','numeric','min:1'],
+            'children' => ['required', 'numeric', 'min:0', 'lte:' . $request->get('adults') * 2],
+            'checkin' => ['required', 'date', 'after:' . Carbon::now()->toDateTimeString()],
+            'checkout' => ['required', 'date', 'after:' . Carbon::now()->addHours(2)->toDateTimeString()],
+        ]);
+
+        if ($validator->fails() || !$branch) {
+            Alert::warning('Yêu cầu không phù hợp');
+            return redirect()->route('homepage');
+        }
+
+        $checkInAt = Carbon::parse($request['checkin']);
+        $checkOutAt = Carbon::parse($request['checkout'])   ;
+        $time = $checkOutAt->diffInHours($checkInAt);
+        $request = array_merge($request->except('_token', 'city'), ['branch' => $branchId]);
+        // Lấy danh sách phòng còn trống trong chi nhánh
+        $roomList = $this->roomService->searchByCondition($request)->toArray();
+        // Tính sức chứa tối đa của các phòng
+        $roomCapacity = $this->roomService->calculateCapacity($roomList);
+        // Chuẩn hóa dữ liệu
+        $roomInfo = $this->roomService->syncRoomsInfo($roomCapacity, $time);
+        $rooms = $this->roomTypeService->getRoomTypesGlobalInfo($roomInfo);
+//dd($rooms);
+        return view('user.pages.rooms.search-more-option', [
+            'page_title' => "More option - more choice",
+            'branch' => $branch,
+            'rooms' => collect($rooms),
+            'condition' => $request,
         ]);
     }
 }

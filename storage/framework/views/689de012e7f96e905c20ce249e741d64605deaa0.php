@@ -31,13 +31,31 @@ use Illuminate\Support\Carbon;
             <div class="col-md-7">
                 <?php $__currentLoopData = $roomBranch['rooms']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $room): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-md-12 mb-3 p-0">
-                        <a href="<?php echo e(route('room-type', base64_encode($room['room_type_id']))); ?>" data-toggle="tooltip"
-                           data-placement="right" title="Xem chi tiết phòng">
-                            x <?php echo e(count($room['room_ids'])); ?>
+                        <div class="d-flex justify-content-between">
+                            <a href="<?php echo e(route('room-type', base64_encode($room['room_type_id']))); ?>" data-toggle="tooltip"
+                               data-placement="right" title="Xem chi tiết phòng">
+                                x <?php echo e(count($room['room_ids'])); ?>
 
-                            <strong class="text-capitalize text-black"> Phòng <?php echo e($room['room_type']); ?></strong>
-                            <i class="text-secondary fa-solid fa-circle-info"></i>
-                        </a>
+                                <strong class="text-capitalize text-black"> Phòng <?php echo e($room['room_type']); ?></strong>
+                                <i class="text-secondary fa-solid fa-circle-info"></i>
+                            </a>
+                            <!-- Button trigger modal -->
+                            <?php if($user): ?>
+                                <a href="<?php echo e(route('search-option', array_merge(request()->all(), ['branch' => base64_encode($roomBranch['branch']['id'])]))); ?>"
+                                   style="color: #0c84ff; text-decoration: underline">
+                                    Tùy chọn khác
+                                    <i class="fa-brands fa-hive"></i>
+                                </a>
+                            <?php else: ?>
+                                <a type="button" style="color: #0c84ff; text-decoration: underline"
+                                        data-toggle="modal" data-target="#needLogin">
+                                    Tùy chọn khác
+                                    <i class="fa-brands fa-hive"></i>
+                                </a>
+                            <?php endif; ?>
+
+                        </div>
+
                         <div class="d-flex justify-content-around">
                             <div class="col-md-6 border-left border-warning p-0">
                                 <ul>

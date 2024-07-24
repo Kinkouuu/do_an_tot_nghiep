@@ -46,6 +46,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/send-verify-code/{code}', [AuthController::class, 'sendVerifyCode'])->name('send_verify_code');
 //Room & Branch
 Route::get('/search', [UserPageController::class,'search'])->name('search');
+Route::get('/search-option', [UserPageController::class,'searchOption'])->name('search-option');
 
 Route::get('/room-type/{roomType}', [RoomController::class,'getRoomType'])->name('room-type');
 //User Account
