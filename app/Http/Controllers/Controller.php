@@ -21,7 +21,7 @@ class Controller extends BaseController
     public function showAlertAndRedirect(array $response)
     {
         $nextUrl = $response['nextUrl'] ?? null;
-        $title = $response['title'] ?? null;
+        $title = __($response['title']) ?? null;
         $message = $response['message'] ?? null;
 
         switch ($response['status']) {

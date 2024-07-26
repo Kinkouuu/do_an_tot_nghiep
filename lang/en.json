@@ -126,5 +126,25 @@
     "Đăng ký tài khoản mới": "Register new account",
     "Bạn đã có tài khoản": "You already have an account",
     "Về trang đăng nhập": "Back to sign in",
-    "Cập nhật thông tin cá nhân thành công": "Update success"
+    "Thêm thông tin cá nhân thành công": "Add personal information success",
+    "Cập nhật thông tin cá nhân thành công": "Update personal information success",
+    "Đăng ký tài khoản thành công": "Register new member account success",
+    "Đăng nhập để sử dụng dịch vụ ngay nào!": "Let's login to booking now!",
+    "Đăng nhập thành công": "Login successfull",
+    "Đặt phòng thành công!": "Order booking successful!",
+    "Hủy đơn đặt phòng thành công!": "You have cancelled booking!",
+    "Cảm ơn góp ý của bạn!','Chúng tôi sẽ phản hồi lại bạn sớm nhất": " Thank for you feedback! We'll reply as soon as possible",
+    "Kích hoạt tài khoản thành công": "Re-active account successful",
+    "Đã có lỗi xảy ra!": "Have an error!",
+    "Đã có lỗi xảy ra": "Have an error",
+    "Vui lòng thử lại sau ít phút": "Please try again",
+    "Thông tin đơn hàng": "Booking detail",
+    "Xác nhận đặt phòng": "Booking confirm",
+    "Thanh toán thành công!": "Payment successfully!",
+    "Thanh toán thất bại!": "Payment failed!",
+    "Thanh toán VNPay": "Pay with VNPay e-wallet",
+    "Đánh giá chuyến đi thành công!": "Thank for your feedback!",
+    "Đánh giá chuyến đi": "Rate and feedback your experience",
+    "Đánh giá của bạn": "Feedbacks of you"
+
 }

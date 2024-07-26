@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center h-50">
                     <div class="col-md-7 text-center" data-aos="fade">
-                        <h1 class="mb-2 text-uppercase">{{ $page_title }}</h1>
+                        <h1 class="mb-2 text-uppercase">{{ __($page_title) }}</h1>
                         <h2 class="caption">{{ $page_description ?? null }}</h2>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center h-50">
                     <div class="col-md-7 text-center" data-aos="fade">
-                        <h1 class="mb-2 text-uppercase">{{ $page_title }}</h1>
+                        <h1 class="mb-2 text-uppercase">{{ __($page_title) }}</h1>
                         <h2 class="caption">{{ $page_description ?? null }}</h2>
                     </div>
                 </div>
