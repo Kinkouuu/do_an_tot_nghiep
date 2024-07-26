@@ -9,12 +9,12 @@
                 <h3 class="text-light"
                     style="font-size: xxx-large; font-style: oblique"><?php echo e($branch['name']); ?></h3>
                 <p><i class="fa-solid fa-phone-volume"></i>
-                    <strong>Gọi cho chúng tôi để được tư vấn:</strong>
+                    <strong><?php echo e(__('Gọi cho chúng tôi để được tư vấn')); ?>:</strong>
                     <?php echo e($branch['phone']); ?>
 
                 </p>
                 <p><i class="fa-solid fa-map-location-dot"></i>
-                    <strong>Địa chỉ:</strong>
+                    <strong><?php echo e(__('Địa chỉ')); ?>:</strong>
                     <?php echo e($branch['address']); ?>, <?php echo e($branch['city']); ?>
 
                 </p>
@@ -28,7 +28,8 @@
                     <?php $__currentLoopData = $rooms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $room): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="col-md-3 p-2">
                             <div class="section-heading text-left">
-                                <h2 class="mb-5 text-uppercase">Phòng
+                                <h2 class="mb-5 text-uppercase"><?php echo e(__('Phòng')); ?>
+
                                     <span class="ms-5 m-md-0"><?php echo e($room['room_type']); ?></span>
                                 </h2>
                             </div>
@@ -49,58 +50,63 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <h5><i class="fa-solid fa-money-bill-1-wave"></i>
-                                            Bảng giá:
+                                            <?php echo e(__('Bảng giá')); ?>:
                                         </h5>
                                         <ul class="text-dark">
                                             <?php $__currentLoopData = $room['price_unit']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$price): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php if($key == PriceType::ListedHourPrice['value']): ?>
                                                     <li>
-                                                        <?php echo e(PriceType::ListedHourPrice['text'] . ': '); ?>
+                                                        <?php echo e(__(PriceType::ListedHourPrice['text']) . ': '); ?>
 
                                                         <p class="text-danger">
                                                             <?php echo e(number_format($price, 0, ',', '.')); ?>
 
-                                                            VND/phòng/giờ
+                                                            VND/<?php echo e(__('phòng/giờ')); ?>
+
                                                         </p>
                                                     </li>
                                                 <?php elseif($key == PriceType::ListedDayPrice['value']): ?>
                                                     <li>
-                                                        <?php echo e(PriceType::ListedDayPrice['text'] .': '); ?>
+                                                        <?php echo e(__(PriceType::ListedDayPrice['text']) .': '); ?>
 
                                                         <p class="text-danger">
                                                             <?php echo e(number_format($price, 0, ',', '.')); ?>
 
-                                                            VND/phòng/ngày
+                                                            VND/<?php echo e(__('phòng/ngày')); ?>
+
                                                         </p>
                                                     </li>
                                                 <?php elseif($key == PriceType::First2Hours['value']): ?>
                                                     <li>
-                                                        <?php echo e(PriceType::First2Hours['text'] .': '); ?>
+                                                        <?php echo e(__(PriceType::First2Hours['text']) .': '); ?>
 
                                                         <p class="text-danger">
                                                             <?php echo e(number_format($price, 0, ',', '.')); ?>
 
-                                                            VND/phòng/giờ
+                                                            VND/<?php echo e(__('phòng/giờ')); ?>
+
                                                         </p>
                                                     </li>
                                                 <?php elseif($key == PriceType::EarlyCheckIn['value']): ?>
                                                     <li>
-                                                        <?php echo e(PriceType::EarlyCheckIn['text'] .': '); ?>
+                                                        <?php echo e(__(PriceType::EarlyCheckIn['text']) .': '); ?>
 
                                                         <p class="text-danger">
                                                             <?php echo e(number_format($price, 0, ',', '.')); ?>
 
-                                                            VND/phòng/giờ
+                                                            VND/<?php echo e(__('phòng/giờ')); ?>
+
                                                         </p>
                                                     </li>
                                                 <?php elseif($key == PriceType::LateCheckOut['value']): ?>
                                                     <li>
-                                                        <?php echo e(PriceType::LateCheckOut['text'] .': '); ?>
+                                                        <?php echo e(__(PriceType::LateCheckOut['text']) .': '); ?>
 
                                                         <p class="text-danger">
                                                             <?php echo e(number_format($price, 0, ',', '.')); ?>
 
-                                                            VND/phòng/giờ
+                                                            VND/<?php echo e(__('phòng/giờ')); ?>
+
                                                         </p>
                                                     </li>
                                                 <?php endif; ?>
@@ -109,7 +115,7 @@
                                     </div>
 
                                     <div class="col-md-5">
-                                        <h5><i class="fa-solid fa-bell-concierge"></i> Dịch vụ có sẵn</h5>
+                                        <h5><i class="fa-solid fa-bell-concierge"></i> <?php echo e(__('Dịch vụ có sẵn')); ?></h5>
                                         <ul>
                                             <?php $__currentLoopData = $room['services']['provide']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <li>
@@ -117,9 +123,9 @@
                                                         <?php echo e($service['service_name']); ?>
 
                                                         <?php if($service['discount'] == 100): ?>
-                                                            <span class="text-danger"> (miễn phí) </span>
+                                                            <span class="text-danger"> (<?php echo e(__('miễn phí')); ?>) </span>
                                                         <?php else: ?>
-                                                            <span class="text-info"><?php echo e(number_format($service['price'], 0, ',', '.')); ?> VND/người</span>
+                                                            <span class="text-info"><?php echo e(number_format($service['price'], 0, ',', '.')); ?> VND/<?php echo e(__('người')); ?></span>
                                                             <span class="text-danger">(-<?php echo e($service['discount']); ?>%)</span>
                                                         <?php endif; ?>
                                                     </p>
@@ -129,28 +135,28 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <h5><i class="fa-solid fa-bed"></i> Số giường</h5>
+                                        <h5><i class="fa-solid fa-bed"></i><?php echo e(__('Số giường')); ?></h5>
                                         <ul>
                                             <?php if($room['single_bed'] > 0): ?>
-                                                <li>Giường đơn: x <?php echo e($room['single_bed']); ?></li>
+                                                <li><?php echo e(__('Giường đơn')); ?>: x <?php echo e($room['single_bed']); ?></li>
                                             <?php endif; ?>
 
                                             <?php if($room['double_bed'] > 0): ?>
-                                                <li>Giường đôi: x <?php echo e($room['double_bed']); ?></li>
+                                                <li><?php echo e(__('Giường đôi')); ?>: x <?php echo e($room['double_bed']); ?></li>
                                             <?php endif; ?>
 
                                             <?php if($room['twin_bed'] > 0): ?>
-                                                <li>Giường cặp: x <?php echo e($room['twin_bed']); ?></li>
+                                                <li><?php echo e(__('Giường cặp')); ?>: x <?php echo e($room['twin_bed']); ?></li>
                                             <?php endif; ?>
 
                                             <?php if($room['family_bed'] > 0): ?>
-                                                <li>Giường gia đình: x <?php echo e($room['family_bed']); ?></li>
+                                                <li><?php echo e(__('Giường gia đình')); ?>: x <?php echo e($room['family_bed']); ?></li>
                                             <?php endif; ?>
                                         </ul>
-                                        <h5><i class="fa-solid fa-people-roof"></i> Sức chứa tối đa</h5>
+                                        <h5><i class="fa-solid fa-people-roof"></i> <?php echo e(__('Sức chứa tối đa')); ?></h5>
                                         <ul>
-                                            <li>Người lớn: <?php echo e($room['adult_capacity']); ?></li>
-                                            <li>Trẻ em: <?php echo e($room['children_capacity']); ?></li>
+                                            <li><?php echo e(__('Người lớn')); ?>: <?php echo e($room['adult_capacity']); ?></li>
+                                            <li><?php echo e(__('Trẻ em')); ?>: <?php echo e($room['children_capacity']); ?></li>
                                         </ul>
 
                                         <div class="quantity mx-auto mx-md-0">
@@ -169,20 +175,21 @@
             <div class="col-md-9 mr-0 ml-auto mt-3">
                <div class="row">
                    <div class="col-md-7">
-                       <h3>Số lượng:
-                       <span class="text-<?php echo e($isValidQuantity ? 'success' : 'danger'); ?>"> <?php echo e($totalRoomSelected); ?> phòng </span>
+                       <h3><?php echo e(__('Số lượng')); ?>:
+                       <span class="text-<?php echo e($isValidQuantity ? 'success' : 'danger'); ?>"> <?php echo e($totalRoomSelected); ?> <?php echo e(__('phòng')); ?> </span>
                        </h3>
-                       <h3>Sức chứa tối đa:
-                           <span class="text-<?php echo e($isValidQuantity ? 'success' : 'danger'); ?>"><?php echo e($adultsCapacity); ?> người lớn và <?php echo e($childrenCapacity); ?> trẻ em</span>
+                       <h3><?php echo e(__('Sức chứa tối đa')); ?>:
+                           <span class="text-<?php echo e($isValidQuantity ? 'success' : 'danger'); ?>"><?php echo e($adultsCapacity); ?> <?php echo e(__('người lớn')); ?> & <?php echo e($childrenCapacity); ?> <?php echo e(__('trẻ em')); ?></span>
                        </h3>
                    </div>
                    <div class="col-md-5 text-end">
-                       <h3>Tổng chi phí:
+                       <h3><?php echo e(__('Tổng chi phí')); ?>:
                            <span class="text-info"> <?php echo e(number_format($totalPrice, 0 , ',', '.')); ?> VND</span>
                        </h3>
                        <button class="btn btn-warning text-white"  wire:click.prevent="bookingConfirm()"
                            <?php echo e($isValidQuantity ? '' : 'disabled'); ?>>
-                           Đặt phòng ngay
+                           <?php echo e(__('Đặt phòng ngay')); ?>
+
                        </button>
                    </div>
                </div>

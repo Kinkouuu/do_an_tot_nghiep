@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row">
                @if(count($roomBranches) > 0)
-                    <h1 class="m-auto p-5 text-capitalize">Lựa chọn tốt nhất cho kì nghỉ của bạn!</h1>
+                    <h1 class="m-auto p-5 text-capitalize">{{__('Lựa chọn tốt nhất cho kì nghỉ của bạn')}}!</h1>
                     @foreach($roomBranches as $roomBranch)
                       @livewire('room.booking-form', [
                         'roomBranch' => $roomBranch,
@@ -13,7 +13,7 @@
                          ])
                     @endforeach
                 @else
-                   <h1 class="m-auto p-5">Hiện không đủ phòng trống. Bạn thử đặt ngày khác nha!</h1>
+                   <h1 class="m-auto p-5">{{__('Hiện không đủ phòng trống. Bạn thử đặt ngày khác nha')}}!</h1>
                 @endif
             </div>
         </div>

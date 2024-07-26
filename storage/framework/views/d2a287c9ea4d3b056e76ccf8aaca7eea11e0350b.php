@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section">Đăng ký tài khoản</h2>
+                <h2 class="heading-section"><?php echo e(__('Đăng ký')); ?></h2>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -41,7 +41,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="phone" placeholder="Số điện thoại" value="<?php echo e(old('phone')); ?>">
+                            <input type="text" class="form-control" name="phone" placeholder="<?php echo e(__('Số điện thoại')); ?>" value="<?php echo e(old('phone')); ?>">
                         </div>
                         <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -54,7 +54,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                         <div class="form-group">
-                            <input id="password-field" type="password" class="form-control" name="password" placeholder="Mật khẩu">
+                            <input id="password-field" type="password" class="form-control" name="password" placeholder="<?php echo e(__('Mật khẩu')); ?>">
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
                         <?php $__errorArgs = ['re-password'];
@@ -68,18 +68,22 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                         <div class="form-group">
-                            <input id="re-password-field" type="password" class="form-control" name="re-password" placeholder="Nhập lại mật khẩu">
+                            <input id="re-password-field" type="password" class="form-control" name="re-password"
+                                   placeholder="<?php echo e(__('Nhập lại mật khẩu')); ?>">
                             <span toggle="#re-password-field" class="fa fa-fw fa-eye field-icon toggle-re-password"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="form-control btn btn-primary submit px-3">ĐĂNG KÝ</button>
+                            <button type="submit" class="text-uppercase form-control btn btn-primary submit px-3">
+                                <?php echo e(__('Đăng ký')); ?>
+
+                            </button>
                         </div>
                         <div class="w-100 text-right">
-                                <span href="#" style="color: #fff">Bạn đã có tài khoản?</span>
+                                <span href="#" style="color: #fff"><?php echo e(__('Bạn đã có tài khoản')); ?>?</span>
                         </div>
                     </form>
                     <div class="form-group w-100 text-center">
-                        <a href="<?php echo e(route('login')); ?>" class="">&mdash; Về trang đăng nhập &mdash;</a>
+                        <a href="<?php echo e(route('login')); ?>" class="">&mdash; <?php echo e(__('Về trang đăng nhập')); ?> &mdash;</a>
                     </div>
 
                 </div>

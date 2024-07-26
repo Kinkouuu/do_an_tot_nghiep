@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section">Đăng nhập</h2>
+                <h2 class="heading-section">{{__('Đăng nhập')}}</h2>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -21,29 +21,29 @@
                         <div class="error">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
-                            <input type="text" class="form-control" name="phone" placeholder="Số điện thoại">
+                            <input type="text" class="form-control" name="phone" placeholder="{{__('Số điện thoại')}}">
                         </div>
                         @error('password')
                         <div class="error">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
-                            <input id="password-field" type="password" name="password" class="form-control" placeholder="Mật khẩu">
+                            <input id="password-field" type="password" name="password" class="form-control" placeholder="{{__('Mật khẩu')}}">
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="form-control btn btn-primary submit px-3">ĐĂNG NHẬP</button>
+                            <button type="submit" class="text-uppercase form-control btn btn-primary submit px-3">{{__('Đăng nhập')}}</button>
                         </div>
                         <div class="form-group d-md-flex pb-5">
                             <div class="w-50">
-                                <a href="{{ route('forgot_password') }}" class="w-100 text-center">Quên mật khẩu</a>
+                                <a href="{{ route('forgot_password') }}" class="w-100 text-center">{{__('Quên mật khẩu')}}</a>
                             </div>
                             <div class="w-50 text-md-left">
-                                <span style="color: #fff">Bạn chưa có tài khoản?</span>
+                                <span style="color: #fff">{{__('Bạn chưa có tài khoản')}}?</span>
                             </div>
                         </div>
                     </form>
                     <div class="w-100 text-center">
-                        <a href="{{ route('signup') }}" class="w-100 text-center">&mdash; Đăng ký tài khoản mới &mdash;</a>
+                        <a href="{{ route('signup') }}" class="w-100 text-center">&mdash; {{__('Đăng ký tài khoản mới')}} &mdash;</a>
                     </div >
                 </div>
             </div>

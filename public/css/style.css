@@ -2964,3 +2964,7 @@ a:hover {
 .input-box[type="number"] {
     -moz-appearance: textfield;
 }
+
+.flag-icon {
+    width: 15%;
+}

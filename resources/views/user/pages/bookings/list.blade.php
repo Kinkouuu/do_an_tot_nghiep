@@ -9,8 +9,8 @@
     <div class="container-fluid">
         @if(is_null($booking_rooms))
             <img src="{{ asset('images/empty-cart.webp') }}" class="w-100">
-            <h1 class="mb-3 text-center">Úi! Bạn chưa có đơn đặt phòng nào.</h1>
-            <a href="{{ route('homepage') }}" class="btn btn-primary text-center">Đặt phòng ngay</a>
+            <h1 class="mb-3 text-center">{{__('Úi! Bạn chưa có đơn đặt phòng nào')}}.</h1>
+            <a href="{{ route('homepage') }}" class="btn btn-primary text-center">{{__('Đặt phòng ngay')}}</a>
         @else
             <div class="row mt-3">
                 <div class="col-md-11 mx-auto mt-4 ">
@@ -27,7 +27,7 @@
                                         <div class="col-md-12">
                                             <div class="d-flex align-items-center">
                                                 <i class="fa-solid fa-location-arrow"></i>
-                                                <p class="m-0 px-2">Địa chỉ: </p>
+                                                <p class="m-0 px-2">{{__('Địa chỉ')}}: </p>
                                             </div>
                                             <p class="text-info m-0">{{ $bookingRoom['branch']['address'] . ', ' . $bookingRoom['branch']['city'] }}</p>
                                         </div>
@@ -50,26 +50,26 @@
                                                            data-placement="right" title="Xem chi tiết phòng">
                                                             x {{ count($room['room_ids']) }}
                                                             <strong class="text-capitalize text-black">
-                                                                Phòng {{ $room['room_type'] }}</strong>
+                                                                {{ __('Phòng') . ' ' .$room['room_type'] }}</strong>
                                                             <i class="text-secondary fa-solid fa-circle-info"></i>
                                                         </a>
                                                         <div class="d-flex justify-content-around">
                                                             <div class="col-md-5 border-left border-warning p-0">
                                                                 <ul>
                                                                     @if($room['single_bed'] > 0)
-                                                                        <li>Giường đơn: x {{ $room['single_bed'] }}</li>
+                                                                        <li>{{__('Giường đơn')}}: x {{ $room['single_bed'] }}</li>
                                                                     @endif
 
                                                                     @if($room['double_bed'] > 0)
-                                                                        <li>Giường đôi: x {{ $room['double_bed'] }}</li>
+                                                                        <li>{{__('Giường đôi')}}: x {{ $room['double_bed'] }}</li>
                                                                     @endif
 
                                                                     @if($room['twin_bed'] > 0)
-                                                                        <li>Giường cặp: x {{ $room['twin_bed'] }}</li>
+                                                                        <li>{{__('Giường cặp')}}: x {{ $room['twin_bed'] }}</li>
                                                                     @endif
 
                                                                     @if($room['family_bed'] > 0)
-                                                                        <li>Giường gia đình:
+                                                                        <li>{{__('Giường gia đình')}}:
                                                                             x {{ $room['family_bed'] }}</li>
                                                                     @endif
                                                                 </ul>
@@ -77,7 +77,7 @@
 
                                                             <div class="col-md-7 border-left border-warning">
                                                                 <p class="text-black">
-                                                                    Giá phòng:
+                                                                    {{__('Giá phòng')}}:
                                                                     <span class="text-info">
                                                                 {{ number_format($room['total_price_1_room'], 0, ',', '.') }} VND
                                                                  </span>
@@ -85,7 +85,7 @@
                                                                         class="text-secondary">x {{ count($room['room_ids']) }}</span>
                                                                     <br>
                                                                     <span class="text-danger" style="font-size: 12px">
-                                                                    *Đây là giá của mỗi phòng được tính cho
+                                                                    *{{__('Đây là giá của mỗi phòng được tính cho')}}
                                                                     {{ $bookingRoom['total']['total_time'] }}
                                                                 </span>
                                                                 </p>
@@ -96,36 +96,36 @@
 
                                                 <div class="col-md-12 justify-content-between border-top border-secondary pt-2">
                                                     <div class="row">
-                                                        <strong class="col-md-3 p-0 text-dark">Tổng cộng:</strong>
+                                                        <strong class="col-md-3 p-0 text-dark">{{__('Tổng cộng')}}:</strong>
                                                         <div class="col-md-9 text-dark row">
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-regular fa-clock"></i>
-                                                                <strong class="px-2">Thời gian:
+                                                                <strong class="px-2">{{__('Thời gian')}}:
                                                                     <span
                                                                         class="text-success">{{ $bookingRoom['total']['total_time'] }}</span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-door-open"></i>
-                                                                <strong class="px-2">Số phòng:
-                                                                    <span class="text-success">{{ $bookingRoom['total']['total_room'] }} phòng</span>
+                                                                <strong class="px-2">{{__('Số phòng')}}:
+                                                                    <span class="text-success">{{ $bookingRoom['total']['total_room'] . ' ' . __('phòng')}} </span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-regular fa-money-bill-1"></i>
-                                                                <strong class="px-2">Chi phí:
+                                                                <strong class="px-2">{{__('Chi phí')}}:
                                                                     <span class="text-success">{{ number_format($bookingRoom['total']['total_price'], 0, ',', '.')  }} VND</span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-money-bill-transfer"></i>
-                                                                <strong class="px-2">Đã thanh toán:
+                                                                <strong class="px-2">{{__('Đã thanh toán')}}:
                                                                     <span class="text-info">{{ number_format($bookingRoom['booking']['deposit'], 0, ',', '.')  }} VND</span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-hand-holding-dollar"></i>
-                                                                <strong class="px-2">Cần thanh toán:
+                                                                <strong class="px-2">{{__('Cần thanh toán')}}:
                                                                     <span class="text-danger">{{ number_format($bookingRoom['total']['total_price'] - $bookingRoom['booking']['deposit'], 0, ',', '.')  }} VND</span>
                                                                 </strong>
                                                             </p>
@@ -134,9 +134,9 @@
                                                                 && $bookingRoom['booking']['payment_type'] != PaymentType::Cash)
                                                                 <h5>
                                                                     <span class="text-danger">
-                                                                        Hệ thống sẽ tự động hủy lúc
+                                                                        {{__('Lưu ý: Hệ thống sẽ tự động hủy lúc')}}
                                                                         <strong>{{ Carbon::parse($bookingRoom['booking']['created_at'])->addMinutes(15)->isoFormat('HH:mm DD/MM/YYYY') }}</strong>
-                                                                        nếu bạn chưa hoàn thành thanh toán
+                                                                       {{__('nếu bạn chưa hoàn thành thanh toán')}}
                                                                     </span>
                                                                 </h5>
                                                                 @endif
@@ -149,17 +149,17 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-user-group"></i>
-                                                        <p class="m-0 px-2">Số người: </p>
+                                                        <p class="m-0 px-2">{{__('Số người')}}: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
-                                                        {{ $bookingRoom['booking']['number_of_adults'] }} người lớn và
-                                                        {{ $bookingRoom['booking']['number_of_children'] }} trẻ em
+                                                        {{ $bookingRoom['booking']['number_of_adults'] . ' ' . __('người lớn') . ' & '
+                                                            . ' ' . $bookingRoom['booking']['number_of_children'] . ' ' . __('trẻ em') }}
                                                     </p>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-calendar-day"></i>
-                                                        <p class="m-0 px-2">Ngày nhận phòng: </p>
+                                                        <p class="m-0 px-2">{{__('Ngày nhận phòng')}}: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
                                                         {{ Carbon::parse($bookingRoom['booking']['booking_checkin'])->isoFormat('dddd, HH:mm DD/MM/YYYY') }}
@@ -168,7 +168,7 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-calendar-day"></i>
-                                                        <p class="m-0 px-2">Ngày trả phòng: </p>
+                                                        <p class="m-0 px-2">{{__('Ngày trả phòng')}}: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
                                                         {{ Carbon::parse($bookingRoom['booking']['booking_checkout'])->isoFormat('dddd, HH:mm DD/MM/YYYY') }}
@@ -177,7 +177,7 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-calendar-check"></i>
-                                                        <p class="m-0 px-2">Ngày đặt đơn: </p>
+                                                        <p class="m-0 px-2">{{__('Ngày đặt đơn')}}: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
                                                         {{ Carbon::parse($bookingRoom['booking']['created_at'])->isoFormat('dddd, HH:mm DD/MM/YYYY') }}
@@ -188,29 +188,29 @@
                                                         <div class="col-md-12">
                                                             <div class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-file-invoice"></i>
-                                                                <p class="m-0 px-2">Trạng thái: </p>
+                                                                <p class="m-0 px-2">{{__('Trạng thái')}}: </p>
                                                             </div>
                                                             @if(in_array($bookingRoom['booking']['status'], BookingStatus::getAwaitingBooking()))
                                                                 <span style="color: #ff9100" id="status-{{$bookingRoom['booking']['id']}}">
-                                                                    {{ BookingStatus::getValue($bookingRoom['booking']['status']) }}
+                                                                    {{__(BookingStatus::getValue($bookingRoom['booking']['status'])) }}
                                                                 </span>
                                                             @elseif(in_array($bookingRoom['booking']['status'], BookingStatus::getConfirmedBooking()))
                                                                 <span style="color: #139b65">
-                                                                    {{ BookingStatus::getValue($bookingRoom['booking']['status']) }}
+                                                                    {{__(BookingStatus::getValue($bookingRoom['booking']['status'])) }}
                                                                 </span>
                                                             @else
                                                                 <span style="color: orangered">
-                                                                    {{ BookingStatus::getValue($bookingRoom['booking']['status']) }}
+                                                                    {{__(BookingStatus::getValue($bookingRoom['booking']['status'])) }}
                                                                 </span>
                                                             @endif
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-cash-register"></i>
-                                                                <p class="m-0 px-2">Phương thức thanh toán: </p>
+                                                                <p class="m-0 px-2">{{__('Phương thức thanh toán')}}: </p>
                                                             </div>
                                                             <span style="color: #06a1b6">
-                                                                {{ PaymentType::getValue($bookingRoom['booking']['payment_type'])}}
+                                                                {{ __(PaymentType::getValue($bookingRoom['booking']['payment_type']))}}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -219,26 +219,26 @@
                                                     @if($bookingRoom['booking']['status'] == BookingStatus::AwaitingPayment['key'])
                                                         <button class="cancel btn btn-danger text-white mb-1 awaiting-booking-{{$bookingRoom['booking']['id']}}" value="{{ $bookingRoom['booking']['id'] }}">
                                                             <i class="fa-solid fa-ban"></i>
-                                                            Tôi muốn hủy đơn
+                                                            {{__('Tôi muốn hủy đơn')}}
                                                         </button>
                                                         <a class="btn btn-warning text-white mb-1 awaiting-booking-{{$bookingRoom['booking']['id']}}" href="{{ route('booking.payment-request', base64_encode($bookingRoom['booking']['id'])) }}">
                                                             <i class="fa-solid fa-wallet"></i>
-                                                            Thanh toán ngay
+                                                            {{__('Thanh toán ngay')}}
                                                         </a>
                                                     @elseif($bookingRoom['booking']['status'] == BookingStatus::AwaitingConfirm['key'])
                                                         <button class="cancel btn btn-danger text-white mb-1 awaiting-booking-{{$bookingRoom['booking']['id']}}" value="{{ $bookingRoom['booking']['id'] }}">
                                                             <i class="fa-solid fa-ban"></i>
-                                                            Tôi muốn hủy đơn
+                                                            {{__('Tôi muốn hủy đơn')}}
                                                         </button>
                                                     @elseif($bookingRoom['booking']['status'] == BookingStatus::Completed['key'])
                                                         <a class="btn btn-warning text-white mb-1" href="{{ route('feedback.show', base64_encode($bookingRoom['booking']['id'])) }}">
                                                             <i class="fa-solid fa-star"></i>
-                                                            Đánh giá phòng
+                                                           {{__(' Đánh giá phòng')}}
                                                         </a>
                                                     @endif
                                                         <a class="btn btn-info text-white" href="{{ route('booking.show', base64_encode($bookingRoom['booking']['id'])) }}">
                                                             <i class="fa-solid fa-eye"></i>
-                                                            Xem chi tiết
+                                                            {{__('Xem chi tiết')}}
                                                         </a>
                                                 </div>
                                             </div>

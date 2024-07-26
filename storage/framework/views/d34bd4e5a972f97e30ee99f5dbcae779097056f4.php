@@ -1,14 +1,14 @@
 <div>
-    <form id="form-search" class="col-md-12 mt-2" action="<?php echo e(route('search')); ?>" method="">
+    <form id="form-search" class="col-md-11 mt-2" action="<?php echo e(route('search')); ?>" method="">
         <?php echo csrf_field(); ?>
-        <div class="col-md-6 m-auto py-3 px-5 search-section">
+        <div class="col-md-7 m-auto py-3 px-5 search-section">
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="row">
                         <div class="col-md-6 pb-2" wire:ignore>
                             <label class="text-white">
                                 <i class="fa-solid fa-location-dot"></i>
-                                <span>Bạn muốn đi đâu?</span>
+                                <span><?php echo e(__('Bạn muốn đi đâu?')); ?></span>
                             </label>
                             <select class="col-md-10 form-control selectpicker" name="city" data-live-search="true">
                                 <?php $__currentLoopData = $branchCities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch_city): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -23,20 +23,20 @@
                         <div class="col-md-6 pb-2">
                             <label class="text-white">
                                 <i class="fa-solid fa-people-line"></i>
-                                <span>Số người</span><span class="text-warning" style="font-size: 11px"> *Mỗi người lớn tối đa đi cùng 2 trẻ em </span>
+                                <span><?php echo e(__('Số người')); ?></span><span class="text-warning" style="font-size: 11px"> *<?php echo e(__('Mỗi người lớn tối đa đi cùng 2 trẻ em ')); ?></span>
                             </label>
                             <div class="d-flex justify-content-center">
                                 <div class=" col-md-6 input-with-icon">
                                     <i class="fa-solid fa-person"></i>
                                     <input type="number" name="adults"
-                                           class="w-100 find-input border-right-0 rounded-left" placeholder="Người lớn"
+                                           class="w-100 find-input border-right-0 rounded-left" placeholder="<?php echo e(__('Người lớn')); ?>"
                                            required value="<?php echo e(request()->get('adults') ?? null); ?>"
                                            min="0" wire:change="setMaxChildren($event.target.value)">
                                 </div>
                                 <div class=" col-md-6 input-with-icon">
                                     <i class="fa-solid fa-children"></i>
                                     <input type="number" name="children" min="0" max="<?php echo e($maxChildren); ?>"
-                                           class="w-100 find-input border-left-0 rounded-right" placeholder="Trẻ em"
+                                           class="w-100 find-input border-left-0 rounded-right" placeholder="<?php echo e(__('Trẻ em')); ?>"
                                            value="<?php echo e(request()->get('children') ?? null); ?>" required>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                         <div class="col-md-6 pb-2">
                             <label class="text-white">
                                 <i class="fa-solid fa-calendar-plus"></i>
-                                <span>Ngày nhận phòng</span>
+                                <span><?php echo e(__('Ngày nhận phòng')); ?></span>
                             </label>
                             <input type="datetime-local" name="checkin" class="col-md-10 form-control find-input"
                                    min="<?php echo e($minCheckin); ?>" wire:change="setMinCheckOut($event.target.value)"
@@ -54,7 +54,7 @@
                         <div class="col-md-6 pb-2">
                             <label class="text-white">
                                 <i class="fa-solid fa-calendar-minus"></i>
-                                <span>Ngày trả phòng</span>
+                                <span><?php echo e(__('Ngày trả phòng')); ?></span>
                             </label>
                             <input type="datetime-local" name="checkout" class="w-100 form-control find-input"
                                    value="<?php echo e(request()->get('checkout') ?? null); ?>" min="<?php echo e($minCheckout); ?>" required>
@@ -63,7 +63,8 @@
                             <div class="col-md-12 text-center pt-2">
                                 <button class="btn btn-warning text-white">
                                     <i class="fa-solid fa-magnifying-glass"></i>
-                                    Tìm kiếm
+                                    <?php echo e(__('Tìm kiếm')); ?>
+
                                 </button>
                             </div>
                         </div>

@@ -2,7 +2,7 @@
         <div class="container-fluid">
             <div class="row">
                <?php if(count($roomBranches) > 0): ?>
-                    <h1 class="m-auto p-5 text-capitalize">Lựa chọn tốt nhất cho kì nghỉ của bạn!</h1>
+                    <h1 class="m-auto p-5 text-capitalize"><?php echo e(__('Lựa chọn tốt nhất cho kì nghỉ của bạn')); ?>!</h1>
                     <?php $__currentLoopData = $roomBranches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $roomBranch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                       <?php
 if (! isset($_instance)) {
@@ -11,11 +11,11 @@ if (! isset($_instance)) {
                          'time' => $time,
                          'condition' => $condition
                          ])->html();
-} elseif ($_instance->childHasBeenRendered('MTYPQay')) {
-    $componentId = $_instance->getRenderedChildComponentId('MTYPQay');
-    $componentTag = $_instance->getRenderedChildComponentTagName('MTYPQay');
+} elseif ($_instance->childHasBeenRendered('V02YQwz')) {
+    $componentId = $_instance->getRenderedChildComponentId('V02YQwz');
+    $componentTag = $_instance->getRenderedChildComponentTagName('V02YQwz');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('MTYPQay');
+    $_instance->preserveRenderedChild('V02YQwz');
 } else {
     $response = \Livewire\Livewire::mount('room.booking-form', [
                         'roomBranch' => $roomBranch,
@@ -23,13 +23,13 @@ if (! isset($_instance)) {
                          'condition' => $condition
                          ]);
     $html = $response->html();
-    $_instance->logRenderedChild('MTYPQay', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('V02YQwz', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php else: ?>
-                   <h1 class="m-auto p-5">Hiện không đủ phòng trống. Bạn thử đặt ngày khác nha!</h1>
+                   <h1 class="m-auto p-5"><?php echo e(__('Hiện không đủ phòng trống. Bạn thử đặt ngày khác nha')); ?>!</h1>
                 <?php endif; ?>
             </div>
         </div>

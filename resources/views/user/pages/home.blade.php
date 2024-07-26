@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 mx-auto text-center mb-5 section-heading">
-                    <h2 class="mb-5">Danh sách phòng</h2>
+                    <h2 class="mb-5">{{__('Danh sách phòng')}}</h2>
                 </div>
             </div>
             <div class="row">
@@ -57,7 +57,7 @@
 
 
                     <div class="section-heading text-left">
-                        <h2 class="mb-5">Thông tin</h2>
+                        <h2 class="mb-5">{{__('Thông tin')}}</h2>
                     </div>
                     <p class="mb-4">Khách sạn Hoàng Hôn luôn mang vẻ đẹp hiện đại xen lẫn nét cổ kính. Đặt khách sạn sớm
                         nhất để hưởng trọn ưu đãi, hãy tận hưởng một kì nghỉ tuyệt vời cùng gia đình, bạn bè ...</p>
@@ -71,58 +71,58 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 mx-auto text-center mb-5 section-heading">
-                    <h2 class="mb-5">Dịch vụ nổi bật</h2>
+                    <h2 class="mb-5">{{__('Dịch vụ nổi bật')}}</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-heart-pulse display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Chăm sóc sức khỏe</h2>
+                        <h2 class="h5">{{__('Chăm sóc sức khỏe')}}</h2>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-utensils display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Gọi thức ăn nhanh</h2>
+                        <h2 class="h5">{{__('Gọi thức ăn nhanh')}}</h2>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-door-open display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Thoát hiểm an toàn</h2>
+                        <h2 class="h5">{{__('Thoát hiểm an toàn')}}</h2>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-volleyball display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Sân thể thao</h2>
+                        <h2 class="h5">{{__('Sân thể thao')}}</h2>
                     </div>
                 </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-cake-candles display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Tổ chức sự kiện</h2>
+                        <h2 class="h5">{{__('Tổ chức sự kiện')}}</h2>
                     </div>
                 </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-baby-carriage display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Dịch vụ trông trẻ</h2>
+                        <h2 class="h5">{{__('Dịch vụ trông trẻ')}}</h2>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-plane-arrival display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Đưa đón sân bay</h2>
+                        <h2 class="h5">{{__('Đưa đón sân bay')}}</h2>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="text-center p-4 item">
                         <i class="fa-solid fa-car display-3 mb-3 d-block text-primary"></i>
-                        <h2 class="h5">Thuê xe tự lái</h2>
+                        <h2 class="h5">{{__('Thuê xe tự lái')}}</h2>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@
     <div class="site-section">
         <div class="row">
             <div class="col-md-6 mx-auto text-center mb-5 section-heading">
-                <h2 class="mb-5">Hè này đi đâu?</h2>
+                <h2 class="mb-5">{{__('Hè này đi đâu?')}}</h2>
             </div>
         </div>
         <div class="col-md-10 m-auto">
@@ -161,7 +161,7 @@
                         <a href="" class="position-relative">
                             <h3 class="branch-city text-bold text-uppercase">{{ $branch->first()->city }}</h3>
                             <img src="{{ asset($branch->first()->avatar) }}" alt="Image" class="img-fluid w-100 h-100" loading="lazy">
-                            <div class="branch-count">{{ count($branch) }} chi nhánh
+                            <div class="branch-count">{{ count($branch) }} {{__('chi nhánh')}}
                                 <i class="fa-solid fa-circle-chevron-right"></i>
                             </div>
                         </a>

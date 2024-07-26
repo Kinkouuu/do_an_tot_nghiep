@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\User\ContactController;
@@ -28,7 +29,8 @@ use App\Http\Controllers\User\UserPageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//Multi Language
+Route::get('language/{language}', [LanguageController::class, 'index'])->name('language');
 //User Page
 Route::get('/', [UserPageController::class, 'index'])->name('homepage');
 Route::get('/introduce', [UserPageController::class, 'introduce'])->name('introduce');

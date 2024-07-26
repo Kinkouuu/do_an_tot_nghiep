@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section">Đăng ký tài khoản</h2>
+                <h2 class="heading-section">{{__('Đăng ký')}}</h2>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -27,31 +27,34 @@
                         <div class="error">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
-                            <input type="text" class="form-control" name="phone" placeholder="Số điện thoại" value="{{ old('phone') }}">
+                            <input type="text" class="form-control" name="phone" placeholder="{{__('Số điện thoại')}}" value="{{ old('phone') }}">
                         </div>
                         @error('password')
                         <div class="error">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
-                            <input id="password-field" type="password" class="form-control" name="password" placeholder="Mật khẩu">
+                            <input id="password-field" type="password" class="form-control" name="password" placeholder="{{__('Mật khẩu')}}">
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
                         @error('re-password')
                         <div class="error">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
-                            <input id="re-password-field" type="password" class="form-control" name="re-password" placeholder="Nhập lại mật khẩu">
+                            <input id="re-password-field" type="password" class="form-control" name="re-password"
+                                   placeholder="{{__('Nhập lại mật khẩu')}}">
                             <span toggle="#re-password-field" class="fa fa-fw fa-eye field-icon toggle-re-password"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="form-control btn btn-primary submit px-3">ĐĂNG KÝ</button>
+                            <button type="submit" class="text-uppercase form-control btn btn-primary submit px-3">
+                                {{__('Đăng ký')}}
+                            </button>
                         </div>
                         <div class="w-100 text-right">
-                                <span href="#" style="color: #fff">Bạn đã có tài khoản?</span>
+                                <span href="#" style="color: #fff">{{__('Bạn đã có tài khoản')}}?</span>
                         </div>
                     </form>
                     <div class="form-group w-100 text-center">
-                        <a href="{{ route('login') }}" class="">&mdash; Về trang đăng nhập &mdash;</a>
+                        <a href="{{ route('login') }}" class="">&mdash; {{__('Về trang đăng nhập')}} &mdash;</a>
                     </div>
 
                 </div>

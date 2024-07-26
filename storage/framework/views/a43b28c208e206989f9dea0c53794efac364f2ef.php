@@ -9,8 +9,8 @@
     <div class="container-fluid">
         <?php if(is_null($booking_rooms)): ?>
             <img src="<?php echo e(asset('images/empty-cart.webp')); ?>" class="w-100">
-            <h1 class="mb-3 text-center">Úi! Bạn chưa có đơn đặt phòng nào.</h1>
-            <a href="<?php echo e(route('homepage')); ?>" class="btn btn-primary text-center">Đặt phòng ngay</a>
+            <h1 class="mb-3 text-center"><?php echo e(__('Úi! Bạn chưa có đơn đặt phòng nào')); ?>.</h1>
+            <a href="<?php echo e(route('homepage')); ?>" class="btn btn-primary text-center"><?php echo e(__('Đặt phòng ngay')); ?></a>
         <?php else: ?>
             <div class="row mt-3">
                 <div class="col-md-11 mx-auto mt-4 ">
@@ -28,7 +28,7 @@
                                         <div class="col-md-12">
                                             <div class="d-flex align-items-center">
                                                 <i class="fa-solid fa-location-arrow"></i>
-                                                <p class="m-0 px-2">Địa chỉ: </p>
+                                                <p class="m-0 px-2"><?php echo e(__('Địa chỉ')); ?>: </p>
                                             </div>
                                             <p class="text-info m-0"><?php echo e($bookingRoom['branch']['address'] . ', ' . $bookingRoom['branch']['city']); ?></p>
                                         </div>
@@ -52,26 +52,26 @@
                                                             x <?php echo e(count($room['room_ids'])); ?>
 
                                                             <strong class="text-capitalize text-black">
-                                                                Phòng <?php echo e($room['room_type']); ?></strong>
+                                                                <?php echo e(__('Phòng') . ' ' .$room['room_type']); ?></strong>
                                                             <i class="text-secondary fa-solid fa-circle-info"></i>
                                                         </a>
                                                         <div class="d-flex justify-content-around">
                                                             <div class="col-md-5 border-left border-warning p-0">
                                                                 <ul>
                                                                     <?php if($room['single_bed'] > 0): ?>
-                                                                        <li>Giường đơn: x <?php echo e($room['single_bed']); ?></li>
+                                                                        <li><?php echo e(__('Giường đơn')); ?>: x <?php echo e($room['single_bed']); ?></li>
                                                                     <?php endif; ?>
 
                                                                     <?php if($room['double_bed'] > 0): ?>
-                                                                        <li>Giường đôi: x <?php echo e($room['double_bed']); ?></li>
+                                                                        <li><?php echo e(__('Giường đôi')); ?>: x <?php echo e($room['double_bed']); ?></li>
                                                                     <?php endif; ?>
 
                                                                     <?php if($room['twin_bed'] > 0): ?>
-                                                                        <li>Giường cặp: x <?php echo e($room['twin_bed']); ?></li>
+                                                                        <li><?php echo e(__('Giường cặp')); ?>: x <?php echo e($room['twin_bed']); ?></li>
                                                                     <?php endif; ?>
 
                                                                     <?php if($room['family_bed'] > 0): ?>
-                                                                        <li>Giường gia đình:
+                                                                        <li><?php echo e(__('Giường gia đình')); ?>:
                                                                             x <?php echo e($room['family_bed']); ?></li>
                                                                     <?php endif; ?>
                                                                 </ul>
@@ -79,7 +79,7 @@
 
                                                             <div class="col-md-7 border-left border-warning">
                                                                 <p class="text-black">
-                                                                    Giá phòng:
+                                                                    <?php echo e(__('Giá phòng')); ?>:
                                                                     <span class="text-info">
                                                                 <?php echo e(number_format($room['total_price_1_room'], 0, ',', '.')); ?> VND
                                                                  </span>
@@ -87,7 +87,8 @@
                                                                         class="text-secondary">x <?php echo e(count($room['room_ids'])); ?></span>
                                                                     <br>
                                                                     <span class="text-danger" style="font-size: 12px">
-                                                                    *Đây là giá của mỗi phòng được tính cho
+                                                                    *<?php echo e(__('Đây là giá của mỗi phòng được tính cho')); ?>
+
                                                                     <?php echo e($bookingRoom['total']['total_time']); ?>
 
                                                                 </span>
@@ -99,36 +100,36 @@
 
                                                 <div class="col-md-12 justify-content-between border-top border-secondary pt-2">
                                                     <div class="row">
-                                                        <strong class="col-md-3 p-0 text-dark">Tổng cộng:</strong>
+                                                        <strong class="col-md-3 p-0 text-dark"><?php echo e(__('Tổng cộng')); ?>:</strong>
                                                         <div class="col-md-9 text-dark row">
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-regular fa-clock"></i>
-                                                                <strong class="px-2">Thời gian:
+                                                                <strong class="px-2"><?php echo e(__('Thời gian')); ?>:
                                                                     <span
                                                                         class="text-success"><?php echo e($bookingRoom['total']['total_time']); ?></span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-door-open"></i>
-                                                                <strong class="px-2">Số phòng:
-                                                                    <span class="text-success"><?php echo e($bookingRoom['total']['total_room']); ?> phòng</span>
+                                                                <strong class="px-2"><?php echo e(__('Số phòng')); ?>:
+                                                                    <span class="text-success"><?php echo e($bookingRoom['total']['total_room'] . ' ' . __('phòng')); ?> </span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-regular fa-money-bill-1"></i>
-                                                                <strong class="px-2">Chi phí:
+                                                                <strong class="px-2"><?php echo e(__('Chi phí')); ?>:
                                                                     <span class="text-success"><?php echo e(number_format($bookingRoom['total']['total_price'], 0, ',', '.')); ?> VND</span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-money-bill-transfer"></i>
-                                                                <strong class="px-2">Đã thanh toán:
+                                                                <strong class="px-2"><?php echo e(__('Đã thanh toán')); ?>:
                                                                     <span class="text-info"><?php echo e(number_format($bookingRoom['booking']['deposit'], 0, ',', '.')); ?> VND</span>
                                                                 </strong>
                                                             </p>
                                                             <p class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-hand-holding-dollar"></i>
-                                                                <strong class="px-2">Cần thanh toán:
+                                                                <strong class="px-2"><?php echo e(__('Cần thanh toán')); ?>:
                                                                     <span class="text-danger"><?php echo e(number_format($bookingRoom['total']['total_price'] - $bookingRoom['booking']['deposit'], 0, ',', '.')); ?> VND</span>
                                                                 </strong>
                                                             </p>
@@ -137,9 +138,11 @@
                                                                 && $bookingRoom['booking']['payment_type'] != PaymentType::Cash): ?>
                                                                 <h5>
                                                                     <span class="text-danger">
-                                                                        Hệ thống sẽ tự động hủy lúc
+                                                                        <?php echo e(__('Lưu ý: Hệ thống sẽ tự động hủy lúc')); ?>
+
                                                                         <strong><?php echo e(Carbon::parse($bookingRoom['booking']['created_at'])->addMinutes(15)->isoFormat('HH:mm DD/MM/YYYY')); ?></strong>
-                                                                        nếu bạn chưa hoàn thành thanh toán
+                                                                       <?php echo e(__('nếu bạn chưa hoàn thành thanh toán')); ?>
+
                                                                     </span>
                                                                 </h5>
                                                                 <?php endif; ?>
@@ -152,17 +155,18 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-user-group"></i>
-                                                        <p class="m-0 px-2">Số người: </p>
+                                                        <p class="m-0 px-2"><?php echo e(__('Số người')); ?>: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
-                                                        <?php echo e($bookingRoom['booking']['number_of_adults']); ?> người lớn và
-                                                        <?php echo e($bookingRoom['booking']['number_of_children']); ?> trẻ em
+                                                        <?php echo e($bookingRoom['booking']['number_of_adults'] . ' ' . __('người lớn') . ' & '
+                                                            . ' ' . $bookingRoom['booking']['number_of_children'] . ' ' . __('trẻ em')); ?>
+
                                                     </p>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-calendar-day"></i>
-                                                        <p class="m-0 px-2">Ngày nhận phòng: </p>
+                                                        <p class="m-0 px-2"><?php echo e(__('Ngày nhận phòng')); ?>: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
                                                         <?php echo e(Carbon::parse($bookingRoom['booking']['booking_checkin'])->isoFormat('dddd, HH:mm DD/MM/YYYY')); ?>
@@ -172,7 +176,7 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-calendar-day"></i>
-                                                        <p class="m-0 px-2">Ngày trả phòng: </p>
+                                                        <p class="m-0 px-2"><?php echo e(__('Ngày trả phòng')); ?>: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
                                                         <?php echo e(Carbon::parse($bookingRoom['booking']['booking_checkout'])->isoFormat('dddd, HH:mm DD/MM/YYYY')); ?>
@@ -182,7 +186,7 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex align-items-center">
                                                         <i class="fa-solid fa-calendar-check"></i>
-                                                        <p class="m-0 px-2">Ngày đặt đơn: </p>
+                                                        <p class="m-0 px-2"><?php echo e(__('Ngày đặt đơn')); ?>: </p>
                                                     </div>
                                                     <p class="text-info m-0 text-capitalize">
                                                         <?php echo e(Carbon::parse($bookingRoom['booking']['created_at'])->isoFormat('dddd, HH:mm DD/MM/YYYY')); ?>
@@ -194,21 +198,21 @@
                                                         <div class="col-md-12">
                                                             <div class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-file-invoice"></i>
-                                                                <p class="m-0 px-2">Trạng thái: </p>
+                                                                <p class="m-0 px-2"><?php echo e(__('Trạng thái')); ?>: </p>
                                                             </div>
                                                             <?php if(in_array($bookingRoom['booking']['status'], BookingStatus::getAwaitingBooking())): ?>
                                                                 <span style="color: #ff9100" id="status-<?php echo e($bookingRoom['booking']['id']); ?>">
-                                                                    <?php echo e(BookingStatus::getValue($bookingRoom['booking']['status'])); ?>
+                                                                    <?php echo e(__(BookingStatus::getValue($bookingRoom['booking']['status']))); ?>
 
                                                                 </span>
                                                             <?php elseif(in_array($bookingRoom['booking']['status'], BookingStatus::getConfirmedBooking())): ?>
                                                                 <span style="color: #139b65">
-                                                                    <?php echo e(BookingStatus::getValue($bookingRoom['booking']['status'])); ?>
+                                                                    <?php echo e(__(BookingStatus::getValue($bookingRoom['booking']['status']))); ?>
 
                                                                 </span>
                                                             <?php else: ?>
                                                                 <span style="color: orangered">
-                                                                    <?php echo e(BookingStatus::getValue($bookingRoom['booking']['status'])); ?>
+                                                                    <?php echo e(__(BookingStatus::getValue($bookingRoom['booking']['status']))); ?>
 
                                                                 </span>
                                                             <?php endif; ?>
@@ -216,10 +220,10 @@
                                                         <div class="col-md-12">
                                                             <div class="d-flex align-items-center">
                                                                 <i class="fa-solid fa-cash-register"></i>
-                                                                <p class="m-0 px-2">Phương thức thanh toán: </p>
+                                                                <p class="m-0 px-2"><?php echo e(__('Phương thức thanh toán')); ?>: </p>
                                                             </div>
                                                             <span style="color: #06a1b6">
-                                                                <?php echo e(PaymentType::getValue($bookingRoom['booking']['payment_type'])); ?>
+                                                                <?php echo e(__(PaymentType::getValue($bookingRoom['booking']['payment_type']))); ?>
 
                                                             </span>
                                                         </div>
@@ -229,26 +233,31 @@
                                                     <?php if($bookingRoom['booking']['status'] == BookingStatus::AwaitingPayment['key']): ?>
                                                         <button class="cancel btn btn-danger text-white mb-1 awaiting-booking-<?php echo e($bookingRoom['booking']['id']); ?>" value="<?php echo e($bookingRoom['booking']['id']); ?>">
                                                             <i class="fa-solid fa-ban"></i>
-                                                            Tôi muốn hủy đơn
+                                                            <?php echo e(__('Tôi muốn hủy đơn')); ?>
+
                                                         </button>
                                                         <a class="btn btn-warning text-white mb-1 awaiting-booking-<?php echo e($bookingRoom['booking']['id']); ?>" href="<?php echo e(route('booking.payment-request', base64_encode($bookingRoom['booking']['id']))); ?>">
                                                             <i class="fa-solid fa-wallet"></i>
-                                                            Thanh toán ngay
+                                                            <?php echo e(__('Thanh toán ngay')); ?>
+
                                                         </a>
                                                     <?php elseif($bookingRoom['booking']['status'] == BookingStatus::AwaitingConfirm['key']): ?>
                                                         <button class="cancel btn btn-danger text-white mb-1 awaiting-booking-<?php echo e($bookingRoom['booking']['id']); ?>" value="<?php echo e($bookingRoom['booking']['id']); ?>">
                                                             <i class="fa-solid fa-ban"></i>
-                                                            Tôi muốn hủy đơn
+                                                            <?php echo e(__('Tôi muốn hủy đơn')); ?>
+
                                                         </button>
                                                     <?php elseif($bookingRoom['booking']['status'] == BookingStatus::Completed['key']): ?>
                                                         <a class="btn btn-warning text-white mb-1" href="<?php echo e(route('feedback.show', base64_encode($bookingRoom['booking']['id']))); ?>">
                                                             <i class="fa-solid fa-star"></i>
-                                                            Đánh giá phòng
+                                                           <?php echo e(__(' Đánh giá phòng')); ?>
+
                                                         </a>
                                                     <?php endif; ?>
                                                         <a class="btn btn-info text-white" href="<?php echo e(route('booking.show', base64_encode($bookingRoom['booking']['id']))); ?>">
                                                             <i class="fa-solid fa-eye"></i>
-                                                            Xem chi tiết
+                                                            <?php echo e(__('Xem chi tiết')); ?>
+
                                                         </a>
                                                 </div>
                                             </div>

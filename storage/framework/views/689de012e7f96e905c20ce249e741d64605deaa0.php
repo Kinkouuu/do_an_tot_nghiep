@@ -9,13 +9,13 @@ use Illuminate\Support\Carbon;
         </div>
         <div class="col-md-9 d-flex justify-content-around">
             <div class="col-md-5">
-                <h5>Tận hưởng chuyến đi của bạn tại: <br>
+                <h5><?php echo e(__('Tận hưởng chuyến đi của bạn tại')); ?>: <br>
                     <span class="text-danger text-bold"><?php echo e($roomBranch['branch']['name'] . ' - ' . $roomBranch['branch']['city']); ?></span>
                 </h5>
                 <div class="col-md-12">
                     <div class="d-flex align-items-center">
                         <i class="fa-solid fa-location-arrow"></i>
-                        <p class="m-0 px-2">Địa chỉ: </p>
+                        <p class="m-0 px-2"><?php echo e(__('Địa chỉ')); ?>: </p>
                     </div>
                     <p class="text-info m-0"><?php echo e($roomBranch['branch']['address'] . ', ' . $roomBranch['branch']['city']); ?></p>
                 </div>
@@ -36,20 +36,22 @@ use Illuminate\Support\Carbon;
                                data-placement="right" title="Xem chi tiết phòng">
                                 x <?php echo e(count($room['room_ids'])); ?>
 
-                                <strong class="text-capitalize text-black"> Phòng <?php echo e($room['room_type']); ?></strong>
+                                <strong class="text-capitalize text-black"> <?php echo e(__('Phòng')); ?> <?php echo e($room['room_type']); ?></strong>
                                 <i class="text-secondary fa-solid fa-circle-info"></i>
                             </a>
                             <!-- Button trigger modal -->
                             <?php if($user): ?>
                                 <a href="<?php echo e(route('search-option', array_merge(request()->all(), ['branch' => base64_encode($roomBranch['branch']['id'])]))); ?>"
                                    style="color: #0c84ff; text-decoration: underline">
-                                    Tùy chọn khác
+                                    <?php echo e(__('Tùy chọn khác')); ?>
+
                                     <i class="fa-brands fa-hive"></i>
                                 </a>
                             <?php else: ?>
                                 <a type="button" style="color: #0c84ff; text-decoration: underline"
                                         data-toggle="modal" data-target="#needLogin">
-                                    Tùy chọn khác
+                                    <?php echo e(__('Tùy chọn khác')); ?>
+
                                     <i class="fa-brands fa-hive"></i>
                                 </a>
                             <?php endif; ?>
@@ -60,38 +62,40 @@ use Illuminate\Support\Carbon;
                             <div class="col-md-6 border-left border-warning p-0">
                                 <ul>
                                     <?php if($room['single_bed'] > 0): ?>
-                                        <li>Giường đơn: x <?php echo e($room['single_bed']); ?></li>
+                                        <li><?php echo e(__('Giường đơn')); ?>: x <?php echo e($room['single_bed']); ?></li>
                                     <?php endif; ?>
 
                                     <?php if($room['double_bed'] > 0): ?>
-                                        <li>Giường đôi: x <?php echo e($room['double_bed']); ?></li>
+                                        <li><?php echo e(__('Giường đôi')); ?>: x <?php echo e($room['double_bed']); ?></li>
                                     <?php endif; ?>
 
                                     <?php if($room['twin_bed'] > 0): ?>
-                                        <li>Giường cặp: x <?php echo e($room['twin_bed']); ?></li>
+                                        <li><?php echo e(__('Giường cặp')); ?>: x <?php echo e($room['twin_bed']); ?></li>
                                     <?php endif; ?>
 
                                     <?php if($room['family_bed'] > 0): ?>
-                                        <li>Giường gia đình: x <?php echo e($room['family_bed']); ?></li>
+                                        <li><?php echo e(__('Giường gia đình')); ?>: x <?php echo e($room['family_bed']); ?></li>
                                     <?php endif; ?>
                                 </ul>
                             </div>
 
                             <div class="col-md-6 border-left border-warning">
-                                <p class="text-black">Giá phòng:
+                                <p class="text-black"><?php echo e(__('Giá phòng')); ?>:
                                     <span class="text-info">
                                         <?php echo e(number_format($room['total_price_1_room'], 0, ',', '.')); ?> VND
                                     </span>
                                     <span class="text-secondary">x <?php echo e(count($room['room_ids'])); ?></span>
                                     <br>
-                                    <span class="text-danger" style="font-size: 12px">*Đây là giá của mỗi phòng được tính cho
-                                        <?php echo e($time < 24 ? ceil($time) . ' giờ' : ceil($time/24) . ' ngày/đêm'); ?>
+                                    <span class="text-danger" style="font-size: 12px">*<?php echo e(__('Đây là giá của mỗi phòng được tính cho')); ?>
+
+                                        <?php echo e($time < 24 ? ceil($time) . ' ' . __('giờ') : ceil($time/24) . ' ' . __('ngày/đêm')); ?>
 
                                     </span>
                                 </p>
-                                <p class="text-black">Sức chứa tối đa mỗi phòng: <br>
+                                <p class="text-black"><?php echo e(__('Sức chứa tối đa mỗi phòng')); ?>: <br>
                                     <span class="text-secondary">
-                                        <?php echo e($room['adult_capacity']); ?> người lớn và <?php echo e($room['children_capacity']); ?> trẻ em
+                                        <?php echo e($room['adult_capacity'] . ' '. __('người lớn')); ?> & <?php echo e($room['children_capacity'] . ' ' . __('trẻ em')); ?>
+
                                     </span>
                                 </p>
                             </div>
@@ -99,18 +103,20 @@ use Illuminate\Support\Carbon;
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-md-12 d-flex justify-content-between border-top border-secondary px-0 pt-2">
-                        <h4 class="text-success">Tổng chi
-                            phí: <?php echo e(number_format($roomBranch['total_amount']['total_price'], 0, ',', '.')); ?> VND</h4>
+                        <h4 class="text-success"> <?php echo e(__('Tổng chi phí')); ?>:
+                            <?php echo e(number_format($roomBranch['total_amount']['total_price'], 0, ',', '.')); ?> VND</h4>
 
                         <!-- Button trigger modal -->
                         <?php if($user): ?>
                             <button class="btn btn-warning text-light" wire:click="bookingConfirm(<?php echo e($user['id']); ?>)">
-                                Đặt phòng ngay
+                                <?php echo e(__('Đặt phòng ngay')); ?>
+
                             </button>
                         <?php else: ?>
                             <button type="button" class="btn btn-warning text-light"
                                     data-toggle="modal" data-target="#needLogin">
-                                Đặt phòng ngay
+                                <?php echo e(__('Đặt phòng ngay')); ?>
+
                             </button>
                         <?php endif; ?>
                     </div>
@@ -124,7 +130,7 @@ use Illuminate\Support\Carbon;
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title m-auto" id="needLogin">Bạn cần đăng nhập để đặt phòng</h5>
+                        <h5 class="modal-title m-auto" id="needLogin"><?php echo e(__('Bạn cần đăng nhập để đặt phòng')); ?></h5>
                     </div>
                     <div class="modal-body text-center pt-3">
                         <div>
@@ -139,9 +145,9 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                         <div class="col-md-12 input-group mb-3">
                             <div class="input-group-prepend col-md-5 p-0">
-                                <span class="input-group-text w-100">Số điện thoại</span>
+                                <span class="input-group-text w-100"><?php echo e(__('Số điện thoại')); ?></span>
                             </div>
-                            <input type="text" class="form-control col-md-7" wire:model.blur="account" placeholder="Số điện thoại đăng nhập"/>
+                            <input type="text" class="form-control col-md-7" wire:model.blur="account" placeholder="<?php echo e(__('Số điện thoại đăng nhập')); ?>"/>
                         </div>
                         <div>
                             <?php $__errorArgs = ['password'];
@@ -155,14 +161,14 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                         <div class="col-md-12 input-group mb-3">
                             <div class="input-group-prepend col-md-5 p-0">
-                                <span class="input-group-text w-100">Mật khẩu</span>
+                                <span class="input-group-text w-100"><?php echo e(__("Mật khẩu")); ?></span>
                             </div>
-                            <input type="password" class="form-control col-md-7" wire:model.blur="password" placeholder="Mật khẩu đăng nhập"/>
+                            <input type="password" class="form-control col-md-7" wire:model.blur="password" placeholder="<?php echo e(__('Mật khẩu đăng nhập')); ?>"/>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-secondary text-black" data-dismiss="modal" wire:click="resetInput">Để sau</button>
-                        <button type="button" class="btn btn-info text-white" wire:click="login">Đăng nhập</button>
+                        <button type="button" class="btn btn-secondary text-black" data-dismiss="modal" wire:click="resetInput"><?php echo e(__('Để sau')); ?></button>
+                        <button type="button" class="btn btn-info text-white" wire:click="login"><?php echo e(__("Đăng nhập")); ?></button>
                     </div>
                 </div>
             </div>

@@ -9,11 +9,11 @@
                 <h3 class="text-light"
                     style="font-size: xxx-large; font-style: oblique">{{ $branch['name'] }}</h3>
                 <p><i class="fa-solid fa-phone-volume"></i>
-                    <strong>Gọi cho chúng tôi để được tư vấn:</strong>
+                    <strong>{{__('Gọi cho chúng tôi để được tư vấn')}}:</strong>
                     {{ $branch['phone'] }}
                 </p>
                 <p><i class="fa-solid fa-map-location-dot"></i>
-                    <strong>Địa chỉ:</strong>
+                    <strong>{{__('Địa chỉ')}}:</strong>
                     {{ $branch['address'] }}, {{ $branch['city'] }}
                 </p>
             </div>
@@ -26,7 +26,7 @@
                     @foreach($rooms as $index => $room)
                         <div class="col-md-3 p-2">
                             <div class="section-heading text-left">
-                                <h2 class="mb-5 text-uppercase">Phòng
+                                <h2 class="mb-5 text-uppercase">{{__('Phòng')}}
                                     <span class="ms-5 m-md-0">{{ $room['room_type'] }}</span>
                                 </h2>
                             </div>
@@ -47,48 +47,48 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <h5><i class="fa-solid fa-money-bill-1-wave"></i>
-                                            Bảng giá:
+                                            {{__('Bảng giá')}}:
                                         </h5>
                                         <ul class="text-dark">
                                             @foreach($room['price_unit'] as $key=>$price)
                                                 @if($key == PriceType::ListedHourPrice['value'])
                                                     <li>
-                                                        {{ PriceType::ListedHourPrice['text'] . ': ' }}
+                                                        {{ __(PriceType::ListedHourPrice['text']) . ': ' }}
                                                         <p class="text-danger">
                                                             {{ number_format($price, 0, ',', '.') }}
-                                                            VND/phòng/giờ
+                                                            VND/{{__('phòng/giờ')}}
                                                         </p>
                                                     </li>
                                                 @elseif($key == PriceType::ListedDayPrice['value'])
                                                     <li>
-                                                        {{ PriceType::ListedDayPrice['text'] .': ' }}
+                                                        {{__(PriceType::ListedDayPrice['text']) .': ' }}
                                                         <p class="text-danger">
                                                             {{ number_format($price, 0, ',', '.') }}
-                                                            VND/phòng/ngày
+                                                            VND/{{__('phòng/ngày')}}
                                                         </p>
                                                     </li>
                                                 @elseif($key == PriceType::First2Hours['value'])
                                                     <li>
-                                                        {{ PriceType::First2Hours['text'] .': '}}
+                                                        {{ __(PriceType::First2Hours['text']) .': '}}
                                                         <p class="text-danger">
                                                             {{ number_format($price, 0, ',', '.') }}
-                                                            VND/phòng/giờ
+                                                            VND/{{__('phòng/giờ')}}
                                                         </p>
                                                     </li>
                                                 @elseif($key == PriceType::EarlyCheckIn['value'])
                                                     <li>
-                                                        {{ PriceType::EarlyCheckIn['text'] .': '}}
+                                                        {{ __(PriceType::EarlyCheckIn['text']) .': '}}
                                                         <p class="text-danger">
                                                             {{ number_format($price, 0, ',', '.') }}
-                                                            VND/phòng/giờ
+                                                            VND/{{__('phòng/giờ')}}
                                                         </p>
                                                     </li>
                                                 @elseif($key == PriceType::LateCheckOut['value'])
                                                     <li>
-                                                        {{ PriceType::LateCheckOut['text'] .': '}}
+                                                        {{ __(PriceType::LateCheckOut['text']) .': '}}
                                                         <p class="text-danger">
                                                             {{ number_format($price, 0, ',', '.') }}
-                                                            VND/phòng/giờ
+                                                            VND/{{__('phòng/giờ')}}
                                                         </p>
                                                     </li>
                                                 @endif
@@ -97,16 +97,16 @@
                                     </div>
 
                                     <div class="col-md-5">
-                                        <h5><i class="fa-solid fa-bell-concierge"></i> Dịch vụ có sẵn</h5>
+                                        <h5><i class="fa-solid fa-bell-concierge"></i> {{__('Dịch vụ có sẵn')}}</h5>
                                         <ul>
                                             @foreach($room['services']['provide'] as $service)
                                                 <li>
                                                     <p>
                                                         {{ $service['service_name'] }}
                                                         @if($service['discount'] == 100)
-                                                            <span class="text-danger"> (miễn phí) </span>
+                                                            <span class="text-danger"> ({{__('miễn phí')}}) </span>
                                                         @else
-                                                            <span class="text-info">{{ number_format($service['price'], 0, ',', '.') }} VND/người</span>
+                                                            <span class="text-info">{{ number_format($service['price'], 0, ',', '.') }} VND/{{__('người')}}</span>
                                                             <span class="text-danger">(-{{ $service['discount'] }}%)</span>
                                                         @endif
                                                     </p>
@@ -116,28 +116,28 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <h5><i class="fa-solid fa-bed"></i> Số giường</h5>
+                                        <h5><i class="fa-solid fa-bed"></i>{{__('Số giường')}}</h5>
                                         <ul>
                                             @if($room['single_bed'] > 0)
-                                                <li>Giường đơn: x {{ $room['single_bed'] }}</li>
+                                                <li>{{__('Giường đơn')}}: x {{ $room['single_bed'] }}</li>
                                             @endif
 
                                             @if($room['double_bed'] > 0)
-                                                <li>Giường đôi: x {{ $room['double_bed'] }}</li>
+                                                <li>{{__('Giường đôi')}}: x {{ $room['double_bed'] }}</li>
                                             @endif
 
                                             @if($room['twin_bed'] > 0)
-                                                <li>Giường cặp: x {{ $room['twin_bed'] }}</li>
+                                                <li>{{__('Giường cặp')}}: x {{ $room['twin_bed'] }}</li>
                                             @endif
 
                                             @if($room['family_bed'] > 0)
-                                                <li>Giường gia đình: x {{ $room['family_bed'] }}</li>
+                                                <li>{{__('Giường gia đình')}}: x {{ $room['family_bed'] }}</li>
                                             @endif
                                         </ul>
-                                        <h5><i class="fa-solid fa-people-roof"></i> Sức chứa tối đa</h5>
+                                        <h5><i class="fa-solid fa-people-roof"></i> {{__('Sức chứa tối đa')}}</h5>
                                         <ul>
-                                            <li>Người lớn: {{ $room['adult_capacity'] }}</li>
-                                            <li>Trẻ em: {{ $room['children_capacity'] }}</li>
+                                            <li>{{__('Người lớn')}}: {{ $room['adult_capacity'] }}</li>
+                                            <li>{{__('Trẻ em')}}: {{ $room['children_capacity'] }}</li>
                                         </ul>
 
                                         <div class="quantity mx-auto mx-md-0">
@@ -156,20 +156,20 @@
             <div class="col-md-9 mr-0 ml-auto mt-3">
                <div class="row">
                    <div class="col-md-7">
-                       <h3>Số lượng:
-                       <span class="text-{{$isValidQuantity ? 'success' : 'danger'}}"> {{ $totalRoomSelected }} phòng </span>
+                       <h3>{{__('Số lượng')}}:
+                       <span class="text-{{$isValidQuantity ? 'success' : 'danger'}}"> {{ $totalRoomSelected }} {{__('phòng')}} </span>
                        </h3>
-                       <h3>Sức chứa tối đa:
-                           <span class="text-{{$isValidQuantity ? 'success' : 'danger'}}">{{ $adultsCapacity }} người lớn và {{ $childrenCapacity }} trẻ em</span>
+                       <h3>{{__('Sức chứa tối đa')}}:
+                           <span class="text-{{$isValidQuantity ? 'success' : 'danger'}}">{{ $adultsCapacity }} {{__('người lớn')}} & {{ $childrenCapacity }} {{__('trẻ em')}}</span>
                        </h3>
                    </div>
                    <div class="col-md-5 text-end">
-                       <h3>Tổng chi phí:
+                       <h3>{{__('Tổng chi phí')}}:
                            <span class="text-info"> {{ number_format($totalPrice, 0 , ',', '.') }} VND</span>
                        </h3>
                        <button class="btn btn-warning text-white"  wire:click.prevent="bookingConfirm()"
                            {{ $isValidQuantity ? '' : 'disabled' }}>
-                           Đặt phòng ngay
+                           {{__('Đặt phòng ngay')}}
                        </button>
                    </div>
                </div>

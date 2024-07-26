@@ -2,14 +2,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <h3 class="footer-heading mb-4 text-white">Giới thiệu</h3>
+                <h3 class="footer-heading mb-4 text-white"><?php echo e(__('Giới thiệu')); ?></h3>
                 <p>Định hướng phát triển trở thành công ty về du lịch nghỉ dưỡng có quy mô lớn nhất Đông Nam Á với
                     hệ thống sinh thái thách thức các quy ước, vượt qua giới hạn và nâng tầm mọi tiêu chuẩn.</p>
                 <p><a href="<?php echo e(asset(route('introduce'))); ?>" class="btn btn-primary pill text-white px-4">Đọc
                         thêm</a></p>
             </div>
             <div class="col-md-6">
-                <h3 class="footer-heading mb-4 text-white">Chi nhánh</h3>
+                <h3 class="footer-heading mb-4 text-white"><?php echo e(__('Chi nhánh')); ?></h3>
                 <ul class="list-unstyled">
                     <?php $__currentLoopData = $branches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <li> <?php echo e($branch->name); ?>:
@@ -23,7 +23,7 @@
             </div>
 
             <div class="col-md-3">
-                <div class="col-md-12"><h3 class="footer-heading mb-4 text-white">Liên hệ với chúng tôi: </h3></div>
+                <div class="col-md-12"><h3 class="footer-heading mb-4 text-white"><?php echo e(__('Liên hệ với chúng tôi')); ?>: </h3></div>
                 <div class="col-md-12">
                     <p>
                         <a href="#" class="pb-2 pr-2 pl-0"><span class="icon-facebook"></span></a>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-12">
                     <p>
-                        <strong>Văn phòng đại diện:</strong>
+                        <strong><?php echo e(__('Văn phòng đại diện')); ?>:</strong>
                         Tầng 4, Grandeur Palace, 138B Giảng Võ, Ba Đình, Hà Nội
                     </p>
                     <p>
@@ -46,7 +46,7 @@
                     </p>
                 </div>
                 <p class="mr-0 d-flex justify-content-center">
-                    <a href="<?php echo e(asset(route('contact'))); ?>" class="btn btn-primary pill text-white px-4">Gửi góp ý</a>
+                    <a href="<?php echo e(asset(route('contact'))); ?>" class="btn btn-primary pill text-white px-4"><?php echo e(__('Gửi góp ý')); ?></a>
                 </p>
             </div>
         </div>
