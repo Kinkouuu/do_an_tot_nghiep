@@ -18,20 +18,20 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <p><i class="fa-solid fa-phone-volume"></i>
-                                        <strong>Gọi cho chúng tôi để được tư vấn:</strong>
+                                        <strong>{{__('Gọi cho chúng tôi để được tư vấn')}}:</strong>
                                         {{ $branch['phone'] }}
                                     </p>
                                     <p><i class="fa-solid fa-map-location-dot"></i>
-                                        <strong>Địa chỉ:</strong>
+                                        <strong>{{__('Địa chỉ')}}:</strong>
                                         {{ $branch['address'] }}, {{ $branch['city'] }}
                                     </p>
                                 </div>
                                 <div class="col-md-3 row text-right">
                                     <a class="text-danger">
-                                        <i class="btn fa-regular fa-heart fa-xl" style="color: #ff0000;"></i> Yêu thích
+                                        <i class="btn fa-regular fa-heart fa-xl" style="color: #ff0000;"></i> {{__('Yêu thích')}}
                                     </a>
                                     <a class="" style="color: #0c84ff">
-                                        <i class="btn fa-solid fa-share-nodes fa-xl" style="color: #0c84ff"></i> Chia sẻ
+                                        <i class="btn fa-solid fa-share-nodes fa-xl" style="color: #0c84ff"></i> {{__('Chia sẻ')}}
                                     </a>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="section-heading text-left">
-                                            <h2 class="mb-5 text-uppercase">Phòng <span
+                                            <h2 class="mb-5 text-uppercase">{{__('Phòng')}} <span
                                                     class="ms-5 m-md-0">{{ $room['room_type'] }}</span>
                                                 <span
                                                     class="text-lowercase text-secondary">x{{ count($room['room_ids']) }}</span>
@@ -61,32 +61,32 @@
                                         <div class="col-12 mb-4">
                                             <div class="row">
                                                 <div class="col-md-6 border-bottom border-warning">
-                                                    <h5><i class="fa-solid fa-bed"></i> Số giường</h5>
+                                                    <h5><i class="fa-solid fa-bed"></i> {{__('Số giường')}}</h5>
                                                     <ul>
                                                         @if($room['single_bed'] > 0)
-                                                            <li>Giường đơn: x {{ $room['single_bed'] }}</li>
+                                                            <li>{{__('Giường đơn')}}: x {{ $room['single_bed'] }}</li>
                                                         @endif
 
                                                         @if($room['double_bed'] > 0)
-                                                            <li>Giường đôi: x {{ $room['double_bed'] }}</li>
+                                                            <li>{{__('Giường đôi')}}: x {{ $room['double_bed'] }}</li>
                                                         @endif
 
                                                         @if($room['twin_bed'] > 0)
-                                                            <li>Giường cặp: x {{ $room['twin_bed'] }}</li>
+                                                            <li>{{__('Giường cặp')}}: x {{ $room['twin_bed'] }}</li>
                                                         @endif
 
                                                         @if($room['family_bed'] > 0)
-                                                            <li>Giường gia đình: x {{ $room['family_bed'] }}</li>
+                                                            <li>{{__('Giường gia đình')}}: x {{ $room['family_bed'] }}</li>
                                                         @endif
                                                     </ul>
-                                                    <h5><i class="fa-solid fa-bell-concierge"></i> Dịch vụ có sẵn</h5>
+                                                    <h5><i class="fa-solid fa-bell-concierge"></i> {{__('Dịch vụ có sẵn')}}</h5>
                                                     <ul>
                                                         @foreach($room['services']['provide'] as $service)
                                                             <li>
                                                                 <p>
                                                                     {{ $service['service_name'] }}
                                                                     @if($service['discount'] == 100)
-                                                                        <span class="text-danger"> (miễn phí) </span>
+                                                                        <span class="text-danger"> ({{__('miễn phí')}}) </span>
                                                                     @else
                                                                         <span class="text-info">{{ number_format($service['price'], 0, ',', '.') }} VND/người</span>
                                                                         <span class="text-danger">(-{{ $service['discount'] }}%)</span>
@@ -95,67 +95,67 @@
                                                             </li>
                                                         @endforeach
                                                     </ul>
-                                                    <h5><i class="fa-solid fa-people-roof"></i> Sức chứa tối đa</h5>
+                                                    <h5><i class="fa-solid fa-people-roof"></i> {{__('Sức chứa tối đa')}}</h5>
                                                     <ul>
-                                                        <li>Người lớn: {{ $room['adult_capacity'] }}</li>
-                                                        <li>Trẻ em: {{ $room['children_capacity'] }}</li>
+                                                        <li>{{__('Người lớn')}}: {{ $room['adult_capacity'] }}</li>
+                                                        <li>{{__('Trẻ em')}}: {{ $room['children_capacity'] }}</li>
                                                     </ul>
                                                 </div>
                                                 <div class="col-md-6 border-bottom border-warning pt-3 p-md-0">
                                                     <h5><i class="fa-solid fa-money-bill-1-wave"></i>
-                                                        Bảng giá:
+                                                        {{__('Bảng giá')}}:
                                                     </h5>
                                                     <ul class="text-dark">
                                                         @foreach($room['price_unit'] as $key=>$price)
                                                             @if($key == PriceType::ListedHourPrice['value'])
                                                                 <li>
-                                                                    {{ PriceType::ListedHourPrice['text'] . ': ' }}
+                                                                    {{ __(PriceType::ListedHourPrice['text']) . ': ' }}
                                                                     <p class="text-danger">
                                                                         {{ number_format($price, 0, ',', '.') }}
-                                                                        VND/phòng/giờ
+                                                                        VND/{{__('phòng/giờ')}}
                                                                     </p>
                                                                 </li>
                                                             @elseif($key == PriceType::ListedDayPrice['value'])
                                                                 <li>
-                                                                    {{ PriceType::ListedDayPrice['text'] .': ' }}
+                                                                    {{ __(PriceType::ListedDayPrice['text']) .': ' }}
                                                                     <p class="text-danger">
                                                                         {{ number_format($price, 0, ',', '.') }}
-                                                                        VND/phòng/ngày
+                                                                        VND/{{__('phòng/ngày')}}
                                                                     </p>
                                                                 </li>
                                                             @elseif($key == PriceType::First2Hours['value'])
                                                                 <li>
-                                                                    {{ PriceType::First2Hours['text'] .': '}}
+                                                                    {{ __(PriceType::First2Hours['text']) .': '}}
                                                                     <p class="text-danger">
                                                                         {{ number_format($price, 0, ',', '.') }}
-                                                                        VND/phòng/giờ
+                                                                        VND/{{__('phòng/giờ')}}
                                                                     </p>
                                                                 </li>
                                                             @elseif($key == PriceType::EarlyCheckIn['value'])
                                                                 <li>
-                                                                    {{ PriceType::EarlyCheckIn['text'] .': '}}
+                                                                    {{ __(PriceType::EarlyCheckIn['text']) .': '}}
                                                                     <p class="text-danger">
                                                                         {{ number_format($price, 0, ',', '.') }}
-                                                                        VND/phòng/giờ
+                                                                        VND/{{__('phòng/giờ')}}
                                                                     </p>
                                                                 </li>
                                                             @elseif($key == PriceType::LateCheckOut['value'])
                                                                 <li>
-                                                                    {{ PriceType::LateCheckOut['text'] .': '}}
+                                                                    {{ __(PriceType::LateCheckOut['text']) .': '}}
                                                                     <p class="text-danger">
                                                                         {{ number_format($price, 0, ',', '.') }}
-                                                                        VND/phòng/giờ
+                                                                        VND/{{__('phòng/giờ')}}
                                                                     </p>
                                                                 </li>
                                                             @endif
                                                         @endforeach
                                                     </ul>
                                                     <h5><i class="fa-solid fa-money-bill-wave"></i>
-                                                        Thành tiền:
+                                                        {{__('Thành tiền')}}:
                                                     </h5>
                                                     <p class="text-info text-center" style="font-size: large ">
                                                         {{ number_format(count($room['room_ids']) * $room['total_price_1_room'], 0, ',', '.')}}
-                                                        VND/{{count($room['room_ids'])}} phòng
+                                                        VND/{{count($room['room_ids'])}} {{__('phòng')}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -164,11 +164,11 @@
                                 @endforeach
                             </div>
                             <div class="col-md-12 text-right">
-                                <h4>Tổng số phòng:
+                                <h4>{{__('Số phòng')}}:
                                     <span class="text-info">{{ $total_amount['total_room'] }}</span>
-                                    phòng
+                                    {{__('phòng')}}
                                 </h4>
-                                <h4>Tổng tiền:
+                                <h4>{{__('Chi phí')}}:
                                     <span
                                         class="text-success">{{ number_format($total_amount['total_price'], 0, ',', '.') }}</span>
                                     VND
@@ -180,30 +180,31 @@
             </div>
             <div class="col-md-4 mt-4 mt-md-0">
                 <div class="col-12 m-auto py-4 rounded text-white" style="background-color:#a6a6a6">
-                    <h5 class="text-center text-light mb-3"> Thông tin chuyến đi</h5>
+                    <h5 class="text-center text-light mb-3"> {{__('Thông tin chuyến đi')}}</h5>
                     <div class="col-md-12 mb-2">
                         <label>
                             <i class="fa-solid fa-location-dot"></i>
-                            <span>Địa điểm: Khách sạn {{ $branch['name'] }} - {{ $branch['city'] }}</span>
+                            <span>{{__('Địa điểm')}}: {{ __('Khách sạn') . ' ' .$branch['name'] }} - {{ $branch['city'] }}</span>
                         </label>
                     </div>
                     <div class="col-md-12 mb-2">
                         <label>
                             <i class="fa-solid fa-restroom"></i>
-                            <span>Số người: {{ $condition['adults'] }} người lớn và {{ $condition['children'] }} trẻ em</span>
+                            <span> {{ __('Số người') . ': ' . $condition['adults'] . ' ' . __('người lớn') . ' & '
+                                    .  $condition['children'] . ' '. __('trẻ em') }} </span>
                         </label>
                     </div>
                     <div class="col-md-12 mb-2">
                         <label>
                             <i class="fa-solid fa-person-walking-luggage"></i>
-                            <span>Ngày nhận phòng: </span>
+                            <span>{{__('Ngày nhận phòng')}}: </span>
                         </label>
                         <p class="text-capitalize">{{ $condition['checkin']->isoFormat('dddd, HH:mm - DD/MM/YYYY') }} </p>
                     </div>
                     <div class="col-md-12 mb-2">
                         <label>
                             <i class="fa-solid fa-person-walking-luggage fa-flip-horizontal"></i>
-                            <span>Ngày trả phòng: </span>
+                            <span>{{__('Ngày trả phòng')}}: </span>
                         </label>
                         <p class="text-capitalize">{{ $condition['checkout']->isoFormat('dddd, HH:mm - DD/MM/YYYY') }} </p>
                     </div>
@@ -211,7 +212,8 @@
                         <label>
                             <i class="fa-solid fa-clock"></i>
                             <span>
-                               Chuyến đi {{ $condition['duration'] }} dành cho {{ $condition['adults'] + $condition['children'] }} người
+                                {{ __('Chuyến đi') . ' ' . $condition['duration'] . ' ' . __('cho')
+                                       . ' ' . $condition['adults'] + $condition['children'] . ' ' . __('người') }}
                            </span>
                         </label>
                     </div>
@@ -220,16 +222,16 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-12 border-bottom p-3 px-0">
-                            <h4 class="text-center text-capitalize">Thông tin người nhận phòng</h4>
+                            <h4 class="text-center text-capitalize">{{__('Thông tin người nhận phòng')}}</h4>
                         </div>
                         <div class="col-md-12 m-auto py-2">
                             <div class="d-flex">
                                 <p class="col-7 text-danger text-sm-left" style="font-size: 12px">
-                                    *Nếu người nhận phòng không phải bạn, hãy chọn đặt cho người thân
+                                    *{{__('Nếu người nhận phòng không phải bạn, hãy chọn đặt cho người thân')}}
                                 </p>
                                 <div class="col-5 form-check form-switch text-right">
                                     <input class="form-check-input" name="forRelative" type="checkbox" role="switch">
-                                    <span>Đặt cho người thân</span>
+                                    <span>{{__('Đặt cho người thân')}}</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -246,7 +248,7 @@
                                 @enderror
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
-                                        <span class="input-group-text w-100">Số điện thoại</span>
+                                        <span class="input-group-text w-100">{{__('Số điện thoại')}}</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="phone"
                                            value="{{ $user->phone }}">
@@ -256,7 +258,7 @@
                                 @enderror
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
-                                        <span class="input-group-text w-100">Họ tên</span>
+                                        <span class="input-group-text w-100">{{__('Họ tên')}}</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="name"
                                            value="{{ $user->customer?->name ?? old('name') }}">
@@ -266,7 +268,7 @@
                                 @enderror
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
-                                        <span class="input-group-text w-100">Quốc tịch</span>
+                                        <span class="input-group-text w-100">{{__('Quốc tịch')}}</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="country"
                                            value="{{ $user->customer?->country ?? old('country') }}">
@@ -276,34 +278,34 @@
                                 @enderror
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
-                                        <span class="input-group-text w-100">Số CCCD</span>
+                                        <span class="input-group-text w-100">{{__('CCCD')}}/Visa</span>
                                     </div>
                                     <input type="text" class="form-control col-md-7" name="citizen_id"
                                            value="{{ $user->customer?->citizen_id ?? old('citizen_id') }}">
                                 </div>
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
-                                        <span class="input-group-text w-100">Giới tính</span>
+                                        <span class="input-group-text w-100">{{__('Giới tính')}}</span>
                                     </div>
                                     <select class="form-select" name="gender">
                                         @foreach(UserGender::asArray() as $gender)
                                             <option
                                                 {{ $user->customer?->gender == $gender ? 'selected' : '' }} value={{ $gender }}>
-                                                {{ $gender == UserGender::Male ? 'Nam' : 'Nữ' }}
+                                                {{ $gender == UserGender::Male ? __('Nam') : __('Nữ') }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
-                                        <span class="input-group-text w-100">Thanh toán bằng</span>
+                                        <span class="input-group-text w-100">{{__('Thanh toán bằng')}}</span>
                                     </div>
                                     <select class="form-control selectpicker" name="payment"
                                             data-style="bg-white border border-left-0">
                                         @foreach(PaymentType::getPaymentType() as $payment)
                                             <option data-icon="{{ $payment['icon'] }}"
                                                     {{ old('payment') == $payment ? 'selected' : '' }} value={{ $payment['type'] }}>
-                                                {{ $payment['name'] }}
+                                                {{ __($payment['name']) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -313,7 +315,7 @@
                                 @enderror
                                 <div class="col-md-12 input-group mb-3">
                                     <div class="input-group-prepend col-md-5 p-0">
-                                        <span class="input-group-text w-100">Ghi chú</span>
+                                        <span class="input-group-text w-100">{{__('Ghi chú')}}</span>
                                     </div>
                                     <textarea name="note" cols="1" rows="3" class="form-control col-md-7">
                                         {{ old('note') }}
@@ -325,8 +327,7 @@
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" value="" checked id="confirm-btn">
                                 <label class="form-check-label text-left" for="confirm-btn" style="font-size: 12px">
-                                    Tôi cam đoan thông tin trên trùng khớp với thông tin định danh trên thẻ CCCD/Visa
-                                    của người đại diện nhận phòng.
+                                    {{__('Tôi cam đoan thông tin trên trùng khớp với thông tin định danh trên thẻ CCCD/Visa của người đại diện nhận phòng.')}}
                                 </label>
                             </div>
                             <button type="submit" id="submit-btn" class="btn btn-success">Đặt phòng</button>

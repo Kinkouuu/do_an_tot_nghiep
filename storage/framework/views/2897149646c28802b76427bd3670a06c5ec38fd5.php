@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><?php echo e($page_title ?? env('APP_NAME')); ?></title>
+    <title><?php echo e(isset($page_title) ? __($page_title) : env('APP_NAME')); ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 

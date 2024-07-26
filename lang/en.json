@@ -145,6 +145,15 @@
     "Thanh toán VNPay": "Pay with VNPay e-wallet",
     "Đánh giá chuyến đi thành công!": "Thank for your feedback!",
     "Đánh giá chuyến đi": "Rate and feedback your experience",
-    "Đánh giá của bạn": "Feedbacks of you"
-
+    "Đánh giá của bạn": "Feedbacks of you",
+    "Xem chi tiết": "See detail",
+    "Thành tiền": "Provisional",
+    "Họ tên": "Full name",
+    "CCCD": "Citizen ID",
+    "Giới tính": "Gender",
+    "Nam": "Male",
+    "Nữ":  "Female",
+    "Thanh toán bằng": "Payment",
+    "Ghi chú": "Note",
+    "Tôi cam đoan thông tin trên trùng khớp với thông tin định danh trên thẻ CCCD/Visa của người đại diện nhận phòng.": "I certify that the above information matches the identification information on the CCCD/Visa card of the check-in representative."
 }

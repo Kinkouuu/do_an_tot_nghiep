@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center h-50">
                     <div class="col-md-7 text-center" data-aos="fade">
-                        <h1 class="mb-2 text-uppercase"><?php echo e($page_title); ?></h1>
+                        <h1 class="mb-2 text-uppercase"><?php echo e(__($page_title)); ?></h1>
                         <h2 class="caption"><?php echo e($page_description ?? null); ?></h2>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center h-50">
                     <div class="col-md-7 text-center" data-aos="fade">
-                        <h1 class="mb-2 text-uppercase"><?php echo e($page_title); ?></h1>
+                        <h1 class="mb-2 text-uppercase"><?php echo e(__($page_title)); ?></h1>
                         <h2 class="caption"><?php echo e($page_description ?? null); ?></h2>
                     </div>
                 </div>
@@ -30,15 +30,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('room.form-search')->html();
-} elseif ($_instance->childHasBeenRendered('KP4SoM9')) {
-    $componentId = $_instance->getRenderedChildComponentId('KP4SoM9');
-    $componentTag = $_instance->getRenderedChildComponentTagName('KP4SoM9');
+} elseif ($_instance->childHasBeenRendered('LnTFnhC')) {
+    $componentId = $_instance->getRenderedChildComponentId('LnTFnhC');
+    $componentTag = $_instance->getRenderedChildComponentTagName('LnTFnhC');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('KP4SoM9');
+    $_instance->preserveRenderedChild('LnTFnhC');
 } else {
     $response = \Livewire\Livewire::mount('room.form-search');
     $html = $response->html();
-    $_instance->logRenderedChild('KP4SoM9', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('LnTFnhC', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

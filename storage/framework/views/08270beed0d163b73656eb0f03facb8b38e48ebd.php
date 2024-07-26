@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('content'); ?>
         <div class="container-fluid">
             <div class="row">
@@ -11,11 +13,11 @@ if (! isset($_instance)) {
                          'time' => $time,
                          'condition' => $condition
                          ])->html();
-} elseif ($_instance->childHasBeenRendered('V02YQwz')) {
-    $componentId = $_instance->getRenderedChildComponentId('V02YQwz');
-    $componentTag = $_instance->getRenderedChildComponentTagName('V02YQwz');
+} elseif ($_instance->childHasBeenRendered('ytjGeGC')) {
+    $componentId = $_instance->getRenderedChildComponentId('ytjGeGC');
+    $componentTag = $_instance->getRenderedChildComponentTagName('ytjGeGC');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('V02YQwz');
+    $_instance->preserveRenderedChild('ytjGeGC');
 } else {
     $response = \Livewire\Livewire::mount('room.booking-form', [
                         'roomBranch' => $roomBranch,
@@ -23,7 +25,7 @@ if (! isset($_instance)) {
                          'condition' => $condition
                          ]);
     $html = $response->html();
-    $_instance->logRenderedChild('V02YQwz', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('ytjGeGC', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

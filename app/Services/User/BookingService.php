@@ -206,15 +206,19 @@ class BookingService extends BaseService
     protected function calculateTripDuration(Carbon $checkIn, Carbon $checkOut): string
     {
         $time = $checkOut->diffInHours($checkIn);
+        $vnLocale = app()->getLocale() == 'vi';
         // Làm tròn thêm 1 tiếng nếu dưới 24 giờ
         if ($time < 24) {
-            $duration = ceil($time / 1) . ' giờ';
+            $text = $vnLocale ? ' giờ' : ' hours';
+            $duration = ceil($time / 1) . $text;
         }
         // Làm tròn lên 1 ngày nếu trên 24 giờ
         else {
             $days = ceil($time / 24);
             $nights = ($days > 1) ? $days - 1 : $days;
-            $duration = $days . ' ngày ' . $nights . ' đêm';
+            $text1 = $vnLocale ? ' ngày ' : " days " ;
+            $text2 = $vnLocale ? ' đêm ' : " nights" ;
+            $duration = $days . $text1 . $nights . $text2 ;
         }
 
         return $duration;
