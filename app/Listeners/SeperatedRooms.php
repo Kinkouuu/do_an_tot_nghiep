@@ -46,17 +46,17 @@ class SeperatedRooms
             foreach ($room['room_ids'] as $key=>$roomName) {
                 $roomId = $key;
                 $bookedRoom = $this->bookingService->roomHasBooked($roomId, $bookingCheckIn, $bookingCheckOut);
-                if ($bookedRoom->isEmpty()) {
+                if ($bookedRoom->isEmpty()) { //Phòng vẫn đang trống
                     Log::info('Separate room ' . $roomId . ' for booking ' . $booking->id);
                     BookingRoom::create([
                         'booking_id' => $booking->id,
                         'room_id' => $roomId,
                         'price' => $room['total_price_1_room']
                     ]);
-                } else {
+                } else { //Tìm phòng tương ứng để thay thế
                     $roomModel = Room::find($roomId);
                     $respectiveRoom = $this->roomService->getRespectiveRoom($roomModel, $bookingCheckIn, $bookingCheckOut)->first();
-                    if ($respectiveRoom) {
+                    if ($respectiveRoom) {//Tìm được phòng tương tự
                         Log::info('Separate room ' . $respectiveRoom->id . ' instead room' . $roomId . ' for booking ' . $booking->id);
                         $prices = $this->roomService->getPrices($respectiveRoom, $bookingHour);
                         BookingRoom::create([
@@ -64,7 +64,7 @@ class SeperatedRooms
                             'room_id' => $respectiveRoom->id,
                             'price' => $prices['total_price_1_room']
                         ]);
-                    } else {
+                    } else {//Nếu không tìm được phòng nào tương tự
                         Log::info('Can not found respective room instead room ' . $roomId . ' for booking ' . $booking->id);
                         BookingRoom::create([
                             'booking_id' => $booking->id,

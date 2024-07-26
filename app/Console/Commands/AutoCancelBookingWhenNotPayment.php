@@ -47,7 +47,7 @@ class AutoCancelBookingWhenNotPayment extends Command
                 $awaitingBooking->refuse_reason = 'Tự động hủy do chưa hoàn thành thanh toán';
                 $awaitingBooking->save();
                 Log::info('Auto cancel booking '. $awaitingBooking->id . ' because not payment success');
-                BookingChangeStatus::dispatch($awaitingBooking->user, $awaitingBooking, $roomInfo);
+                BookingChangeStatus::dispatch($awaitingBooking, $roomInfo, $awaitingBooking->user);
                 Cache::forget('booking_' . $awaitingBooking->id);
         }
         return 'Auto cancel bookings not complete payment 15min before';

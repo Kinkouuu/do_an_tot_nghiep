@@ -46,17 +46,22 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <td class="text-capitalize"><?php echo e($roomType['status'] ? 'Đang hoạt động' : 'Đang tạm dừng'); ?></td>
                 <td>
-                    <?php if (\Illuminate\Support\Facades\Blade::check('isAdmin')): ?>
-                    <a type="button" class="btn btn-primary mb-1" href="<?php echo e(route('admin.room-type.edit', ['typeRoom' => $roomType['id']])); ?>">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                    </a>
-                    <?php endif; ?>
-                    <a type="button" class="btn btn-success mb-1" href="<?php echo e(route('admin.room-type.images', ['code' =>  $roomType['id']])); ?>">
-                        <i class="fa-regular fa-image"></i>
-                    </a>
-                    <a type="button" class="btn btn-info mb-1" href="<?php echo e(route('admin.room-type.services', ['code' =>  $roomType['id']])); ?>">
-                        <i class="fa-solid fa-bell-concierge"></i>
-                    </a>
+                    <div class="row">
+                        <?php if (\Illuminate\Support\Facades\Blade::check('isAdmin')): ?>
+                        <a type="button" class="col-5 btn btn-primary m-1" href="<?php echo e(route('admin.room-type.edit', ['typeRoom' => $roomType['id']])); ?>">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <?php endif; ?>
+                        <a type="button" class="col-5 btn btn-success m-1" href="<?php echo e(route('admin.room-type.images', ['code' =>  $roomType['id']])); ?>">
+                            <i class="fa-regular fa-image"></i>
+                        </a>
+                        <a type="button" class="col-5 btn btn-info m-1" href="<?php echo e(route('admin.room-type.services', ['code' =>  $roomType['id']])); ?>">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                        </a>
+                        <a type="button" class="col-5 btn btn-warning m-1 text-white" href="<?php echo e(route('admin.room-type.feedbacks', ['code' =>  $roomType['id']])); ?>">
+                            <i class="fa-regular fa-star"></i>
+                        </a>
+                    </div>
                 </td>
             </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

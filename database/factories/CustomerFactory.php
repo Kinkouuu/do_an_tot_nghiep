@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\User\UserGender;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
@@ -22,7 +23,7 @@ class CustomerFactory extends Factory
             'address' => $this->faker->address(),
             'country' =>$this->faker->country(),
             'gender' => UserGender::Female,
-            'citizen_id' => $this->faker->uuid(),
+            'citizen_id' => '0' . Str::random(15),
             'birth_day' => $this->faker->dateTimeBetween(null,'-18 years'),
         ];
     }

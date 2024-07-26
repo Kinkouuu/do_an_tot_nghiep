@@ -89,7 +89,7 @@
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                 </td>
-            </tr>ư
+            </tr>
         @endforeach
         </tbody>
     </table>

@@ -153,7 +153,7 @@
                                             <li>Trẻ em: <?php echo e($room['children_capacity']); ?></li>
                                         </ul>
 
-                                        <div class="quantity mx-auto">
+                                        <div class="quantity mx-auto mx-md-0">
                                             <button class="minus" aria-label="Decrease" wire:click.prevent="decrease(<?php echo e($index); ?>)">&minus;</button>
                                             <input type="number" class="input-box" value="<?php echo e($room['quantity'] ?? 0); ?>"
                                                    min="0" max="<?php echo e(count($room['room_ids'])); ?>">

@@ -11,6 +11,6 @@ use BenSampo\Enum\Enum;
  */
 final class UserGender extends Enum
 {
-    const Female = 0;
-    const Male = 1;
+    const Female = '0';
+    const Male = '1';
 }

@@ -21,7 +21,7 @@ class BookingChangeStatus
      *
      * @return void
      */
-    public function __construct(User $user, Booking $booking, array $roomInfo)
+    public function __construct(Booking $booking, array $roomInfo, ?User $user = null)
     {
         $this->user = \Auth::user() ?? $user;
         $this->booking = $booking;

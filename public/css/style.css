@@ -2926,7 +2926,7 @@ a:hover {
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 60%;
+    width: 50%;
 }
 
 .quantity button {
@@ -2935,7 +2935,7 @@ a:hover {
     border: none;
     cursor: pointer;
     font-size: 20px;
-    width: 35px;
+    min-width: 25%;
     height: auto;
     text-align: center;
     transition: background-color 0.2s;
@@ -2946,7 +2946,7 @@ a:hover {
 }
 
 .input-box {
-    min-width: 56px;
+    min-width: 50%;
     text-align: center;
     border: none;
     padding: 8px 10px;

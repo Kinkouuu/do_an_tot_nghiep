@@ -98,6 +98,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('room-type', [RoomTypeController::class, 'index'])->name('room-type.index');
         Route::get('room-type/images/{code}', [RoomTypeController::class, 'getImages'])->name('room-type.images');
         Route::get('room-type/services/{code}', [RoomTypeController::class, 'getServices'])->name('room-type.services');
+        Route::get('room-type/feedbacks/{code}', [RoomTypeController::class, 'getFeedBacks'])->name('room-type.feedbacks');
         //Booking manager
         Route::resource('booking',AdminBookingController::class);
         Route::prefix('booking')->name('booking.')->group(function () {

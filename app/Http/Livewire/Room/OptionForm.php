@@ -73,7 +73,7 @@ class OptionForm extends Component
         {
             if (isset($room['quantity']) && $room['quantity'] > 0)
             {
-                $room['room_ids'] = array_slice($room['room_ids'], 0, $room['quantity']);
+                $room['room_ids'] = array_slice($room['room_ids'], 0, $room['quantity'], true);
                 $roomList[] = $room;
             }
         }

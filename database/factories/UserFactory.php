@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'phone' => $this->faker->unique()->phoneNumber(),
             'status' => UserStatus::Active,
             'verified_at' => null,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$h/tWn1FOPXhHLocCf1yzwumrcRzvEgWHgnUi67jAu5jmMGHUGs3rO', // password
             'remember_token' => null,
         ];
     }

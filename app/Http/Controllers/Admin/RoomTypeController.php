@@ -73,7 +73,7 @@ class RoomTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
@@ -114,7 +114,7 @@ class RoomTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function destroy($id)
@@ -147,8 +147,7 @@ class RoomTypeController extends Controller
     {
         //Xóa ảnh thumbnail(nếu có)
         $thumbImage = $this->roomTypeService->getThumbNailImage($typeRoom);
-        if($thumbImage)
-        {
+        if ($thumbImage) {
             $this->roomTypeService->removeImage($thumbImage);
         }
         //Lưu ảnh mới lên hệ thống
@@ -161,8 +160,7 @@ class RoomTypeController extends Controller
     {
         //Xóa ảnh thumbnail(nếu có)
         $detailImages = $this->roomTypeService->getDetailImages($typeRoom);
-        if(count($detailImages) >= config('constants.max_room_img'))
-        {
+        if (count($detailImages) >= config('constants.max_room_img')) {
             return $this->showAlertAndRedirect([
                 'status' => ResponseStatus::Warning,
                 'title' => 'Đã quá số lượng ảnh cho phép'
@@ -185,7 +183,7 @@ class RoomTypeController extends Controller
         $this->roomTypeService->removeImage($roomImage);
 
         return $this->showAlertAndRedirect([
-           'status' =>  ResponseStatus::Success,
+            'status' => ResponseStatus::Success,
             'title' => 'Xóa ảnh thành công'
         ]);
     }
@@ -219,10 +217,10 @@ class RoomTypeController extends Controller
             'add_services' => 'required'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->showAlertAndRedirect([
                 'status' => ResponseStatus::Error,
-                'title'  => 'Vui lòng chọn dịch vụ muốn thêm'
+                'title' => 'Vui lòng chọn dịch vụ muốn thêm'
             ]);
         }
         $response = $this->roomTypeService->storeRoomService($request->get('add_services'), $typeRoom);
@@ -242,10 +240,10 @@ class RoomTypeController extends Controller
             'remove_services' => 'required'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->showAlertAndRedirect([
                 'status' => ResponseStatus::Error,
-                'title'  => 'Vui lòng chọn dịch vụ muốn xóa'
+                'title' => 'Vui lòng chọn dịch vụ muốn xóa'
             ]);
         }
         $response = $this->roomTypeService->deleteRoomService($request->get('remove_services'), $typeRoom);
@@ -253,4 +251,17 @@ class RoomTypeController extends Controller
         return $this->showAlertAndRedirect($response);
     }
 
+    public function getFeedBacks(int $typeRoomID)
+    {
+        $typeRoom = $this->roomTypeService->getById($typeRoomID);
+
+        $rating =  $this->roomTypeService->getRatingAndFeedBacks($typeRoom);
+
+        return view('admin.pages.room-types.feedbacks', [
+            'title' => 'Tổng hợp đánh giá loại phòng',
+            'type_room' => $typeRoom,
+            'feedBacks' => $typeRoom->feedbacks,
+            'rating' => $rating,
+        ]);
+    }
 }

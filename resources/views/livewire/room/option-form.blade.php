@@ -140,7 +140,7 @@
                                             <li>Trẻ em: {{ $room['children_capacity'] }}</li>
                                         </ul>
 
-                                        <div class="quantity mx-auto">
+                                        <div class="quantity mx-auto mx-md-0">
                                             <button class="minus" aria-label="Decrease" wire:click.prevent="decrease({{ $index }})">&minus;</button>
                                             <input type="number" class="input-box" value="{{ $room['quantity'] ?? 0 }}"
                                                    min="0" max="{{ count($room['room_ids']) }}">
